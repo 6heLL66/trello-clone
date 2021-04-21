@@ -9,12 +9,13 @@
   justify-content: center;
   align-items: center;
   box-shadow: 2px 5px 10px dimgrey;
+  transform: translate(-3px, -3px);
+  animation: 120ms linear normal forwards down;
   cursor: pointer;
 }
 
 .list-create-button:hover {
-  transform: translate(-3px, -3px);
-  box-shadow: 5px 8px 12px dimgrey;
+  animation: 120ms linear normal forwards up;
 }
 
 .border-name {
@@ -55,16 +56,6 @@
 .list-close {
   font-size: 30px;
   cursor: pointer;
-}
-
-.pink {
-  background: #e15764;
-}
-.blue {
-  background: #5050c0;
-}
-.yellow {
-  background: #c5c553;
 }
 
 .list-close:hover {

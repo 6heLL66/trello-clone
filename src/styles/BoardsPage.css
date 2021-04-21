@@ -9,15 +9,16 @@
   color: white;
   cursor: pointer;
   box-shadow: 2px 5px 10px dimgrey;
+  transform: translate(-3px, -3px);
   border-radius: 8px;
+  animation: 300ms linear normal forwards down;
 }
 
 .board-button:first-child {
   background: #5cb759;
 }
 .board-button:hover {
-  transform: translate(-3px, -3px);
-  box-shadow: 5px 8px 12px dimgrey;
+  animation: 120ms linear normal forwards up;
 }
 
 .board-create-form {
@@ -82,16 +83,6 @@
   color: black;
 }
 
-.pink {
-  background: #e15764;
-}
-.blue {
-  background: #5050c0;
-}
-.yellow {
-  background: #c5c553;
-}
-
 .color-box {
   height: 20px;
   display: flex;
@@ -118,3 +109,6 @@
   margin-top: 10px;
   padding-left: 17px;
 }
+
+
+
