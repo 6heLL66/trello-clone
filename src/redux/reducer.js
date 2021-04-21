@@ -10,7 +10,9 @@ import {
   DELETE_LIST,
   SET_ALERT,
   SET_CURRENT_BOARD,
-  UNSET_ALERT, UPDATE_ITEMS, UPDATE_LISTS
+  UNSET_ALERT,
+  UPDATE_ITEMS,
+  UPDATE_LISTS
 } from './actions/actionTypes'
 import { combineReducers } from 'redux'
 import getUniqueId from '../helpers/getUniqueId'
@@ -79,7 +81,9 @@ function listReducer(state = listsState, action) {
     case CREATE_NEW_LIST:
       action.list.id = getUniqueId(state.lists, 12)
       action.list.parentId = action.id
-      action.list.index = state.lists.filter(e => e.parentId === action.id).length
+      action.list.index = state.lists.filter(
+        (e) => e.parentId === action.id
+      ).length
       newState = {
         ...state,
         lists: [...state.lists, action.list]

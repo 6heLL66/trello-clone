@@ -8,7 +8,7 @@ function ListItem({ item, closeItem, change, index }) {
   }
 
   return (
-    <Draggable index={index} draggableId={item.id} type='TASK'>
+    <Draggable index={index} draggableId={item.id} type="TASK">
       {(provided) => (
         <Row
           className={`list-item p-2 my-2 justify-content-between ${

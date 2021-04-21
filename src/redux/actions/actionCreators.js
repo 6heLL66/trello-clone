@@ -10,7 +10,9 @@ import {
   DELETE_LIST,
   SET_ALERT,
   SET_CURRENT_BOARD,
-  UNSET_ALERT, UPDATE_ITEMS, UPDATE_LISTS
+  UNSET_ALERT,
+  UPDATE_ITEMS,
+  UPDATE_LISTS
 } from './actionTypes'
 
 export function createBoard(board) {

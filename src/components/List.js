@@ -18,7 +18,9 @@ import { Draggable, Droppable } from 'react-beautiful-dnd'
 function List({ list, closeClick, items }) {
   const [listName, setListName] = useState('')
   const [taskName, setTaskName] = useState('')
-  const childItems = items.filter((e) => e.parentId === list.id).sort((a, b) => a.index - b.index)
+  const childItems = items
+    .filter((e) => e.parentId === list.id)
+    .sort((a, b) => a.index - b.index)
 
   const dispatch = useDispatch()
 
@@ -53,77 +55,83 @@ function List({ list, closeClick, items }) {
   }
 
   return (
-    <Draggable draggableId={`dragList-${list.id}`} index={list.index} type='LIST'>
-      {
-        provided => (
-          <Card className='list-card' ref={provided.innerRef} {...provided.draggableProps}>
-            <Card.Header className="head py-1" {...provided.dragHandleProps}>
-              {list.stage === 1 ? (
-                <Row className="justify-content-between">
-                  <input
-                    type="text"
-                    onKeyDown={keyHandler}
-                    name="list"
-                    placeholder="list name"
-                    value={listName}
-                    onChange={(e) => setListName(e.target.value)}
-                  />
-                  <Icon.X
-                    className="list-close"
-                    onClick={() => closeClick(list.id)}
-                  />
-                </Row>
-              ) : (
-                <Row className="list-name justify-content-between px-2">
-                  {list.name}
-                  <Icon.X
-                    className="list-close"
-                    onClick={() => closeClick(list.id)}
-                  />
-                </Row>
-              )}
-            </Card.Header>
-            <Card.Body className="pt-0">
-              {' '}
-              <Row className="justify-content-center task-panel">
+    <Draggable
+      draggableId={`dragList-${list.id}`}
+      index={list.index}
+      type="LIST"
+    >
+      {(provided) => (
+        <Card
+          className="list-card"
+          ref={provided.innerRef}
+          {...provided.draggableProps}
+        >
+          <Card.Header className="head py-1" {...provided.dragHandleProps}>
+            {list.stage === 1 ? (
+              <Row className="justify-content-between">
                 <input
                   type="text"
-                  placeholder="task name"
                   onKeyDown={keyHandler}
-                  name="item"
-                  disabled={list.stage === 1}
-                  value={taskName}
-                  onChange={(e) => setTaskName(e.target.value)}
+                  name="list"
+                  placeholder="list name"
+                  value={listName}
+                  onChange={(e) => setListName(e.target.value)}
+                />
+                <Icon.X
+                  className="list-close"
+                  onClick={() => closeClick(list.id)}
                 />
               </Row>
-              <Droppable droppableId={list.id} type='TASK'>
-                {
-                  provided => (
-                    <ListGroup className="list-group-flush" ref={provided.innerRef}>
-                      {childItems.length > 0 ? (
-                        childItems.map((e) => {
-                          return (
-                            <ListItem
-                              key={e.id}
-                              item={e}
-                              closeItem={closeItem}
-                              index={e.index}
-                              change={changeItem}
-                            />
-                          )
-                        })
-                      ) : (
-                        <Row className="justify-content-center empty mt-2">empty</Row>
-                      )}
-                      {provided.placeholder}
-                    </ListGroup>
-                  )
-                }
-              </Droppable>
-            </Card.Body>
-          </Card>
-        )
-      }
+            ) : (
+              <Row className="list-name justify-content-between px-2">
+                {list.name}
+                <Icon.X
+                  className="list-close"
+                  onClick={() => closeClick(list.id)}
+                />
+              </Row>
+            )}
+          </Card.Header>
+          <Card.Body className="pt-0">
+            {' '}
+            <Row className="justify-content-center task-panel">
+              <input
+                type="text"
+                placeholder="task name"
+                onKeyDown={keyHandler}
+                name="item"
+                disabled={list.stage === 1}
+                value={taskName}
+                onChange={(e) => setTaskName(e.target.value)}
+              />
+            </Row>
+            <Droppable droppableId={list.id} type="TASK">
+              {(provided) => (
+                <ListGroup className="list-group-flush" ref={provided.innerRef}>
+                  {childItems.length > 0 ? (
+                    childItems.map((e) => {
+                      return (
+                        <ListItem
+                          key={e.id}
+                          item={e}
+                          closeItem={closeItem}
+                          index={e.index}
+                          change={changeItem}
+                        />
+                      )
+                    })
+                  ) : (
+                    <Row className="justify-content-center empty mt-2">
+                      empty
+                    </Row>
+                  )}
+                  {provided.placeholder}
+                </ListGroup>
+              )}
+            </Droppable>
+          </Card.Body>
+        </Card>
+      )}
     </Draggable>
   )
 }
