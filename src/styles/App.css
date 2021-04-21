@@ -1,0 +1,15 @@
+.alert {
+  position: fixed !important;
+  top: 10px;
+  right: 50px;
+}
+
+.alert-message {
+  color: #414347;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+body {
+  background-image: url('../images/background28.jpg');
+}
