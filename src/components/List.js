@@ -15,7 +15,7 @@ import { listChangedAlert } from '../constants/alerts'
 import validateName from '../helpers/validateName'
 import { Draggable, Droppable } from 'react-beautiful-dnd'
 
-function List({ list, closeClick, items, dropzone }) {
+function List({ list, closeClick, items }) {
   const [listName, setListName] = useState('')
   const [taskName, setTaskName] = useState('')
   const childItems = items.filter((e) => e.parentId === list.id).sort((a, b) => a.index - b.index)
@@ -53,10 +53,10 @@ function List({ list, closeClick, items, dropzone }) {
   }
 
   return (
-    <Draggable draggableId={`dragList-${list.id}`} index={list.index}>
+    <Draggable draggableId={`dragList-${list.id}`} index={list.index} type='LIST'>
       {
         provided => (
-          <Card className="list" ref={provided.innerRef} {...provided.draggableProps}>
+          <Card className='list-card' ref={provided.innerRef} {...provided.draggableProps}>
             <Card.Header className="head py-1" {...provided.dragHandleProps}>
               {list.stage === 1 ? (
                 <Row className="justify-content-between">
@@ -96,7 +96,7 @@ function List({ list, closeClick, items, dropzone }) {
                   onChange={(e) => setTaskName(e.target.value)}
                 />
               </Row>
-              <Droppable droppableId={list.id} isDropDisabled={dropzone === 2}>
+              <Droppable droppableId={list.id} type='TASK'>
                 {
                   provided => (
                     <ListGroup className="list-group-flush" ref={provided.innerRef}>

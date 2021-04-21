@@ -31,8 +31,8 @@ function BoardPage() {
 
   if (board) {
     return (
-      <Container>
-        <Row className="justify-content-center w-100">
+      <Container fluid>
+        <Row className="w-50 ml-5">
           <div className="border-name" style={{ color: colors[board.color] }}>
             <strong>Board</strong> {board.name}
           </div>

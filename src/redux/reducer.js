@@ -10,7 +10,7 @@ import {
   DELETE_LIST,
   SET_ALERT,
   SET_CURRENT_BOARD,
-  UNSET_ALERT, UPDATE_ITEMS
+  UNSET_ALERT, UPDATE_ITEMS, UPDATE_LISTS
 } from './actions/actionTypes'
 import { combineReducers } from 'redux'
 import getUniqueId from '../helpers/getUniqueId'
@@ -102,6 +102,13 @@ function listReducer(state = listsState, action) {
           }
           return e
         })
+      }
+      localStorage.setItem('lists', JSON.stringify(newState.lists))
+      return newState
+    case UPDATE_LISTS:
+      newState = {
+        ...state,
+        lists: action.lists
       }
       localStorage.setItem('lists', JSON.stringify(newState.lists))
       return newState

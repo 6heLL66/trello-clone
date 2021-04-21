@@ -3,22 +3,23 @@ import List from './List'
 import ListCreateButton from './ListCreateButton'
 import { DragDropContext, Droppable } from 'react-beautiful-dnd'
 import { useDispatch } from 'react-redux'
-import { changeList, updateItems } from '../redux/actions/actionCreators'
+import { updateItems, updateLists } from '../redux/actions/actionCreators'
 import { useState } from 'react'
 
 function ListsContainer({ closeClick, createList, board, items, lists }) {
-  const [dropzone, setDropzone] = useState(1)
   const dispatch = useDispatch()
 
   console.log(lists)
 
   const onDragEnd = (info) => {
-    if (info.reason === 'DROP' && info.destination && info.draggableId.split('-')[0] === 'dragList') {
-      const { source, destination } = info
-      let list1 = lists.find(e => e.index === source.index)
-      let list2 = lists.find(e => e.index === destination.index)
-      dispatch(changeList({...list1, index: destination.index}))
-      dispatch(changeList({...list2, index: source.index}))
+    if (info.reason === 'DROP' && info.destination && info.draggableId.split('-')[0] === 'dragList' && info.destination.index !== info.source.index) {
+      const { destination, draggableId, source } = info
+      dispatch(updateLists(lists.map(e => {
+        if (e.id === draggableId.split('-')[1]) return {...e, index: destination.index}
+        if (e.index >= source.index && e.index <= destination.index && source.index < destination.index) return {...e, index: e.index - 1}
+        if (e.index <= source.index && e.index >= destination.index && source.index > destination.index) return {...e, index: e.index + 1}
+        return e
+      })))
     } else if (info.reason === 'DROP' && info.destination) {
       const { source, destination, draggableId } = info
       let newItems
@@ -45,18 +46,12 @@ function ListsContainer({ closeClick, createList, board, items, lists }) {
     }
   }
 
-  const onDragStart = (info) => {
-    if (info.draggableId.split('-')[0] === 'dragList') setDropzone(2)
-    else setDropzone(1)
-  }
-
   return (
-    <DragDropContext onDragEnd={onDragEnd} onDragStart={onDragStart}>
-      <Droppable droppableId='container' direction='horizontal' isDropDisabled={dropzone === 1}>
+    <DragDropContext onDragEnd={onDragEnd}>
+      <Droppable droppableId='container' direction='horizontal' type='LIST'>
         {
           provided => (
-            <Container className="mt-5" ref={provided.innerRef}>
-              <Row>
+              <Row className='ml-5 mt-5 d-inline-flex flex-nowrap' ref={provided.innerRef}>
                 {lists.sort((a, b) => a.index - b.index).map((e, i) => {
                   return (
                     <List
@@ -65,14 +60,12 @@ function ListsContainer({ closeClick, createList, board, items, lists }) {
                       index={i}
                       closeClick={closeClick}
                       items={items}
-                      dropzone={dropzone}
                     />
                   )
                 })}
                 {provided.placeholder}
                 <ListCreateButton onClick={createList} color={board.color} />
               </Row>
-            </Container>
           )
         }
       </Droppable>

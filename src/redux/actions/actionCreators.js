@@ -10,7 +10,7 @@ import {
   DELETE_LIST,
   SET_ALERT,
   SET_CURRENT_BOARD,
-  UNSET_ALERT, UPDATE_ITEMS
+  UNSET_ALERT, UPDATE_ITEMS, UPDATE_LISTS
 } from './actionTypes'
 
 export function createBoard(board) {
@@ -101,6 +101,13 @@ export function changeItemProps(item) {
 export function updateItems(items) {
   return {
     type: UPDATE_ITEMS,
-    items,
+    items
+  }
+}
+
+export function updateLists(lists) {
+  return {
+    type: UPDATE_LISTS,
+    lists
   }
 }
