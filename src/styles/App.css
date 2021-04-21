@@ -13,3 +13,11 @@
 body {
   background-image: url('../images/background28.jpg');
 }
+
+div::selection, span::selection, strong::selection {
+  background: transparent;
+}
+
+div::-moz-selection, span::-moz-selection, strong::-moz-selection {
+  background: transparent;
+}

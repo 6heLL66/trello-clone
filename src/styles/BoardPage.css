@@ -91,6 +91,10 @@
   cursor: pointer;
 }
 
+.head:hover {
+  background: rgba(0, 0, 0, 0.15);
+}
+
 .line-through {
   text-decoration: line-through;
 }

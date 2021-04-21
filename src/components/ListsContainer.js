@@ -1,15 +1,12 @@
-import { Container, Row } from 'react-bootstrap'
+import { Row } from 'react-bootstrap'
 import List from './List'
 import ListCreateButton from './ListCreateButton'
 import { DragDropContext, Droppable } from 'react-beautiful-dnd'
 import { useDispatch } from 'react-redux'
 import { updateItems, updateLists } from '../redux/actions/actionCreators'
-import { useState } from 'react'
 
 function ListsContainer({ closeClick, createList, board, items, lists }) {
   const dispatch = useDispatch()
-
-  console.log(lists)
 
   const onDragEnd = (info) => {
     if (info.reason === 'DROP' && info.destination && info.draggableId.split('-')[0] === 'dragList' && info.destination.index !== info.source.index) {
@@ -25,8 +22,9 @@ function ListsContainer({ closeClick, createList, board, items, lists }) {
       let newItems
       if (source.droppableId === destination.droppableId) {
         newItems = items.map(e => {
-          if (e.parentId === source.droppableId && e.id !== draggableId && e.index === destination.index) {
-            return {...e, index: source.index}
+          if (e.parentId === source.droppableId && e.id !== draggableId) {
+            if (e.index >= source.index && e.index <= destination.index && source.index < destination.index) return {...e, index: e.index - 1}
+            if (e.index <= source.index && e.index >= destination.index && source.index > destination.index) return {...e, index: e.index + 1}
           }
           if (e.id === draggableId) return {...e, index: destination.index}
           return e
