@@ -1,7 +1,6 @@
 export default function getUniqueId(type, size) {
-  let codes, id
+  let codes = [], id
   do {
-    codes = []
     for (let i = 0; i < size; i++) {
       codes[i] = Math.round(Math.random() * (127 - 32) + 32)
     }
