@@ -3,7 +3,7 @@ import * as Icon from 'react-bootstrap-icons'
 import { Draggable } from 'react-beautiful-dnd'
 
 function ListItem({ item, closeItem, change, index }) {
-  const handleCheckbox = (e) => {
+  const handleCheckbox = () => {
     change({ ...item, isDone: !item.isDone })
   }
 

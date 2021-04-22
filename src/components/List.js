@@ -1,6 +1,6 @@
 import { Card, ListGroup, Row } from 'react-bootstrap'
 import ListItem from './ListItem'
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import * as Icon from 'react-bootstrap-icons'
 import {
   changeItemProps,
@@ -18,30 +18,26 @@ import { Draggable, Droppable } from 'react-beautiful-dnd'
 function List({ list, closeClick, items }) {
   const [listName, setListName] = useState('')
   const [taskName, setTaskName] = useState('')
-  const childItems = items
-    .filter((e) => e.parentId === list.id)
-    .sort((a, b) => a.index - b.index)
+
+  const childItems = useMemo(() => {
+    return items
+      .filter((e) => e.parentId === list.id)
+      .sort((a, b) => a.index - b.index)
+  }, [items, list.id])
 
   const dispatch = useDispatch()
 
-  const keyHandler = (e) => {
+  const keyInputHandler = (e) => {
     if (e.key === 'Enter') {
-      if (e.target.name === 'list') {
-        let valid = validateName(listName, [])
-        if (valid) {
-          dispatch(setAlert(valid))
-        } else {
-          dispatch(changeList({ ...list, name: listName, stage: 2 }))
-          dispatch(setAlert(listChangedAlert))
-        }
-      } else {
-        let valid = validateName(taskName, [])
-        if (valid) {
-          dispatch(setAlert(valid))
-        } else {
-          dispatch(createNewItem(createItemTemplate(taskName), list.id))
-          setTaskName('')
-        }
+      let valid = validateName(e.target.value, [])
+      if (valid) {
+        return dispatch(setAlert(valid))
+      } else if (e.target.name === 'list') {
+        dispatch(changeList({ ...list, name: listName, stage: 2 }))
+        dispatch(setAlert(listChangedAlert))
+      } else if (e.target.name === 'item') {
+        dispatch(createNewItem(createItemTemplate(taskName), list.id))
+        setTaskName('')
       }
     }
   }
@@ -71,7 +67,7 @@ function List({ list, closeClick, items }) {
               <Row className="justify-content-between">
                 <input
                   type="text"
-                  onKeyDown={keyHandler}
+                  onKeyDown={keyInputHandler}
                   name="list"
                   placeholder="list name"
                   value={listName}
@@ -93,12 +89,11 @@ function List({ list, closeClick, items }) {
             )}
           </Card.Header>
           <Card.Body className="pt-0">
-            {' '}
             <Row className="justify-content-center task-panel">
               <input
                 type="text"
                 placeholder="task name"
-                onKeyDown={keyHandler}
+                onKeyDown={keyInputHandler}
                 name="item"
                 disabled={list.stage === 1}
                 value={taskName}

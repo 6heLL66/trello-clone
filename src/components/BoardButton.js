@@ -8,17 +8,18 @@ function BoardButton({ board, crossClick, onClick, colorClick }) {
   const [opacity, setOpacity] = useState(0)
   const [timeIndex, setTimeIndex] = useState(null)
 
-  const handleClick = (e, color) => {
-    if (e.target.tagName === 'svg' || e.target.tagName === 'path') {
-      crossClick(board.id)
-    } else if (
-      e.target.classList[0] === 'color-box' ||
-      e.target.classList[0] === 'color'
-    ) {
-      if (color) colorClick({ ...board, color })
-    } else {
-      onClick(board)
-    }
+  const crossHandler = (e) => {
+    e.stopPropagation()
+    crossClick(board.id)
+  }
+
+  const colorChangeHandler = (e, color) => {
+    e.stopPropagation()
+    colorClick({ ...board, color })
+  }
+
+  const boardClickHandler = () => {
+    onClick(board)
   }
 
   const animate = (opacity, diff) => {
@@ -39,7 +40,7 @@ function BoardButton({ board, crossClick, onClick, colorClick }) {
     <div
       className="board-button"
       style={{ background: colors[board.color] }}
-      onClick={handleClick}
+      onClick={boardClickHandler}
       onMouseOver={() => startAnimation('show')}
       onMouseOut={() => startAnimation('hide')}
     >
@@ -47,8 +48,8 @@ function BoardButton({ board, crossClick, onClick, colorClick }) {
         className="w-100 justify-content-between"
         style={{ opacity: opacity }}
       >
-        <ColorMenu changeColor={handleClick} />
-        <Icon.X onClick={handleClick} />
+        <ColorMenu changeColor={colorChangeHandler} />
+        <Icon.X onClick={crossHandler} />
       </Row>
       <Row className="m-auto">{board.name}</Row>
     </div>

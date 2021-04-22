@@ -6,7 +6,7 @@ function Alert({ message, type, clearAlert }) {
     <Toast
       style={{ background: colors[type] }}
       className="alert"
-      onClose={() => clearAlert()}
+      onClose={clearAlert}
       show={true}
       delay={4000}
       autohide

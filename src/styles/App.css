@@ -40,17 +40,19 @@ strong::-moz-selection {
   from {
     transform: translate(0px, 0px);
     box-shadow: 2px 5px 10px dimgrey;
-  } to {
-      transform: translate(-3px, -3px);
-      box-shadow: 4px 7px 11px dimgrey;
-    }
+  }
+  to {
+    transform: translate(-3px, -3px);
+    box-shadow: 4px 7px 11px dimgrey;
+  }
 }
 @keyframes down {
   from {
     box-shadow: 4px 7px 11px dimgrey;
     transform: translate(-3px, -3px);
-  } to {
-      transform: translate(0px, 0px);
-      box-shadow: 2px 5px 10px dimgrey;
-    }
+  }
+  to {
+    transform: translate(0px, 0px);
+    box-shadow: 2px 5px 10px dimgrey;
+  }
 }
