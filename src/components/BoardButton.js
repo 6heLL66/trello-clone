@@ -22,12 +22,12 @@ function BoardButton({ board, crossClick, onClick, colorClick }) {
     onClick(board)
   }
 
-  const animate = (opacity, diff) => {
-    let value = opacity + diff
+  const animate = (value, diff) => {
+    value += diff
     if (value < 0 || value > 1) {
       return
     }
-    setOpacity(opacity + diff)
+    setOpacity(value)
     setTimeIndex(setTimeout(animate, 20, value, diff))
   }
 

@@ -56,13 +56,13 @@ function List({ list, closeClick, items }) {
       index={list.index}
       type="LIST"
     >
-      {(provided) => (
+      {(provided1) => (
         <Card
           className="list-card"
-          ref={provided.innerRef}
-          {...provided.draggableProps}
+          ref={provided1.innerRef}
+          {...provided1.draggableProps}
         >
-          <Card.Header className="head py-1" {...provided.dragHandleProps}>
+          <Card.Header className="head py-1" {...provided1.dragHandleProps}>
             {list.stage === 1 ? (
               <Row className="justify-content-between">
                 <input
@@ -101,8 +101,8 @@ function List({ list, closeClick, items }) {
               />
             </Row>
             <Droppable droppableId={list.id} type="TASK">
-              {(provided) => (
-                <ListGroup className="list-group-flush" ref={provided.innerRef}>
+              {(provided2) => (
+                <ListGroup className="list-group-flush" ref={provided2.innerRef}>
                   {childItems.length > 0 ? (
                     childItems.map((e) => {
                       return (
@@ -120,7 +120,7 @@ function List({ list, closeClick, items }) {
                       empty
                     </Row>
                   )}
-                  {provided.placeholder}
+                  {provided2.placeholder}
                 </ListGroup>
               )}
             </Droppable>
