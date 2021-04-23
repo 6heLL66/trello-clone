@@ -22,6 +22,6 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Run packages install script
-        run: npm install & npm run install:client
+        run: npm install & npm run client:install
       - name: Run build script
-        run: npm run build | npm run build:client
+        run: npm run build | npm run client:build
