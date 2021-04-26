@@ -1,0 +1,16 @@
+{
+  "Customer": {
+    "db": {
+      "host": "localhost",
+      "port": 3306,
+      "dialect": "mysql"
+    },
+    "tokens": {
+      "jwt_secret": "aisfhqiuwhfkjasf124iojlkq1124qsd456ysgsg33fw32"
+    },
+    "server": {
+      "host": "localhost",
+      "port": 3306
+    }
+  }
+}
