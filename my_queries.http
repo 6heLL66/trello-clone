@@ -1,3 +1,22 @@
+GET http://localhost:5000/api/boards/get?id=1
+Accept: application/json
+
+###
+DELETE http://localhost:5000/api/board/delete?id=123&token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJ0ZXN0MiIsImlhdCI6MTYxOTUxOTE1NSwiZXhwIjoxNjE5NTQwNzU1fQ.K0f6d41OojykyeVzCMID70XAxxs9nELm7io3l0_sIEw
+Accept: application/json
+
+###
+PUT http://localhost:5000/api/board/createOrChange
+Content-Type: application/json
+
+{
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJ0ZXN0MiIsImlhdCI6MTYxOTUxOTE1NSwiZXhwIjoxNjE5NTQwNzU1fQ.K0f6d41OojykyeVzCMID70XAxxs9nELm7io3l0_sIEw",
+  "name": "test board",
+  "id": "123",
+  "color": "pink"
+}
+
+###
 POST http://localhost:5000/api/auth/check
 Content-Type: application/json
 

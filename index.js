@@ -15,6 +15,7 @@ server.route({
 })
 
 server.route(require('./routes/auth.routes'))
+server.route(require('./routes/board.routes'))
 
 const init = async () => {
   try {

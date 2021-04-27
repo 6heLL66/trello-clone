@@ -7,7 +7,7 @@ const Boom = require('@hapi/boom')
 const isAuth = require('../middleweares/isAuth.middleweare')
 
 const addUser = {
-  method: 'POST',
+  method: 'PUT',
   path: '/api/auth/add',
   options: {
     validate: {
@@ -90,8 +90,7 @@ const checkUser = {
       { method: isAuth, assign: "auth" }
     ],
     handler: async (req, reply) => {
-      if (req.pre.auth) return req.pre.auth
-      else return Boom.badRequest('invalid token')
+      return req.pre.auth
     }
   }
 }
