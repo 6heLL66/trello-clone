@@ -1,9 +1,25 @@
+POST http://localhost:5000/api/auth/check
+Content-Type: application/json
+
+{
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJ0ZXN0MiIsImlhdCI6MTYxOTUxOTE1NSwiZXhwIjoxNjE5NTQwNzU1fQ.K0f6d41OojykyeVzCMID70XAxxs9nELm7io3l0_sIEw"
+}
+
+###
+POST http://localhost:5000/api/auth/check
+Content-Type: application/json
+
+{
+  "token": "123"
+}
+
+###
 POST http://localhost:5000/api/auth/auth
 Content-Type: application/json
 
 {
   "username": "test2",
-  "password": "123456"
+  "password": "1234567"
 }
 
 ###

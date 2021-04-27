@@ -1,19 +1,33 @@
-import { BrowserRouter, Switch, Route } from 'react-router-dom'
+import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom'
 import BoardPage from '../pages/BoardPage'
 import BoardsPage from '../pages/BoardsPage'
-import { Row } from 'react-bootstrap'
+import { Button, Row } from 'react-bootstrap'
 import logo from '../images/logo.png'
 import { useDispatch, useSelector } from 'react-redux'
 import Alert from '../components/Alert'
 import '../styles/App.css'
-import { unsetAlert } from '../redux/actions/actionCreators'
+import { auth, setAuth, unsetAlert } from '../redux/actions/actionCreators'
+import LoginPage from '../pages/LoginPage'
+import RegistrationPage from '../pages/RegistrationPage'
+import { useEffect } from 'react'
 
 function App() {
   const alert = useSelector((state) => state.alerts.alert)
+  const isAuth = useSelector((state) => state.auth.isAuth)
   const dispatch = useDispatch()
+
+  useEffect(() => {
+    const token = JSON.parse(localStorage.getItem('auth')).token
+    if (token) dispatch(auth(token))
+  }, [])
 
   const clearAlert = () => {
     dispatch(unsetAlert())
+  }
+
+  const logout = () => {
+    dispatch(setAuth({}))
+    localStorage.setItem('auth', JSON.stringify({}))
   }
 
   return (
@@ -28,6 +42,7 @@ function App() {
             height={40}
           />
         </a>
+        {isAuth && <Button className='ml-5' variant='danger' onClick={logout}>Logout</Button>}
       </Row>
       {alert && (
         <Alert
@@ -38,10 +53,20 @@ function App() {
       )}
       <Switch>
         <Route exact path="/board">
-          <BoardPage />
+          {!isAuth ? <Redirect to="/login" /> : <BoardPage />}
         </Route>
-        <Route>
-          <BoardsPage exact path="/" />
+        {
+          !isAuth && <Route exact path="/login">
+            <LoginPage />
+          </Route>
+        }
+        {
+          !isAuth && <Route exact path="/registration">
+            <RegistrationPage />
+          </Route>
+        }
+        <Route path="/">
+          {!isAuth ? <Redirect to="/login" /> : <BoardsPage />}
         </Route>
       </Switch>
     </BrowserRouter>

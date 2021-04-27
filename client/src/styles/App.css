@@ -10,6 +10,19 @@
   font-weight: 700;
 }
 
+.form {
+  background-color: #f5f9f9;
+  padding: 20px 80px 15px 80px;
+  border-radius: 8px;
+  box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.2);
+}
+
+.error {
+  color: red;
+  font-size: 14px;
+  margin-left: 0 !important;
+}
+
 body {
   background-image: url('../images/background28.jpg');
 }

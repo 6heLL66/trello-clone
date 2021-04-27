@@ -3,6 +3,8 @@ const Joi = require('joi')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const config = require('config')
+const Boom = require('@hapi/boom')
+const isAuth = require('../middleweares/isAuth.middleweare')
 
 const addUser = {
   method: 'POST',
@@ -20,19 +22,23 @@ const addUser = {
       const { username, password } = req.payload
       const [users] = await sequelize.query('SELECT * FROM users')
 
-      const duplicates = users.find(e => e.username === username)
+      const duplicates = users.find((e) => e.username === username)
 
       if (duplicates) {
-        return reply.response({ message: "Error: Username must be unique." }).code(400)
+        return Boom.badRequest('Username must be unique.')
       }
       const hashedPassword = await bcrypt.hash(password, 12)
       const id = users.length
 
-      await sequelize.query(`INSERT INTO users VALUES ('${id}', '${username}', '${hashedPassword}')`)
+      await sequelize.query(
+        `INSERT INTO users VALUES ('${id}', '${username}', '${hashedPassword}')`
+      )
 
-      return reply.response({ message: "User was successfully created." }).code(200)
+      return reply
+        .response({ message: 'User was successfully created.' })
+        .code(200)
     } catch (e) {
-      return reply.response({ message: e.message }).code(500)
+      return Boom.serverUnavailable(e.message)
     }
   }
 }
@@ -45,32 +51,49 @@ const authUser = {
       const { username, password } = req.payload
       const [users] = await sequelize.query('SELECT * FROM users')
 
-      const exist = users.find(e => e.username === username)
+      const exist = users.find((e) => e.username === username)
 
       if (!exist) {
-        return reply.response({ message: "Error: There are no users with this username." }).code(400)
+        return Boom.badData('There are no users with this username.')
       }
 
       const equalPasswords = await bcrypt.compare(password, exist.password)
 
       if (!equalPasswords) {
-        return reply.response({ message: "Error: Invalid password." }).code(400)
+        return Boom.badData('Invalid password.')
       }
 
       const token = jwt.sign(
         { id: exist.id, username },
         config.get('Customer.tokens.jwt_secret'),
-        { expiresIn: "6h" }
+        { expiresIn: '6h' }
       )
-      return reply.response({ token, username, message: "Success auth" }).code(200)
-
+      return reply
+        .response({
+          token,
+          username,
+          userId: exist.id,
+          message: 'Success auth'
+        })
+        .code(200)
     } catch (e) {
-      return reply.response({ message: e.message }).code(500)
+      return Boom.serverUnavailable(e.message)
     }
   }
 }
 
-module.exports = [
-  addUser,
-  authUser
-]
+const checkUser = {
+  method: 'POST',
+  path: '/api/auth/check',
+  config: {
+    pre: [
+      { method: isAuth, assign: "auth" }
+    ],
+    handler: async (req, reply) => {
+      if (req.pre.auth) return req.pre.auth
+      else return Boom.badRequest('invalid token')
+    }
+  }
+}
+
+module.exports = [addUser, authUser, checkUser]

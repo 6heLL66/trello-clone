@@ -9,11 +9,16 @@ import {
   DELETE_ITEM,
   DELETE_LIST,
   SET_ALERT,
+  SET_AUTH,
   SET_CURRENT_BOARD,
+  SET_ERROR,
+  SET_LOADING,
+  SET_REGISTER_STATUS,
   UNSET_ALERT,
   UPDATE_ITEMS,
   UPDATE_LISTS
 } from './actionTypes'
+import makeRequest from '../../helpers/makeRequest'
 
 export function createBoard(board) {
   return {
@@ -111,5 +116,113 @@ export function updateLists(lists) {
   return {
     type: UPDATE_LISTS,
     lists
+  }
+}
+
+export function setAuth(payload) {
+  return {
+    type: SET_AUTH,
+    payload
+  }
+}
+
+export function setLoading(loading) {
+  return {
+    type: SET_LOADING,
+    loading
+  }
+}
+
+export function setError(error) {
+  return {
+    type: SET_ERROR,
+    error
+  }
+}
+
+export function setRegStatus(status) {
+  return {
+    type: SET_REGISTER_STATUS,
+    status
+  }
+}
+
+export function login(username, password) {
+  return async (dispatch) => {
+    try {
+      dispatch(setLoading(true))
+      await makeRequest(
+        '/api/auth/auth',
+        'POST',
+        {
+          username,
+          password
+        },
+        (data) => {
+          dispatch(setAuth({ ...data, auth: true }))
+          localStorage.setItem('auth', JSON.stringify(data))
+          dispatch(setError(null))
+          dispatch(setLoading(false))
+        },
+        (data) => {
+          dispatch(setError(data.message || data.error))
+          dispatch(setLoading(false))
+        }
+      )
+    } catch (e) {
+      dispatch(setError(e.message))
+      dispatch(setLoading(false))
+    }
+  }
+}
+
+export function register(username, password) {
+  return async (dispatch) => {
+    try {
+      dispatch(setLoading(true))
+      await makeRequest(
+        '/api/auth/add',
+        'POST',
+        {
+          username,
+          password
+        },
+        (data) => {
+          dispatch(setRegStatus('success'))
+          dispatch(setError(null))
+        },
+        (data) => {
+          dispatch(setRegStatus('failed'))
+          dispatch(setError(data.message || data.error))
+        }
+      )
+      dispatch(setLoading(false))
+    } catch (e) {
+      dispatch(setError(e.message))
+      dispatch(setLoading(false))
+    }
+  }
+}
+export function auth(token) {
+  return async (dispatch) => {
+    try {
+      await makeRequest(
+        '/api/auth/check',
+        'POST',
+        {
+          token
+        },
+        (data) => {
+          dispatch(setAuth({ ...data, auth: true }))
+          localStorage.setItem('auth', JSON.stringify(data))
+        },
+        () => {
+          dispatch(setAuth({}))
+          localStorage.setItem('auth', JSON.stringify({}))
+        }
+      )
+    } catch (e) {
+      console.log(e)
+    }
   }
 }

@@ -8,8 +8,13 @@ import {
   DELETE_BOARD,
   DELETE_ITEM,
   DELETE_LIST,
+  RECEIVE_AUTH,
   SET_ALERT,
+  SET_AUTH,
   SET_CURRENT_BOARD,
+  SET_ERROR,
+  SET_LOADING,
+  SET_REGISTER_STATUS,
   UNSET_ALERT,
   UPDATE_ITEMS,
   UPDATE_LISTS
@@ -29,6 +34,12 @@ const listsState = {
 
 const itemsState = {
   items: JSON.parse(localStorage.getItem('items')) || []
+}
+
+const authState = {
+  isAuth: false,
+  loading: false,
+  error: null
 }
 
 function boardReducer(state = boardState, action) {
@@ -185,11 +196,42 @@ function alertReducer(state = { alert: null }, action) {
   }
 }
 
+function authReducer(state = authState, action) {
+  switch (action.type) {
+    case SET_AUTH:
+      return {
+        ...state,
+        isAuth: action.payload.auth,
+        token: action.payload.token,
+        username: action.payload.username,
+        userId: action.payload.userId
+      }
+    case SET_ERROR:
+      return {
+        ...state,
+        error: action.error
+      }
+    case SET_LOADING:
+      return {
+        ...state,
+        loading: action.loading
+      }
+    case SET_REGISTER_STATUS:
+      return {
+        ...state,
+        regStatus: action.status
+      }
+    default:
+      return state
+  }
+}
+
 const rootReducer = combineReducers({
   boards: boardReducer,
   lists: listReducer,
   items: itemReducer,
-  alerts: alertReducer
+  alerts: alertReducer,
+  auth: authReducer
 })
 
 export default rootReducer

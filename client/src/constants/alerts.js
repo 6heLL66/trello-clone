@@ -33,6 +33,11 @@ export const listDeletedAlert = {
   type: 'Success'
 }
 
+export const registerSuccess = {
+  message: 'You successfully registered',
+  type: 'Success'
+}
+
 export const colors = {
   Error: '#cd6363',
   Success: '#85ca77',

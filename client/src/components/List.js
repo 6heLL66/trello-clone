@@ -102,7 +102,10 @@ function List({ list, closeClick, items }) {
             </Row>
             <Droppable droppableId={list.id} type="TASK">
               {(provided2) => (
-                <ListGroup className="list-group-flush" ref={provided2.innerRef}>
+                <ListGroup
+                  className="list-group-flush"
+                  ref={provided2.innerRef}
+                >
                   {childItems.length > 0 ? (
                     childItems.map((e) => {
                       return (

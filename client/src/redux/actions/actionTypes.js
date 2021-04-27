@@ -16,3 +16,9 @@ export const CREATE_NEW_ITEM = 'CREATE_NEW_ITEM'
 export const DELETE_ITEM = 'DELETE_ITEM'
 export const CHANGE_ITEM_PROPS = 'CHANGE_ITEM_PROPS'
 export const UPDATE_ITEMS = 'UPDATE_ITEMS'
+
+export const SET_AUTH = 'SET_AUTH'
+export const SET_REGISTER_STATUS = 'SET_REGISTER_STATUS'
+
+export const SET_LOADING = 'SET_LOADING'
+export const SET_ERROR = 'SET_ERROR'

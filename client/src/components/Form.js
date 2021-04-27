@@ -1,0 +1,71 @@
+import { Button, Form, Row } from 'react-bootstrap'
+import { useMemo, useState } from 'react'
+import ReactLoading from 'react-loading'
+
+export default function CustomForm({
+  header,
+  labels,
+  buttonText,
+  error,
+  loading,
+  onClick,
+  link
+}) {
+  const [fields, setFields] = useState({ ...labels })
+
+  const items = useMemo(() => {
+    let items = []
+    for (let key in fields) {
+      let e = fields[key]
+      items.push(
+        <Form.Group key={key}>
+          <Form.Label>{e.label}</Form.Label>
+          <Form.Control
+            type={e.type}
+            placeholder={e.placeholder}
+            name={key}
+            value={e.value}
+            onChange={(evt) => handleInputs(evt, key)}
+          />
+          {e.muted && <Form.Text className="text-muted">{e.muted}</Form.Text>}
+        </Form.Group>
+      )
+    }
+    return items
+  }, [fields])
+
+  const handleInputs = (e, key) => {
+    setFields({ ...fields, [key]: { ...fields[key], value: e.target.value } })
+  }
+
+  return (
+    <Form className={'form mt-3'}>
+      <Row className="justify-content-center mb-1">
+        <h3>{header}</h3>
+      </Row>
+      {items}
+      {error && <Row className="error mb-3">{error}</Row>}
+      {loading ? (
+        <ReactLoading
+          type="spin"
+          color={'rgba(0, 0, 0, 0.4)'}
+          height={30}
+          width={30}
+        />
+      ) : (
+        <Button
+          variant="primary"
+          type="submit"
+          onClick={(e) => onClick(e, fields)}
+        >
+          {buttonText}
+        </Button>
+      )}
+      <Row>
+        <a className={'mt-3'} href={link.href}>
+          {link.label}
+        </a>
+      </Row>
+    </Form>
+  )
+}
