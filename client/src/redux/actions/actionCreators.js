@@ -2,14 +2,16 @@ import {
   CHANGE_BOARD_PROPS,
   CHANGE_ITEM_PROPS,
   CHANGE_LIST_PROPS,
-  CREATE_BOARD,
   CREATE_NEW_ITEM,
   CREATE_NEW_LIST,
   DELETE_BOARD,
   DELETE_ITEM,
   DELETE_LIST,
+  PUT_BOARD,
   SET_ALERT,
   SET_AUTH,
+  SET_BLOCKED_COLORS,
+  SET_BOARDS,
   SET_CURRENT_BOARD,
   SET_ERROR,
   SET_LOADING,
@@ -20,10 +22,17 @@ import {
 } from './actionTypes'
 import makeRequest from '../../helpers/makeRequest'
 
-export function createBoard(board) {
+export function putBoard(board) {
   return {
-    type: CREATE_BOARD,
+    type: PUT_BOARD,
     board
+  }
+}
+
+export function setBlockedColors(id) {
+  return {
+    type: SET_BLOCKED_COLORS,
+    id
   }
 }
 
@@ -126,10 +135,11 @@ export function setAuth(payload) {
   }
 }
 
-export function setLoading(loading) {
+export function setLoading(loading, index) {
   return {
     type: SET_LOADING,
-    loading
+    loading,
+    index
   }
 }
 
@@ -144,6 +154,13 @@ export function setRegStatus(status) {
   return {
     type: SET_REGISTER_STATUS,
     status
+  }
+}
+
+export function setBoards(boards) {
+  return {
+    type: SET_BOARDS,
+    boards
   }
 }
 
@@ -203,6 +220,7 @@ export function register(username, password) {
     }
   }
 }
+
 export function auth(token) {
   return async (dispatch) => {
     try {
@@ -223,6 +241,106 @@ export function auth(token) {
       )
     } catch (e) {
       console.log(e)
+    }
+  }
+}
+
+export function fetch_boards(id) {
+  return async (dispatch) => {
+    try {
+      dispatch(setLoading(true, 0))
+      await makeRequest(
+        `/api/boards/get?id=${id}`,
+        'GET',
+        null,
+        (data) => {
+          dispatch(setBoards(data))
+        },
+        (data) => {
+          console.log(data.error)
+        }
+      )
+      dispatch(setLoading(false, 0))
+    } catch (e) {
+      console.log(e)
+      dispatch(setLoading(false, 0))
+    }
+  }
+}
+
+export function put_board(board, token) {
+  return async (dispatch) => {
+    try {
+      dispatch(setLoading(true, 1))
+      if (board.id) {
+        dispatch(setBlockedColors(board.id))
+      }
+      await makeRequest(
+        `/api/board/createOrChange`,
+        'PUT',
+        {
+          ...board,
+          token
+        },
+        (data) => {
+          dispatch(putBoard(data))
+        },
+        (data) => {
+          console.log(data.error)
+        }
+      )
+      dispatch(setLoading(false, 1))
+      dispatch(setBlockedColors(null))
+    } catch (e) {
+      console.log(e)
+      dispatch(setLoading(false, 1))
+      dispatch(setBlockedColors(null))
+    }
+  }
+}
+
+export function delete_board(id, token) {
+  return async (dispatch) => {
+    try {
+      dispatch(setLoading(true, 2))
+      await makeRequest(
+        `/api/board/delete?id=${id}&token=${token}`,
+        'DELETE',
+        null,
+        (data) => {
+          dispatch(deleteBoard(id))
+        },
+        (data) => {
+          console.log(data.error)
+        }
+      )
+      dispatch(setLoading(false, 2))
+    } catch (e) {
+      console.log(e.message)
+      dispatch(setLoading(false, 2))
+    }
+  }
+}
+
+export function get_board(id) {
+  return async (dispatch) => {
+    try {
+      dispatch(setLoading(true, 3))
+      await makeRequest(
+        `/api/board/get?id=${id}`,
+        'GET',
+        null,
+        (data) => {
+          dispatch(setCurrentBoard(data))
+        },
+        (data) => {
+          console.log(data.error)
+        }
+      )
+      dispatch(setLoading(false, 3))
+    } catch (e) {
+      console.log(e.message)
+      dispatch(setLoading(false, 3))
     }
   }
 }

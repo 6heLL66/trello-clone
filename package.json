@@ -8,7 +8,7 @@
     "client:build": "npm run build --prefix client",
     "client:install": "npm install --prefix client",
     "server": "nodemon index.js",
-    "dev": "npm run server && npm run client",
+    "dev": "concurrently \"npm run client\" \"npm run server\"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -37,6 +37,7 @@
     "sequelize": "^6.6.2"
   },
   "devDependencies": {
+    "concurrently": "^6.0.2",
     "nodemon": "^2.0.7",
     "prettier": "^2.2.1"
   }

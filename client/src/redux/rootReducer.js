@@ -1,16 +1,16 @@
 import {
-  CHANGE_BOARD_PROPS,
   CHANGE_ITEM_PROPS,
   CHANGE_LIST_PROPS,
-  CREATE_BOARD,
   CREATE_NEW_ITEM,
   CREATE_NEW_LIST,
   DELETE_BOARD,
   DELETE_ITEM,
   DELETE_LIST,
-  RECEIVE_AUTH,
+  PUT_BOARD,
   SET_ALERT,
   SET_AUTH,
+  SET_BLOCKED_COLORS,
+  SET_BOARDS,
   SET_CURRENT_BOARD,
   SET_ERROR,
   SET_LOADING,
@@ -20,11 +20,12 @@ import {
   UPDATE_LISTS
 } from './actions/actionTypes'
 import { combineReducers } from 'redux'
-import getUniqueId from '../helpers/getUniqueId'
 
 const boardState = {
-  boards: JSON.parse(localStorage.getItem('boards')) || [],
-  currentBoard: JSON.parse(localStorage.getItem('current')) || null
+  boards: [],
+  currentBoard: null,
+  loading: Array(5).fill(false, 0, 5),
+  blockedColors: null
 }
 
 const listsState = {
@@ -37,7 +38,7 @@ const itemsState = {
 }
 
 const authState = {
-  isAuth: false,
+  isAuth: !!JSON.parse(localStorage.getItem('auth')).token,
   loading: false,
   error: null
 }
@@ -45,11 +46,25 @@ const authState = {
 function boardReducer(state = boardState, action) {
   let newState = null
   switch (action.type) {
-    case CREATE_BOARD:
-      action.board.id = getUniqueId(state.boards, 12)
+    case SET_BOARDS:
+      return {
+        ...state,
+        boards: action.boards
+      }
+    case SET_BLOCKED_COLORS:
+      return {
+        ...state,
+        blockedColors: action.id
+      }
+    case PUT_BOARD:
       newState = {
         ...state,
-        boards: [...state.boards, action.board]
+        boards: state.boards.find((e) => e.id === action.board.id)
+          ? state.boards.map((e) => {
+              if (e.id === action.board.id) return action.board
+              return e
+            })
+          : [...state.boards, action.board]
       }
       localStorage.setItem('boards', JSON.stringify(newState.boards))
       return newState
@@ -61,26 +76,17 @@ function boardReducer(state = boardState, action) {
       localStorage.setItem('current', JSON.stringify(newState.currentBoard))
       return newState
     case DELETE_BOARD:
-      newState = {
+      return {
         ...state,
-        boards: state.boards.filter((e) => e.id !== action.id),
-        currentBoard: null
+        boards: state.boards.filter((e) => e.id !== action.id)
       }
-      localStorage.setItem('boards', JSON.stringify(newState.boards))
-      return newState
-    case CHANGE_BOARD_PROPS: {
-      newState = {
+    case SET_LOADING:
+      return {
         ...state,
-        boards: state.boards.map((e, i) => {
-          if (e.id === action.board.id) {
-            return action.board
-          }
-          return e
+        loading: state.loading.map((e, i) => {
+          return i === action.index ? action.loading : e
         })
       }
-      localStorage.setItem('boards', JSON.stringify(newState.boards))
-      return newState
-    }
     default:
       return state
   }
@@ -90,7 +96,6 @@ function listReducer(state = listsState, action) {
   let newState = null
   switch (action.type) {
     case CREATE_NEW_LIST:
-      action.list.id = getUniqueId(state.lists, 12)
       action.list.parentId = action.id
       action.list.index = state.lists.filter(
         (e) => e.parentId === action.id
@@ -137,7 +142,6 @@ function itemReducer(state = itemsState, action) {
   switch (action.type) {
     case CREATE_NEW_ITEM:
       action.item.parentId = action.id
-      action.item.id = getUniqueId(state.items, 12)
       action.item.index = state.items.filter(
         (e) => e.parentId === action.id
       ).length
@@ -203,7 +207,7 @@ function authReducer(state = authState, action) {
         ...state,
         isAuth: action.payload.auth,
         token: action.payload.token,
-        username: action.payload.username,
+        username: action.payload.senderName,
         userId: action.payload.userId
       }
     case SET_ERROR:

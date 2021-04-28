@@ -1,20 +1,18 @@
-import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom'
-import BoardPage from '../pages/BoardPage'
-import BoardsPage from '../pages/BoardsPage'
+import { BrowserRouter } from 'react-router-dom'
 import { Button, Row } from 'react-bootstrap'
 import logo from '../images/logo.png'
 import { useDispatch, useSelector } from 'react-redux'
 import Alert from '../components/Alert'
 import '../styles/App.css'
 import { auth, setAuth, unsetAlert } from '../redux/actions/actionCreators'
-import LoginPage from '../pages/LoginPage'
-import RegistrationPage from '../pages/RegistrationPage'
 import { useEffect } from 'react'
+import { useRoutes } from '../routes'
 
 function App() {
   const alert = useSelector((state) => state.alerts.alert)
   const isAuth = useSelector((state) => state.auth.isAuth)
   const dispatch = useDispatch()
+  const routes = useRoutes(isAuth)
 
   useEffect(() => {
     const token = JSON.parse(localStorage.getItem('auth')).token
@@ -42,7 +40,11 @@ function App() {
             height={40}
           />
         </a>
-        {isAuth && <Button className='ml-5' variant='danger' onClick={logout}>Logout</Button>}
+        {isAuth && (
+          <Button className="ml-5" variant="danger" onClick={logout}>
+            Logout
+          </Button>
+        )}
       </Row>
       {alert && (
         <Alert
@@ -51,24 +53,7 @@ function App() {
           clearAlert={clearAlert}
         />
       )}
-      <Switch>
-        <Route exact path="/board">
-          {!isAuth ? <Redirect to="/login" /> : <BoardPage />}
-        </Route>
-        {
-          !isAuth && <Route exact path="/login">
-            <LoginPage />
-          </Route>
-        }
-        {
-          !isAuth && <Route exact path="/registration">
-            <RegistrationPage />
-          </Route>
-        }
-        <Route path="/">
-          {!isAuth ? <Redirect to="/login" /> : <BoardsPage />}
-        </Route>
-      </Switch>
+      {routes}
     </BrowserRouter>
   )
 }

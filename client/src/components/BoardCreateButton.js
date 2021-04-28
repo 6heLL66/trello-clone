@@ -2,23 +2,22 @@ import { useState } from 'react'
 import * as Icon from 'react-bootstrap-icons'
 import { Button, Row } from 'react-bootstrap'
 import createBoardTemplate from '../helpers/createBoardTemplate'
+import ReactLoading from 'react-loading'
 
-function BoardCreateButton({ onClick }) {
-  const [open, setOpen] = useState(false)
+function BoardCreateButton({ onClick, isOpen, setIsOpen, loading }) {
   const [name, setName] = useState('')
 
   const createBoard = () => {
     onClick(createBoardTemplate(name))
-    setOpen(false)
     setName('')
   }
 
-  if (open) {
+  if (isOpen) {
     return (
       <div className="board-create-form">
         <Row className="w-100 justify-content-between">
           <label htmlFor="board_name">Create Board</label>
-          <Icon.X onClick={() => setOpen(false)} />
+          <Icon.X onClick={() => setIsOpen(false)} />
         </Row>
         <Row>
           <input
@@ -31,15 +30,27 @@ function BoardCreateButton({ onClick }) {
           />
         </Row>
         <Row>
-          <Button variant={'success'} onClick={createBoard}>
-            Create
-          </Button>
+          {!loading ? (
+            <Button variant={'success'} onClick={createBoard}>
+              Create
+            </Button>
+          ) : (
+            <Row>
+              <ReactLoading
+                type="spin"
+                className="ml-5"
+                color={'rgba(0, 0, 0, 0.4)'}
+                height={30}
+                width={30}
+              />
+            </Row>
+          )}
         </Row>
       </div>
     )
   } else {
     return (
-      <div className="board-button" onClick={() => setOpen(true)}>
+      <div className="board-button" onClick={() => setIsOpen(true)}>
         <span className="m-auto">Create New Board</span>
       </div>
     )

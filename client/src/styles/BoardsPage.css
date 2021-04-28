@@ -21,6 +21,10 @@
   animation: 120ms linear normal forwards up;
 }
 
+.disabled {
+  opacity: 0.5;
+}
+
 .board-create-form {
   margin: 10px 1%;
   display: flex;

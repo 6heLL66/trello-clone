@@ -1,6 +1,8 @@
-export const CREATE_BOARD = 'CREATE_BOARD'
+export const PUT_BOARD = 'PUT_BOARD'
 export const SET_CURRENT_BOARD = 'SET_CURRENT_BOARD'
 export const DELETE_BOARD = 'DELETE_BOARD'
+export const SET_BOARDS = 'SET_BOARDS'
+export const SET_BLOCKED_COLORS = 'SET_BLOCKED_COLORS'
 
 export const SET_ALERT = 'SET_ALERT'
 export const UNSET_ALERT = 'UNSET_ALERT'

@@ -3,8 +3,16 @@ import { Row } from 'react-bootstrap'
 import ColorMenu from './ColorMenu'
 import { useState } from 'react'
 import { colors } from '../constants/colors'
+import ReactLoading from 'react-loading'
 
-function BoardButton({ board, crossClick, onClick, colorClick }) {
+function BoardButton({
+  board,
+  crossClick,
+  onClick,
+  colorClick,
+  loading,
+  blocked
+}) {
   const [opacity, setOpacity] = useState(0)
   const [timeIndex, setTimeIndex] = useState(null)
 
@@ -48,8 +56,21 @@ function BoardButton({ board, crossClick, onClick, colorClick }) {
         className="w-100 justify-content-between"
         style={{ opacity: opacity }}
       >
-        <ColorMenu changeColor={colorChangeHandler} />
-        <Icon.X onClick={crossHandler} />
+        <ColorMenu
+          changeColor={colorChangeHandler}
+          blocked={board.id === blocked}
+        />
+        {!loading ? (
+          <Icon.X onClick={crossHandler} />
+        ) : (
+          <ReactLoading
+            type="spin"
+            className="mr-2 mb-2"
+            color={'rgba(0, 0, 0, 0.4)'}
+            height={20}
+            width={20}
+          />
+        )}
       </Row>
       <Row className="m-auto">{board.name}</Row>
     </div>

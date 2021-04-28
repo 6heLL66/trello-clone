@@ -9,7 +9,7 @@
 
 # testing
 /coverage
-my_queries.http
+./my_queries.http
 
 # production
 /client/build

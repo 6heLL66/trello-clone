@@ -5,15 +5,14 @@ export default async function makeRequest(
   onsuccess,
   onerror
 ) {
-  let data = null
-  if (body) data = JSON.stringify(body)
-  const response = await fetch(url, {
+  let request = {
     method,
-    body: data,
     headers: {
       'Content-Type': 'application/json'
     }
-  })
+  }
+  if (body) request.body = JSON.stringify(body)
+  const response = await fetch(url, request)
   if (response.ok) {
     onsuccess(await response.json())
     return true

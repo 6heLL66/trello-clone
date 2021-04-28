@@ -1,3 +1,5 @@
+const getUniqueId = require('../helpers/getUniqueId')
+
 const isAuth = require('../middleweares/isAuth.middleweare')
 const Boom = require('@hapi/boom')
 const sequelize = require('../dbConfig/index').sequelize
@@ -6,22 +8,29 @@ const createBoard = {
   method: 'PUT',
   path: '/api/board/createOrChange',
   config: {
-    pre: [
-      { method: isAuth, assign: "auth" }
-    ],
+    pre: [{ method: isAuth, assign: 'auth' }],
     handler: async (req, reply) => {
       try {
-        const { id, name, color } = req.payload
+        const { name, color } = req.payload
+        const [boards] = await sequelize.query(`SELECT * FROM boards`)
+        console.log(boards)
+        let id = req.payload.id || getUniqueId(boards, 8)
 
-        const [find] = await sequelize.query(`SELECT * FROM boards WHERE id='${id}'`)
+        const find = boards.find((e) => e.id === id)
 
-        if (find.length > 0) {
-          await sequelize.query(`UPDATE boards SET name='${name}', color='${color}' WHERE id='${id}'`)
+        if (find) {
+          await sequelize.query(
+            `UPDATE boards SET name='${name}', color='${color}' WHERE id='${id}'`
+          )
         } else {
-          await sequelize.query(`INSERT INTO boards VALUES('${id}', '${name}', '${color}', '${req.pre.auth.senderId}')`)
+          await sequelize.query(
+            `INSERT INTO boards VALUES('${id}', '${name}', '${color}', '${req.pre.auth.userId}')`
+          )
         }
 
-        return reply.response({}).code(200)
+        return reply
+          .response({ name, color, id, parentId: req.pre.auth.userId })
+          .code(200)
       } catch (e) {
         return Boom.badRequest(e.message)
       }
@@ -36,7 +45,9 @@ const getBoard = {
     handler: async (req, reply) => {
       try {
         const { id } = req.query
-        const [boards] = await sequelize.query(`SELECT * FROM boards WHERE id='${id}'`)
+        const [boards] = await sequelize.query(
+          `SELECT * FROM boards WHERE id='${id}'`
+        )
         return reply.response(boards[0]).code(200)
       } catch (e) {
         return Boom.badRequest(e.message)
@@ -52,7 +63,9 @@ const getBoards = {
     handler: async (req, reply) => {
       try {
         const { id } = req.query
-        const [boards] = await sequelize.query(`SELECT * FROM boards WHERE parentId='${id}'`)
+        const [boards] = await sequelize.query(
+          `SELECT * FROM boards WHERE parentId='${id}'`
+        )
         return reply.response(boards).code(200)
       } catch (e) {
         return Boom.badRequest(e.message)
@@ -65,9 +78,7 @@ const deleteBoard = {
   method: 'DELETE',
   path: '/api/board/delete',
   config: {
-    pre: [
-      { method: isAuth, assign: "auth" }
-    ],
+    pre: [{ method: isAuth, assign: 'auth' }],
     handler: async (req, reply) => {
       try {
         const { id } = req.query

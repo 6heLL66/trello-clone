@@ -86,9 +86,7 @@ const checkUser = {
   method: 'POST',
   path: '/api/auth/check',
   config: {
-    pre: [
-      { method: isAuth, assign: "auth" }
-    ],
+    pre: [{ method: isAuth, assign: 'auth' }],
     handler: async (req, reply) => {
       return req.pre.auth
     }

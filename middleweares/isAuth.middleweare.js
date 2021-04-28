@@ -4,10 +4,13 @@ const Boom = require('@hapi/boom')
 
 module.exports = function isAuth(req) {
   try {
-    let token = req.method === 'post' || req.method === 'put' ? req.payload.token : req.query.token
+    let token =
+      req.method === 'post' || req.method === 'put'
+        ? req.payload.token
+        : req.query.token
     console.log(token)
     let decoded = jwt.verify(token, config.get('Customer.tokens.jwt_secret'))
-    return { ...req.payload, senderName: decoded.username, senderId: decoded.id }
+    return { ...req.payload, senderName: decoded.username, userId: decoded.id }
   } catch (e) {
     return Boom.badRequest('invalid token')
   }
