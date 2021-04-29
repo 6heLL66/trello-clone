@@ -17,8 +17,7 @@ import ReactLoading from 'react-loading'
 function BoardsList() {
   const boards = useSelector((state) => state.boards.boards)
   const userId = useSelector((state) => state.auth.userId)
-  const loading = useSelector((state) => state.boards.loading)
-  const blocked = useSelector((state) => state.boards.blockedColors)
+  const loading = useSelector((state) => state.loading)
 
   const token = useSelector((state) => state.auth.token)
 
@@ -28,7 +27,7 @@ function BoardsList() {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    if (userId) dispatch(fetch_boards(userId))
+    if (userId !== undefined) dispatch(fetch_boards(userId))
   }, [userId])
 
   useEffect(() => {
@@ -64,18 +63,18 @@ function BoardsList() {
           onClick={handleCreateClick}
           isOpen={isOpen}
           setIsOpen={setIsOpen}
-          loading={loading[1]}
+          loading={loading.create[0]}
         />
-        {!loading[0] ? (
+        {!loading.boards ? (
           boards.map((e, i) => {
             return (
               <BoardButton
                 crossClick={handleCrossClick}
                 colorClick={handleColorClick}
-                blocked={blocked}
+                blocked={loading.colors[0]}
                 board={e}
                 key={i}
-                loading={loading[2]}
+                loading={loading.delete[0]}
                 onClick={handleBoardClick}
               />
             )

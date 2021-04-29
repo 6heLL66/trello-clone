@@ -28,7 +28,7 @@ const formProps = {
 
 export default function LoginPage() {
   const dispatch = useDispatch()
-  const loading = useSelector((state) => state.auth.loading)
+  const loading = useSelector((state) => state.loading)
   const error = useSelector((state) => state.auth.error)
 
   const handleSubmit = (e, fields) => {

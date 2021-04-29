@@ -60,7 +60,7 @@ function BoardButton({
           changeColor={colorChangeHandler}
           blocked={board.id === blocked}
         />
-        {!loading ? (
+        {loading !== board.id ? (
           <Icon.X onClick={crossHandler} />
         ) : (
           <ReactLoading

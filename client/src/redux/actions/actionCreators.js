@@ -1,16 +1,14 @@
 import {
-  CHANGE_BOARD_PROPS,
   CHANGE_ITEM_PROPS,
   CHANGE_LIST_PROPS,
+  PUT_BOARD,
   CREATE_NEW_ITEM,
   CREATE_NEW_LIST,
   DELETE_BOARD,
   DELETE_ITEM,
   DELETE_LIST,
-  PUT_BOARD,
   SET_ALERT,
   SET_AUTH,
-  SET_BLOCKED_COLORS,
   SET_BOARDS,
   SET_CURRENT_BOARD,
   SET_ERROR,
@@ -26,13 +24,6 @@ export function putBoard(board) {
   return {
     type: PUT_BOARD,
     board
-  }
-}
-
-export function setBlockedColors(id) {
-  return {
-    type: SET_BLOCKED_COLORS,
-    id
   }
 }
 
@@ -60,13 +51,6 @@ export function setAlert(alert) {
 export function unsetAlert() {
   return {
     type: UNSET_ALERT
-  }
-}
-
-export function changeBoardProps(board) {
-  return {
-    type: CHANGE_BOARD_PROPS,
-    board
   }
 }
 
@@ -135,10 +119,11 @@ export function setAuth(payload) {
   }
 }
 
-export function setLoading(loading, index) {
+export function setLoading(loading, field, index) {
   return {
     type: SET_LOADING,
     loading,
+    field,
     index
   }
 }
@@ -167,7 +152,7 @@ export function setBoards(boards) {
 export function login(username, password) {
   return async (dispatch) => {
     try {
-      dispatch(setLoading(true))
+      dispatch(setLoading(true, 'auth', 0))
       await makeRequest(
         '/api/auth/auth',
         'POST',
@@ -183,12 +168,12 @@ export function login(username, password) {
         },
         (data) => {
           dispatch(setError(data.message || data.error))
-          dispatch(setLoading(false))
+          dispatch(setLoading(false, 'auth', 0))
         }
       )
     } catch (e) {
       dispatch(setError(e.message))
-      dispatch(setLoading(false))
+      dispatch(setLoading(false, 'auth'))
     }
   }
 }
@@ -196,10 +181,10 @@ export function login(username, password) {
 export function register(username, password) {
   return async (dispatch) => {
     try {
-      dispatch(setLoading(true))
+      dispatch(setLoading(true, 'auth', 0))
       await makeRequest(
         '/api/auth/add',
-        'POST',
+        'PUT',
         {
           username,
           password
@@ -213,10 +198,10 @@ export function register(username, password) {
           dispatch(setError(data.message || data.error))
         }
       )
-      dispatch(setLoading(false))
+      dispatch(setLoading(false, 'auth', 0))
     } catch (e) {
       dispatch(setError(e.message))
-      dispatch(setLoading(false))
+      dispatch(setLoading(false, 'auth', 0))
     }
   }
 }
@@ -248,7 +233,7 @@ export function auth(token) {
 export function fetch_boards(id) {
   return async (dispatch) => {
     try {
-      dispatch(setLoading(true, 0))
+      dispatch(setLoading(true, 'loadData', 0))
       await makeRequest(
         `/api/boards/get?id=${id}`,
         'GET',
@@ -260,10 +245,10 @@ export function fetch_boards(id) {
           console.log(data.error)
         }
       )
-      dispatch(setLoading(false, 0))
+      dispatch(setLoading(false, 'loadData', 0))
     } catch (e) {
       console.log(e)
-      dispatch(setLoading(false, 0))
+      dispatch(setLoading(false, 'loadData', 0))
     }
   }
 }
@@ -271,9 +256,9 @@ export function fetch_boards(id) {
 export function put_board(board, token) {
   return async (dispatch) => {
     try {
-      dispatch(setLoading(true, 1))
+      dispatch(setLoading(true, 'create', 0))
       if (board.id) {
-        dispatch(setBlockedColors(board.id))
+        dispatch(setLoading(board.id, 'colors', 0))
       }
       await makeRequest(
         `/api/board/createOrChange`,
@@ -289,12 +274,12 @@ export function put_board(board, token) {
           console.log(data.error)
         }
       )
-      dispatch(setLoading(false, 1))
-      dispatch(setBlockedColors(null))
+      dispatch(setLoading(false, 'create', 0))
+      dispatch(setLoading('', 'colors', 0))
     } catch (e) {
       console.log(e)
-      dispatch(setLoading(false, 1))
-      dispatch(setBlockedColors(null))
+      dispatch(setLoading(false, 'create', 0))
+      dispatch(setLoading('', 'colors', 0))
     }
   }
 }
@@ -302,7 +287,7 @@ export function put_board(board, token) {
 export function delete_board(id, token) {
   return async (dispatch) => {
     try {
-      dispatch(setLoading(true, 2))
+      dispatch(setLoading(id, 'delete', 0))
       await makeRequest(
         `/api/board/delete?id=${id}&token=${token}`,
         'DELETE',
@@ -314,10 +299,10 @@ export function delete_board(id, token) {
           console.log(data.error)
         }
       )
-      dispatch(setLoading(false, 2))
+      dispatch(setLoading('', 'delete', 0))
     } catch (e) {
       console.log(e.message)
-      dispatch(setLoading(false, 2))
+      dispatch(setLoading('', 'delete', 0))
     }
   }
 }
@@ -325,22 +310,127 @@ export function delete_board(id, token) {
 export function get_board(id) {
   return async (dispatch) => {
     try {
-      dispatch(setLoading(true, 3))
+      dispatch(setLoading(true, 'loadData', 1))
       await makeRequest(
         `/api/board/get?id=${id}`,
         'GET',
         null,
         (data) => {
-          dispatch(setCurrentBoard(data))
+          dispatch(setCurrentBoard(data.board))
+          dispatch(updateLists(data.lists))
+          dispatch(updateItems(data.items))
         },
         (data) => {
           console.log(data.error)
         }
       )
-      dispatch(setLoading(false, 3))
+      dispatch(setLoading(false, 'loadData', 1))
     } catch (e) {
       console.log(e.message)
-      dispatch(setLoading(false, 3))
+      dispatch(setLoading(false, 'loadData', 1))
+    }
+  }
+}
+
+export function put_lists(data, token, ownerId, id, noupdate) {
+  return async (dispatch) => {
+    try {
+      if (noupdate) dispatch(updateLists(data))
+      else dispatch(setLoading(true, 'create', 1))
+      await makeRequest(
+        `/api/lists/put`,
+        'PUT',
+        {
+          data,
+          ownerId,
+          id,
+          token
+        },
+        (data) => {
+          if (!noupdate) dispatch(updateLists(data))
+        },
+        (data) => {
+          console.log(data.error)
+        }
+      )
+      dispatch(setLoading(false, 'create', 1))
+    } catch (e) {
+      console.log(e.message)
+      dispatch(setLoading(false, 'create', 1))
+    }
+  }
+}
+
+export function delete_list(id, token) {
+  return async (dispatch) => {
+    dispatch(setLoading(id, 'delete', 1))
+    try {
+      await makeRequest(
+        `/api/list/delete?id=${id}&token=${token}`,
+        'DELETE',
+        null,
+        () => {
+          dispatch(deleteList(id))
+        },
+        (data) => {
+          console.log(data.error)
+        }
+      )
+      dispatch(setLoading('', 'delete', 1))
+    } catch (e) {
+      console.log(e.message)
+      dispatch(setLoading('', 'delete', 1))
+    }
+  }
+}
+
+export function put_items(data, token, ownerId, noupdate) {
+  return async (dispatch) => {
+    try {
+      if (noupdate) dispatch(updateItems(data))
+      else dispatch(setLoading(data[0].parentId, 'create', 2))
+      await makeRequest(
+        `/api/items/put`,
+        'PUT',
+        {
+          data,
+          ownerId,
+          token
+        },
+        (data) => {
+          if (!noupdate) dispatch(updateItems(data))
+        },
+        (data) => {
+          console.log(data.error)
+        }
+      )
+      dispatch(setLoading(false, 'create', 2))
+    } catch (e) {
+      console.log(e.message)
+      dispatch(setLoading(false, 'create', 2))
+    }
+  }
+}
+
+export function delete_item(id, token) {
+  return async (dispatch) => {
+    dispatch(setLoading(id, 'delete', 2))
+    try {
+      await makeRequest(
+        `/api/item/delete?id=${id}&token=${token}`,
+        'DELETE',
+        null,
+        () => {
+          dispatch(deleteItem(id))
+        },
+        (data) => {
+          console.log(data.error)
+        }
+      )
+      dispatch(setLoading('', 'delete', 2))
+    } catch (e) {
+      console.log(e.message)
+      dispatch(setLoading('', 'delete', 2))
     }
   }
 }

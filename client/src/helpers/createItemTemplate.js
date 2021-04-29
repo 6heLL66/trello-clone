@@ -1,6 +1,8 @@
-export default function createItemTemplate(name) {
+export default function createItemTemplate(name, ind, id) {
   return {
     name,
-    isDone: false
+    ind,
+    parentId: id,
+    isDone: 0
   }
 }

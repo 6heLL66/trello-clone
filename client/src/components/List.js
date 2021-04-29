@@ -3,26 +3,28 @@ import ListItem from './ListItem'
 import { useMemo, useState } from 'react'
 import * as Icon from 'react-bootstrap-icons'
 import {
-  changeItemProps,
-  changeList,
-  createNewItem,
-  deleteItem,
+  delete_item,
+  put_items,
+  put_lists,
   setAlert
 } from '../redux/actions/actionCreators'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import createItemTemplate from '../helpers/createItemTemplate'
-import { listChangedAlert } from '../constants/alerts'
 import validateName from '../helpers/validateName'
 import { Draggable, Droppable } from 'react-beautiful-dnd'
+import ReactLoading from 'react-loading'
 
 function List({ list, closeClick, items }) {
   const [listName, setListName] = useState('')
   const [taskName, setTaskName] = useState('')
 
+  const token = useSelector((state) => state.auth.token)
+  const loading = useSelector((state) => state.loading)
+
   const childItems = useMemo(() => {
     return items
       .filter((e) => e.parentId === list.id)
-      .sort((a, b) => a.index - b.index)
+      .sort((a, b) => a.ind - b.ind)
   }, [items, list.id])
 
   const dispatch = useDispatch()
@@ -33,29 +35,37 @@ function List({ list, closeClick, items }) {
       if (valid) {
         return dispatch(setAlert(valid))
       } else if (e.target.name === 'list') {
-        dispatch(changeList({ ...list, name: listName, stage: 2 }))
-        dispatch(setAlert(listChangedAlert))
+        dispatch(
+          put_lists(
+            [{ ...list, name: listName }],
+            token,
+            list.ownerId,
+            list.parentId
+          )
+        )
       } else if (e.target.name === 'item') {
-        dispatch(createNewItem(createItemTemplate(taskName), list.id))
+        dispatch(
+          put_items(
+            [createItemTemplate(taskName, childItems.length, list.id)],
+            token,
+            list.ownerId
+          )
+        )
         setTaskName('')
       }
     }
   }
 
   const closeItem = (id) => {
-    dispatch(deleteItem(id))
+    dispatch(delete_item(id, token))
   }
 
   const changeItem = (item) => {
-    dispatch(changeItemProps(item))
+    dispatch(put_items([item], token, list.ownerId))
   }
 
   return (
-    <Draggable
-      draggableId={`dragList-${list.id}`}
-      index={list.index}
-      type="LIST"
-    >
+    <Draggable draggableId={`dragList-${list.id}`} index={list.ind} type="LIST">
       {(provided1) => (
         <Card
           className="list-card"
@@ -63,7 +73,7 @@ function List({ list, closeClick, items }) {
           {...provided1.draggableProps}
         >
           <Card.Header className="head py-1" {...provided1.dragHandleProps}>
-            {list.stage === 1 ? (
+            {!list.name ? (
               <Row className="justify-content-between">
                 <input
                   type="text"
@@ -73,18 +83,36 @@ function List({ list, closeClick, items }) {
                   value={listName}
                   onChange={(e) => setListName(e.target.value)}
                 />
-                <Icon.X
-                  className="list-close"
-                  onClick={() => closeClick(list.id)}
-                />
+                {loading.delete[1] !== list.id ? (
+                  <Icon.X
+                    className="list-close"
+                    onClick={() => closeClick(list.id)}
+                  />
+                ) : (
+                  <ReactLoading
+                    type="spin"
+                    color={'rgba(0, 0, 0, 0.4)'}
+                    height={20}
+                    width={20}
+                  />
+                )}
               </Row>
             ) : (
               <Row className="list-name justify-content-between px-2">
                 {list.name}
-                <Icon.X
-                  className="list-close"
-                  onClick={() => closeClick(list.id)}
-                />
+                {loading.delete[1] !== list.id ? (
+                  <Icon.X
+                    className="list-close"
+                    onClick={() => closeClick(list.id)}
+                  />
+                ) : (
+                  <ReactLoading
+                    type="spin"
+                    color={'rgba(0, 0, 0, 0.4)'}
+                    height={20}
+                    width={20}
+                  />
+                )}
               </Row>
             )}
           </Card.Header>
@@ -95,12 +123,21 @@ function List({ list, closeClick, items }) {
                 placeholder="task name"
                 onKeyDown={keyInputHandler}
                 name="item"
-                disabled={list.stage === 1}
+                disabled={!list.name || loading.create[2] === list.id}
                 value={taskName}
                 onChange={(e) => setTaskName(e.target.value)}
               />
+              {loading.create[2] === list.id && (
+                <ReactLoading
+                  type="spin"
+                  className='ml-1'
+                  color={'rgba(0, 0, 0, 0.4)'}
+                  height={25}
+                  width={25}
+                />
+              )}
             </Row>
-            <Droppable droppableId={list.id} type="TASK">
+            <Droppable droppableId={String(list.id)} type="TASK">
               {(provided2) => (
                 <ListGroup
                   className="list-group-flush"
@@ -113,8 +150,9 @@ function List({ list, closeClick, items }) {
                           key={e.id}
                           item={e}
                           closeItem={closeItem}
-                          index={e.index}
+                          index={e.ind}
                           change={changeItem}
+                          loading={loading}
                         />
                       )
                     })

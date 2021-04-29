@@ -13,7 +13,6 @@ const createBoard = {
       try {
         const { name, color } = req.payload
         const [boards] = await sequelize.query(`SELECT * FROM boards`)
-        console.log(boards)
         let id = req.payload.id || getUniqueId(boards, 8)
 
         const find = boards.find((e) => e.id === id)
@@ -48,7 +47,17 @@ const getBoard = {
         const [boards] = await sequelize.query(
           `SELECT * FROM boards WHERE id='${id}'`
         )
-        return reply.response(boards[0]).code(200)
+        const [lists] = await sequelize.query(
+          `SELECT * FROM lists WHERE parentId='${id}'`
+        )
+        let items = []
+        for (let i = 0; i < lists.length; i++) {
+          const [listItems] = await sequelize.query(
+            `SELECT * FROM items WHERE parentId='${lists[i].id}'`
+          )
+          items = [...items, ...listItems]
+        }
+        return reply.response({ board: boards[0], lists, items }).code(200)
       } catch (e) {
         return Boom.badRequest(e.message)
       }
@@ -83,7 +92,15 @@ const deleteBoard = {
       try {
         const { id } = req.query
         await sequelize.query(`DELETE FROM boards WHERE id='${id}'`)
-        return reply.response({}).code(200)
+        const [lists] = await sequelize.query(`SELECT * FROM lists WHERE parentId='${id}'`)
+
+        for (let i = 0; i < lists.length; i++) {
+          await sequelize.query(`DELETE FROM items WHERE parentId='${lists[i].id}'`)
+        }
+
+        await sequelize.query(`DELETE FROM lists WHERE parentId='${id}'`)
+
+        return reply.response({ message: 'Board Deleted' }).code(200)
       } catch (e) {
         return Boom.badRequest(e.message)
       }

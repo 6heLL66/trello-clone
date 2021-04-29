@@ -1,7 +1,8 @@
-export default function createListTemplate() {
+export default function createListTemplate(index, parentId) {
   return {
-    stage: 1,
-    items: [],
-    name: ''
+    name: '',
+    parentId,
+    id: null,
+    ind: index
   }
 }

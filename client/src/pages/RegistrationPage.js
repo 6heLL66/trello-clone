@@ -37,7 +37,7 @@ const formProps = {
 
 export default function RegistrationPage() {
   const dispatch = useDispatch()
-  const loading = useSelector((state) => state.auth.loading)
+  const loading = useSelector((state) => state.loading)
   const error = useSelector((state) => state.auth.error)
   const status = useSelector((state) => state.auth.regStatus)
 

@@ -23,24 +23,43 @@ import { combineReducers } from 'redux'
 
 const boardState = {
   boards: [],
-  currentBoard: null,
-  loading: Array(5).fill(false, 0, 5),
-  blockedColors: null
+  currentBoard: null
+}
+
+const loadingState = {
+  loadData: [false, false, false],
+  create: [false, false, false],
+  delete: ['', '', ''],
+  colors: [''],
+  auth: [false]
 }
 
 const listsState = {
-  lists: JSON.parse(localStorage.getItem('lists')) || [],
+  lists: [],
   activeDropzone: 1
 }
 
 const itemsState = {
-  items: JSON.parse(localStorage.getItem('items')) || []
+  items: []
 }
 
 const authState = {
   isAuth: !!JSON.parse(localStorage.getItem('auth')).token,
-  loading: false,
   error: null
+}
+
+function loadingReducer(state = loadingState, action) {
+  switch (action.type) {
+    case SET_LOADING:
+      return {
+        ...state,
+        [action.field]: state[action.field].map((e, i) => {
+          return i === action.index && action.loading
+        })
+      }
+    default:
+      return state
+  }
 }
 
 function boardReducer(state = boardState, action) {
@@ -80,13 +99,7 @@ function boardReducer(state = boardState, action) {
         ...state,
         boards: state.boards.filter((e) => e.id !== action.id)
       }
-    case SET_LOADING:
-      return {
-        ...state,
-        loading: state.loading.map((e, i) => {
-          return i === action.index ? action.loading : e
-        })
-      }
+
     default:
       return state
   }
@@ -130,7 +143,6 @@ function listReducer(state = listsState, action) {
         ...state,
         lists: action.lists
       }
-      localStorage.setItem('lists', JSON.stringify(newState.lists))
       return newState
     default:
       return state
@@ -170,10 +182,8 @@ function itemReducer(state = itemsState, action) {
           return e
         })
       }
-      localStorage.setItem('items', JSON.stringify(newState.items))
       return newState
     case UPDATE_ITEMS:
-      localStorage.setItem('items', JSON.stringify(action.items))
       return {
         ...state,
         items: [...action.items]
@@ -215,11 +225,6 @@ function authReducer(state = authState, action) {
         ...state,
         error: action.error
       }
-    case SET_LOADING:
-      return {
-        ...state,
-        loading: action.loading
-      }
     case SET_REGISTER_STATUS:
       return {
         ...state,
@@ -235,7 +240,8 @@ const rootReducer = combineReducers({
   lists: listReducer,
   items: itemReducer,
   alerts: alertReducer,
-  auth: authReducer
+  auth: authReducer,
+  loading: loadingReducer
 })
 
 export default rootReducer

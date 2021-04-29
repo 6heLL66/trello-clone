@@ -2,39 +2,56 @@ import { Row } from 'react-bootstrap'
 import List from './List'
 import ListCreateButton from './ListCreateButton'
 import { DragDropContext, Droppable } from 'react-beautiful-dnd'
-import { useDispatch } from 'react-redux'
-import { updateItems, updateLists } from '../redux/actions/actionCreators'
+import { useDispatch, useSelector } from 'react-redux'
+import { put_items, put_lists } from '../redux/actions/actionCreators'
 import getLayoutAfterDrag from '../helpers/getLayoutAfterDrag'
 
-function ListsContainer({ closeClick, createList, board, items, lists }) {
+function ListsContainer({
+  closeClick,
+  createList,
+  board,
+  items,
+  lists,
+  token
+}) {
   const dispatch = useDispatch()
+
+  const loading = useSelector((state) => state.loading)
 
   const onDragEnd = (info) => {
     const { reason, destination, draggableId, source } = info
     if (reason !== 'DROP' || !destination) return
     if (
-      draggableId.split('-')[0] === 'dragList' &&
-      destination.index !== source.index
+      draggableId.split('-')[0] === 'dragList'
     ) {
       dispatch(
-        updateLists(
+        put_lists(
           getLayoutAfterDrag(
             lists,
             source,
             destination,
             draggableId.split('-')[1],
             false
-          )
+          ),
+          token,
+          board.parentId,
+          board.id,
+          true
         )
       )
     } else {
       dispatch(
-        updateItems(
-          getLayoutAfterDrag(items, source, destination, draggableId, true)
+        put_items(
+          getLayoutAfterDrag(items, source, destination, draggableId, true),
+          token,
+          board.parentId,
+          true
         )
       )
     }
   }
+
+  console.log(lists)
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>
@@ -45,7 +62,7 @@ function ListsContainer({ closeClick, createList, board, items, lists }) {
             ref={provided.innerRef}
           >
             {lists
-              .sort((a, b) => a.index - b.index)
+              .sort((a, b) => a.ind - b.ind)
               .map((e, i) => {
                 return (
                   <List
@@ -58,7 +75,7 @@ function ListsContainer({ closeClick, createList, board, items, lists }) {
                 )
               })}
             {provided.placeholder}
-            <ListCreateButton onClick={createList} color={board.color} />
+            <ListCreateButton onClick={createList} color={board.color} loading={loading} />
           </Row>
         )}
       </Droppable>

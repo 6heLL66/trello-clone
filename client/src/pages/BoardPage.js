@@ -4,13 +4,11 @@ import { useDispatch, useSelector } from 'react-redux'
 import { colors } from '../constants/colors'
 import { useParams } from 'react-router-dom'
 import {
-  createNewList,
-  deleteList,
+  delete_list,
   get_board,
-  setAlert
+  put_lists
 } from '../redux/actions/actionCreators'
 import createListTemplate from '../helpers/createListTemplate'
-import { listCreatedAlert, listDeletedAlert } from '../constants/alerts'
 import ListsContainer from '../components/ListsContainer'
 import { useEffect } from 'react'
 import ReactLoading from 'react-loading'
@@ -18,9 +16,10 @@ import ReactLoading from 'react-loading'
 function BoardPage() {
   const { id } = useParams()
   const board = useSelector((state) => state.boards.currentBoard)
-  const loading = useSelector((state) => state.boards.loading)
+  const token = useSelector((state) => state.auth.token)
+  const loading = useSelector((state) => state.loading)
   const lists = useSelector((state) => state.lists.lists).filter((e) => {
-    return e.parentId === id
+    return e.parentId === Number(id)
   })
   const items = useSelector((state) => state.items.items)
   const dispatch = useDispatch()
@@ -30,13 +29,18 @@ function BoardPage() {
   }, [])
 
   const createList = () => {
-    dispatch(createNewList(createListTemplate(), board.id))
-    dispatch(setAlert(listCreatedAlert))
+    dispatch(
+      put_lists(
+        [createListTemplate(lists.length, board.id)],
+        token,
+        board.parentId,
+        board.id
+      )
+    )
   }
 
   const closeClick = (id) => {
-    dispatch(deleteList(id))
-    dispatch(setAlert(listDeletedAlert))
+    dispatch(delete_list(id, token))
   }
 
   if (board) {
@@ -53,10 +57,11 @@ function BoardPage() {
           board={board}
           lists={lists}
           items={items}
+          token={token}
         />
       </Container>
     )
-  } else if (!loading) {
+  } else if (!loading.loadData[1]) {
     return (
       <Row className="justify-content-center w-100">
         <div className="border-error">Border did not chosen</div>

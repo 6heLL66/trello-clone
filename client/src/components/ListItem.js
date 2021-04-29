@@ -1,14 +1,15 @@
 import { Row } from 'react-bootstrap'
 import * as Icon from 'react-bootstrap-icons'
 import { Draggable } from 'react-beautiful-dnd'
+import ReactLoading from 'react-loading'
 
-function ListItem({ item, closeItem, change, index }) {
+function ListItem({ item, closeItem, change, index, loading }) {
   const handleCheckbox = () => {
-    change({ ...item, isDone: !item.isDone })
+    change({ ...item, isDone: item.isDone === 1 ? 0 : 1 })
   }
 
   return (
-    <Draggable index={index} draggableId={item.id} type="TASK">
+    <Draggable index={Number(index)} draggableId={String(item.id)} type="TASK">
       {(provided) => (
         <Row
           className={`list-item p-2 my-2 justify-content-between ${
@@ -29,7 +30,17 @@ function ListItem({ item, closeItem, change, index }) {
               {item.name}
             </span>
           </span>
-          <Icon.X className="list-close" onClick={() => closeItem(item.id)} />
+          {loading.delete[2] !== item.id ? (
+            <Icon.X className="list-close" onClick={() => closeItem(item.id)} />
+          ) : (
+            <ReactLoading
+              type="spin"
+              color={'rgba(0, 0, 0, 0.4)'}
+              height={20}
+              width={20}
+            />
+          )}
+
         </Row>
       )}
     </Draggable>
