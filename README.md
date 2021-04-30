@@ -1,7 +1,7 @@
 # Local Start
 
 IF you wanna start app local you should create local mysql using DBSchema.sql file.
-Than you must create .env file in root directory with db credentials
+Than you must create .env file in root directory with db credentials \n
 `
 DB_HOST=<your db host>
 DB_USERNAME=<your db username>
