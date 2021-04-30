@@ -39,3 +39,4 @@ jobs:
           HD_DB_HOST: ${{secrets.HOST}}
           HD_DB_USERNAME: ${{secrets.DB_USERNAME}}
           HD_DB_PASSWORD: ${{secrets.DB_PASSWORD}}
+          HD_JWT_SECRET: ${{secrets.JWT_SECRET}}
