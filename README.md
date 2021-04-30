@@ -12,4 +12,4 @@ JWT_SECRET=<yout jwt secret key>
 
 Than run:
 
-`npm install && npm build && npm run dev`
+`npm install && npm run dev`
