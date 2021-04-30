@@ -2,7 +2,6 @@
   "Customer": {
     "db": {
       "host": "eu-cdbr-west-01.cleardb.com",
-      "port": 3306,
       "dialect": "mysql",
       "name": "heroku_2bb6104038c8225",
       "username": "b67850be7cd210",

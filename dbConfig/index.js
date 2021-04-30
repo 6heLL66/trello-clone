@@ -7,7 +7,6 @@ const sequelize = new Sequelize(
   config.get('Customer.db.password'),
   {
     host: config.get('Customer.db.host'),
-    port: config.get('Customer.db.port'),
     dialect: config.get('Customer.db.dialect')
   }
 )
