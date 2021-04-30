@@ -1,11 +1,10 @@
 const Hapi = require('@hapi/hapi')
 const db = require('./dbConfig/index.js')
 const config = require('config')
-const Path = require('path')
 
 
 const server = Hapi.server({
-  port: config.get('Customer.server.port'),
+  port: process.env.PORT || config.get('Customer.server.port'),
   host: config.get('Customer.server.host')
 })
 
