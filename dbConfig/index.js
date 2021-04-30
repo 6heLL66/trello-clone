@@ -3,10 +3,10 @@ const config = require('config')
 
 const sequelize = new Sequelize(
   config.get('Customer.db.name'),
-  process.env.DB_USERNAME || config.get('Customer.db.username'),
-  process.env.DB_PASSWORD || config.get('Customer.db.password'),
+  process.env.DB_USERNAME,
+  process.env.DB_PASSWORD,
   {
-    host: process.env.DB_HOST || config.get('Customer.db.host'),
+    host: process.env.DB_HOST,
     dialect: config.get('Customer.db.dialect')
   }
 )

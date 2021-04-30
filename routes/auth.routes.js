@@ -65,7 +65,7 @@ const authUser = {
 
       const token = jwt.sign(
         { id: exist.id, username },
-        process.env.JWT_SECRET || config.get('Customer.tokens.jwt_secret'),
+        process.env.JWT_SECRET,
         { expiresIn: '6h' }
       )
       return reply

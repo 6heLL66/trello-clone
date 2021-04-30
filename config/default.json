@@ -1,15 +1,8 @@
 {
   "Customer": {
     "db": {
-      "host": "localhost",
-      "port": 3306,
       "dialect": "mysql",
-      "name": "mytrello",
-      "username": "root",
-      "password": "7866944Nik"
-    },
-    "tokens": {
-      "jwt_secret": "aisfhqiuwhfkjasf124iojlkq1124qsd456ysgsg33fw32"
+      "name": "mytrello"
     },
     "server": {
       "host": "localhost",
