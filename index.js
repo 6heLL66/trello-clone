@@ -3,6 +3,7 @@ const db = require('./dbConfig/index.js')
 const config = require('config')
 const Path = require('path')
 
+console.log(process.env)
 
 
 
