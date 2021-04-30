@@ -17,7 +17,7 @@ function App() {
   useEffect(() => {
     const token =
       !!JSON.parse(localStorage.getItem('auth')) &&
-      !!JSON.parse(localStorage.getItem('auth')).token
+      JSON.parse(localStorage.getItem('auth')).token
     if (token) dispatch(auth(token))
   }, [dispatch])
 

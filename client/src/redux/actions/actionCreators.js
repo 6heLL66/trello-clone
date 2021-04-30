@@ -129,7 +129,7 @@ export function login(username, password) {
         dispatch(setAuth({ ...data, auth: true }))
         localStorage.setItem('auth', JSON.stringify(data))
         dispatch(setError(null))
-        dispatch(setLoading(false))
+        dispatch(setLoading(false, 'auth', 0))
       },
       (data) => {
         dispatch(setError(data.message || data.error))
