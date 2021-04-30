@@ -1,18 +1,15 @@
 const Hapi = require('@hapi/hapi')
 const db = require('./dbConfig/index.js')
+const config = require('config')
+const Path = require('path')
+
 
 const server = Hapi.server({
-  port: 5000,
-  host: 'localhost'
+  port: config.get('Customer.server.port'),
+  host: config.get('Customer.server.host')
 })
 
-server.route({
-  method: 'GET',
-  path: '/',
-  handler: (req, h) => {
-    return 'HELLO WORLD'
-  }
-})
+
 
 server.route(require('./routes/auth.routes'))
 server.route(require('./routes/board.routes'))
@@ -22,8 +19,23 @@ server.route(require('./routes/item.routes'))
 const init = async () => {
   try {
     await db.connect()
+    await server.register(require('inert'))
+
+    if (process.env.NODE_ENV === 'production') {
+      server.route({
+        method: 'GET',
+        path: '/{path*}',
+        handler: {
+          directory: {
+            path: './client/build',
+            listing: false,
+            index: true
+          }
+        }
+      })
+    }
+
     await server.start()
-    //const [res, data] = await db.sequelize.query(`INSERT INTO users VALUES (0, 'test', 'test')`)
     console.log('Server running on %s', server.info.uri)
   } catch(err) {
     throw err
