@@ -1,11 +1,17 @@
 const Hapi = require('@hapi/hapi')
 const db = require('./dbConfig/index.js')
 const config = require('config')
+const Path = require('path')
 
 
 const server = Hapi.server({
   port: process.env.PORT || config.get('Customer.server.port'),
-  host: config.get('Customer.server.host')
+  host: config.get('Customer.server.host'),
+  routes: {
+    files: {
+      relativeTo: Path.join(__dirname, 'client', 'build')
+    }
+  }
 })
 
 
@@ -23,12 +29,20 @@ const init = async () => {
     if (process.env.NODE_ENV === 'production') {
       server.route({
         method: 'GET',
-        path: '/{path*}',
+        path: '/static/{param*}',
         handler: {
           directory: {
-            path: './client/build',
-            listing: false,
-            index: true
+            path: './static',
+            index: ['index.html', 'default.html']
+          }
+        }
+      })
+      server.route({
+        method: 'GET',
+        path: '/{param*}',
+        handler: {
+          file: {
+            path: "./index.html"
           }
         }
       })
