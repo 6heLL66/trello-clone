@@ -1,5 +1,5 @@
 import { Button, Form, Row } from 'react-bootstrap'
-import { useMemo, useState } from 'react'
+import { useCallback, useMemo, useState } from 'react'
 import ReactLoading from 'react-loading'
 
 export default function CustomForm({
@@ -12,6 +12,10 @@ export default function CustomForm({
   link
 }) {
   const [fields, setFields] = useState({ ...labels })
+
+  const handleInputs = useCallback((e, key) => {
+    setFields({ ...fields, [key]: { ...fields[key], value: e.target.value } })
+  }, [fields, setFields])
 
   const items = useMemo(() => {
     let items = []
@@ -32,11 +36,7 @@ export default function CustomForm({
       )
     }
     return items
-  }, [fields])
-
-  const handleInputs = (e, key) => {
-    setFields({ ...fields, [key]: { ...fields[key], value: e.target.value } })
-  }
+  }, [fields, handleInputs])
 
   return (
     <Form className={'form mt-3'}>

@@ -28,7 +28,7 @@ function BoardsList() {
 
   useEffect(() => {
     if (userId !== undefined) dispatch(fetch_boards(userId))
-  }, [userId])
+  }, [userId, dispatch])
 
   useEffect(() => {
     setIsOpen(false)

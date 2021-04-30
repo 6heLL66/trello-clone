@@ -26,7 +26,7 @@ function BoardPage() {
 
   useEffect(() => {
     dispatch(get_board(id))
-  }, [])
+  }, [dispatch, id])
 
   const createList = () => {
     dispatch(

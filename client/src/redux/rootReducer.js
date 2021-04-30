@@ -44,7 +44,7 @@ const itemsState = {
 }
 
 const authState = {
-  isAuth: !!JSON.parse(localStorage.getItem('auth')).token,
+  isAuth: !!JSON.parse(localStorage.getItem('auth')) && !!JSON.parse(localStorage.getItem('auth')).token,
   error: null
 }
 

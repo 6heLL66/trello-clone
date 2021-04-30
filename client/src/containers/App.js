@@ -15,9 +15,9 @@ function App() {
   const routes = useRoutes(isAuth)
 
   useEffect(() => {
-    const token = JSON.parse(localStorage.getItem('auth')).token
+    const token = !!JSON.parse(localStorage.getItem('auth')) && !!JSON.parse(localStorage.getItem('auth')).token
     if (token) dispatch(auth(token))
-  }, [])
+  }, [dispatch])
 
   const clearAlert = () => {
     dispatch(unsetAlert())
