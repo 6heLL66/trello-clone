@@ -1,10 +1,8 @@
 const Hapi = require('@hapi/hapi')
+require('dotenv').config()
 const db = require('./dbConfig/index.js')
 const config = require('config')
 const Path = require('path')
-
-console.log(process.env)
-
 
 
 
@@ -17,8 +15,6 @@ const server = Hapi.server({
     }
   }
 })
-
-
 
 server.route(require('./routes/auth.routes'))
 server.route(require('./routes/board.routes'))

@@ -1,6 +1,7 @@
 const Sequelize = require('sequelize')
 const config = require('config')
 
+
 const sequelize = new Sequelize(
   config.get('Customer.db.name'),
   process.env.DB_USERNAME,
