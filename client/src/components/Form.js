@@ -13,9 +13,12 @@ export default function CustomForm({
 }) {
   const [fields, setFields] = useState({ ...labels })
 
-  const handleInputs = useCallback((e, key) => {
-    setFields({ ...fields, [key]: { ...fields[key], value: e.target.value } })
-  }, [fields, setFields])
+  const handleInputs = useCallback(
+    (e, key) => {
+      setFields({ ...fields, [key]: { ...fields[key], value: e.target.value } })
+    },
+    [fields, setFields]
+  )
 
   const items = useMemo(() => {
     let items = []

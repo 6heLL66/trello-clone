@@ -130,7 +130,7 @@ function List({ list, closeClick, items }) {
               {loading.create[2] === list.id && (
                 <ReactLoading
                   type="spin"
-                  className='ml-1'
+                  className="ml-1"
                   color={'rgba(0, 0, 0, 0.4)'}
                   height={25}
                   width={25}

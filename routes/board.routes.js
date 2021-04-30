@@ -92,10 +92,14 @@ const deleteBoard = {
       try {
         const { id } = req.query
         await sequelize.query(`DELETE FROM boards WHERE id='${id}'`)
-        const [lists] = await sequelize.query(`SELECT * FROM lists WHERE parentId='${id}'`)
+        const [lists] = await sequelize.query(
+          `SELECT * FROM lists WHERE parentId='${id}'`
+        )
 
         for (let i = 0; i < lists.length; i++) {
-          await sequelize.query(`DELETE FROM items WHERE parentId='${lists[i].id}'`)
+          await sequelize.query(
+            `DELETE FROM items WHERE parentId='${lists[i].id}'`
+          )
         }
 
         await sequelize.query(`DELETE FROM lists WHERE parentId='${id}'`)

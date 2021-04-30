@@ -40,7 +40,6 @@ function ListItem({ item, closeItem, change, index, loading }) {
               width={20}
             />
           )}
-
         </Row>
       )}
     </Draggable>

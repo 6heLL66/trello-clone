@@ -1,9 +1,5 @@
 import {
-  CHANGE_ITEM_PROPS,
-  CHANGE_LIST_PROPS,
   PUT_BOARD,
-  CREATE_NEW_ITEM,
-  CREATE_NEW_LIST,
   DELETE_BOARD,
   DELETE_ITEM,
   DELETE_LIST,
@@ -54,32 +50,9 @@ export function unsetAlert() {
   }
 }
 
-export function createNewList(list, id) {
-  return {
-    type: CREATE_NEW_LIST,
-    list,
-    id
-  }
-}
-
 export function deleteList(id) {
   return {
     type: DELETE_LIST,
-    id
-  }
-}
-
-export function changeList(list) {
-  return {
-    type: CHANGE_LIST_PROPS,
-    list
-  }
-}
-
-export function createNewItem(item, id) {
-  return {
-    type: CREATE_NEW_ITEM,
-    item,
     id
   }
 }
@@ -88,13 +61,6 @@ export function deleteItem(id) {
   return {
     type: DELETE_ITEM,
     id
-  }
-}
-
-export function changeItemProps(item) {
-  return {
-    type: CHANGE_ITEM_PROPS,
-    item
   }
 }
 
@@ -151,286 +117,231 @@ export function setBoards(boards) {
 
 export function login(username, password) {
   return async (dispatch) => {
-    try {
-      dispatch(setLoading(true, 'auth', 0))
-      await makeRequest(
-        '/api/auth/auth',
-        'POST',
-        {
-          username,
-          password
-        },
-        (data) => {
-          dispatch(setAuth({ ...data, auth: true }))
-          localStorage.setItem('auth', JSON.stringify(data))
-          dispatch(setError(null))
-          dispatch(setLoading(false))
-        },
-        (data) => {
-          dispatch(setError(data.message || data.error))
-          dispatch(setLoading(false, 'auth', 0))
-        }
-      )
-    } catch (e) {
-      dispatch(setError(e.message))
-      dispatch(setLoading(false, 'auth'))
-    }
+    dispatch(setLoading(true, 'auth', 0))
+    await makeRequest(
+      '/api/auth/auth',
+      'POST',
+      {
+        username,
+        password
+      },
+      (data) => {
+        dispatch(setAuth({ ...data, auth: true }))
+        localStorage.setItem('auth', JSON.stringify(data))
+        dispatch(setError(null))
+        dispatch(setLoading(false))
+      },
+      (data) => {
+        dispatch(setError(data.message || data.error))
+        dispatch(setLoading(false, 'auth', 0))
+      }
+    )
   }
 }
 
 export function register(username, password) {
   return async (dispatch) => {
-    try {
-      dispatch(setLoading(true, 'auth', 0))
-      await makeRequest(
-        '/api/auth/add',
-        'PUT',
-        {
-          username,
-          password
-        },
-        (data) => {
-          dispatch(setRegStatus('success'))
-          dispatch(setError(null))
-        },
-        (data) => {
-          dispatch(setRegStatus('failed'))
-          dispatch(setError(data.message || data.error))
-        }
-      )
-      dispatch(setLoading(false, 'auth', 0))
-    } catch (e) {
-      dispatch(setError(e.message))
-      dispatch(setLoading(false, 'auth', 0))
-    }
+    dispatch(setLoading(true, 'auth', 0))
+    await makeRequest(
+      '/api/auth/add',
+      'PUT',
+      {
+        username,
+        password
+      },
+      (data) => {
+        dispatch(setRegStatus('success'))
+        dispatch(setError(null))
+      },
+      (data) => {
+        dispatch(setRegStatus('failed'))
+        dispatch(setError(data.message || data.error))
+      }
+    )
+    dispatch(setLoading(false, 'auth', 0))
   }
 }
 
 export function auth(token) {
   return async (dispatch) => {
-    try {
-      await makeRequest(
-        '/api/auth/check',
-        'POST',
-        {
-          token
-        },
-        (data) => {
-          dispatch(setAuth({ ...data, auth: true }))
-          localStorage.setItem('auth', JSON.stringify(data))
-        },
-        () => {
-          dispatch(setAuth({}))
-          localStorage.setItem('auth', JSON.stringify({}))
-        }
-      )
-    } catch (e) {
-      console.log(e)
-    }
+    await makeRequest(
+      '/api/auth/check',
+      'POST',
+      {
+        token
+      },
+      (data) => {
+        dispatch(setAuth({ ...data, auth: true }))
+        localStorage.setItem('auth', JSON.stringify(data))
+      },
+      () => {
+        dispatch(setAuth({}))
+        localStorage.setItem('auth', JSON.stringify({}))
+      }
+    )
   }
 }
 
 export function fetch_boards(id) {
   return async (dispatch) => {
-    try {
-      dispatch(setLoading(true, 'loadData', 0))
-      await makeRequest(
-        `/api/boards/get?id=${id}`,
-        'GET',
-        null,
-        (data) => {
-          dispatch(setBoards(data))
-        },
-        (data) => {
-          console.log(data.error)
-        }
-      )
-      dispatch(setLoading(false, 'loadData', 0))
-    } catch (e) {
-      console.log(e)
-      dispatch(setLoading(false, 'loadData', 0))
-    }
+    dispatch(setLoading(true, 'loadData', 0))
+    await makeRequest(
+      `/api/boards/get?id=${id}`,
+      'GET',
+      null,
+      (data) => {
+        dispatch(setBoards(data))
+      },
+      (data) => {
+        console.log(data.error)
+      }
+    )
+    dispatch(setLoading(false, 'loadData', 0))
   }
 }
 
 export function put_board(board, token) {
   return async (dispatch) => {
-    try {
-      dispatch(setLoading(true, 'create', 0))
-      if (board.id) {
-        dispatch(setLoading(board.id, 'colors', 0))
-      }
-      await makeRequest(
-        `/api/board/createOrChange`,
-        'PUT',
-        {
-          ...board,
-          token
-        },
-        (data) => {
-          dispatch(putBoard(data))
-        },
-        (data) => {
-          console.log(data.error)
-        }
-      )
-      dispatch(setLoading(false, 'create', 0))
-      dispatch(setLoading('', 'colors', 0))
-    } catch (e) {
-      console.log(e)
-      dispatch(setLoading(false, 'create', 0))
-      dispatch(setLoading('', 'colors', 0))
+    dispatch(setLoading(true, 'create', 0))
+    if (board.id) {
+      dispatch(setLoading(board.id, 'colors', 0))
     }
+    await makeRequest(
+      `/api/board/createOrChange`,
+      'PUT',
+      {
+        ...board,
+        token
+      },
+      (data) => {
+        dispatch(putBoard(data))
+      },
+      (data) => {
+        console.log(data.error)
+      }
+    )
+    dispatch(setLoading(false, 'create', 0))
+    dispatch(setLoading('', 'colors', 0))
   }
 }
 
 export function delete_board(id, token) {
   return async (dispatch) => {
-    try {
-      dispatch(setLoading(id, 'delete', 0))
-      await makeRequest(
-        `/api/board/delete?id=${id}&token=${token}`,
-        'DELETE',
-        null,
-        (data) => {
-          dispatch(deleteBoard(id))
-        },
-        (data) => {
-          console.log(data.error)
-        }
-      )
-      dispatch(setLoading('', 'delete', 0))
-    } catch (e) {
-      console.log(e.message)
-      dispatch(setLoading('', 'delete', 0))
-    }
+    dispatch(setLoading(id, 'delete', 0))
+    await makeRequest(
+      `/api/board/delete?id=${id}&token=${token}`,
+      'DELETE',
+      null,
+      (data) => {
+        dispatch(deleteBoard(id))
+      },
+      (data) => {
+        console.log(data.error)
+      }
+    )
+    dispatch(setLoading('', 'delete', 0))
   }
 }
 
 export function get_board(id) {
   return async (dispatch) => {
-    try {
-      dispatch(setLoading(true, 'loadData', 1))
-      await makeRequest(
-        `/api/board/get?id=${id}`,
-        'GET',
-        null,
-        (data) => {
-          dispatch(setCurrentBoard(data.board))
-          dispatch(updateLists(data.lists))
-          dispatch(updateItems(data.items))
-        },
-        (data) => {
-          console.log(data.error)
-        }
-      )
-      dispatch(setLoading(false, 'loadData', 1))
-    } catch (e) {
-      console.log(e.message)
-      dispatch(setLoading(false, 'loadData', 1))
-    }
+    dispatch(setLoading(true, 'loadData', 1))
+    await makeRequest(
+      `/api/board/get?id=${id}`,
+      'GET',
+      null,
+      (data) => {
+        dispatch(setCurrentBoard(data.board))
+        dispatch(updateLists(data.lists))
+        dispatch(updateItems(data.items))
+      },
+      (data) => {
+        console.log(data.error)
+      }
+    )
+    dispatch(setLoading(false, 'loadData', 1))
   }
 }
 
 export function put_lists(data, token, ownerId, id, noupdate) {
   return async (dispatch) => {
-    try {
-      if (noupdate) dispatch(updateLists(data))
-      else dispatch(setLoading(true, 'create', 1))
-      await makeRequest(
-        `/api/lists/put`,
-        'PUT',
-        {
-          data,
-          ownerId,
-          id,
-          token
-        },
-        (data) => {
-          if (!noupdate) dispatch(updateLists(data))
-        },
-        (data) => {
-          console.log(data.error)
-        }
-      )
-      dispatch(setLoading(false, 'create', 1))
-    } catch (e) {
-      console.log(e.message)
-      dispatch(setLoading(false, 'create', 1))
-    }
+    if (noupdate) dispatch(updateLists(data))
+    else dispatch(setLoading(true, 'create', 1))
+    await makeRequest(
+      `/api/lists/put`,
+      'PUT',
+      {
+        data,
+        ownerId,
+        id,
+        token
+      },
+      (data) => {
+        if (!noupdate) dispatch(updateLists(data))
+      },
+      (data) => {
+        console.log(data.error)
+      }
+    )
+    dispatch(setLoading(false, 'create', 1))
   }
 }
 
 export function delete_list(id, token) {
   return async (dispatch) => {
     dispatch(setLoading(id, 'delete', 1))
-    try {
-      await makeRequest(
-        `/api/list/delete?id=${id}&token=${token}`,
-        'DELETE',
-        null,
-        () => {
-          dispatch(deleteList(id))
-        },
-        (data) => {
-          console.log(data.error)
-        }
-      )
-      dispatch(setLoading('', 'delete', 1))
-    } catch (e) {
-      console.log(e.message)
-      dispatch(setLoading('', 'delete', 1))
-    }
+    await makeRequest(
+      `/api/list/delete?id=${id}&token=${token}`,
+      'DELETE',
+      null,
+      () => {
+        dispatch(deleteList(id))
+      },
+      (data) => {
+        console.log(data.error)
+      }
+    )
+    dispatch(setLoading('', 'delete', 1))
   }
 }
 
 export function put_items(data, token, ownerId, noupdate) {
   return async (dispatch) => {
-    try {
-      if (noupdate) dispatch(updateItems(data))
-      else dispatch(setLoading(data[0].parentId, 'create', 2))
-      await makeRequest(
-        `/api/items/put`,
-        'PUT',
-        {
-          data,
-          ownerId,
-          token
-        },
-        (data) => {
-          if (!noupdate) dispatch(updateItems(data))
-        },
-        (data) => {
-          console.log(data.error)
-        }
-      )
-      dispatch(setLoading(false, 'create', 2))
-    } catch (e) {
-      console.log(e.message)
-      dispatch(setLoading(false, 'create', 2))
-    }
+    if (noupdate) dispatch(updateItems(data))
+    else dispatch(setLoading(data[0].parentId, 'create', 2))
+    await makeRequest(
+      `/api/items/put`,
+      'PUT',
+      {
+        data,
+        ownerId,
+        token
+      },
+      (data) => {
+        if (!noupdate) dispatch(updateItems(data))
+      },
+      (data) => {
+        console.log(data.error)
+      }
+    )
+    dispatch(setLoading(false, 'create', 2))
   }
 }
 
 export function delete_item(id, token) {
   return async (dispatch) => {
     dispatch(setLoading(id, 'delete', 2))
-    try {
-      await makeRequest(
-        `/api/item/delete?id=${id}&token=${token}`,
-        'DELETE',
-        null,
-        () => {
-          dispatch(deleteItem(id))
-        },
-        (data) => {
-          console.log(data.error)
-        }
-      )
-      dispatch(setLoading('', 'delete', 2))
-    } catch (e) {
-      console.log(e.message)
-      dispatch(setLoading('', 'delete', 2))
-    }
+    await makeRequest(
+      `/api/item/delete?id=${id}&token=${token}`,
+      'DELETE',
+      null,
+      () => {
+        dispatch(deleteItem(id))
+      },
+      (data) => {
+        console.log(data.error)
+      }
+    )
+    dispatch(setLoading('', 'delete', 2))
   }
 }

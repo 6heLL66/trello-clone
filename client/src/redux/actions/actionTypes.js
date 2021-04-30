@@ -2,21 +2,14 @@ export const PUT_BOARD = 'PUT_BOARD'
 export const SET_CURRENT_BOARD = 'SET_CURRENT_BOARD'
 export const DELETE_BOARD = 'DELETE_BOARD'
 export const SET_BOARDS = 'SET_BOARDS'
-export const SET_BLOCKED_COLORS = 'SET_BLOCKED_COLORS'
 
 export const SET_ALERT = 'SET_ALERT'
 export const UNSET_ALERT = 'UNSET_ALERT'
 
-export const CHANGE_BOARD_PROPS = 'CHANGE_BOARD_PROPS'
-
-export const CREATE_NEW_LIST = 'CREATE_NEW_LIST'
-export const CHANGE_LIST_PROPS = 'CHANGE_LIST_PROPS'
 export const DELETE_LIST = 'DELETE_LIST'
 export const UPDATE_LISTS = 'UPDATE_LISTS'
 
-export const CREATE_NEW_ITEM = 'CREATE_NEW_ITEM'
 export const DELETE_ITEM = 'DELETE_ITEM'
-export const CHANGE_ITEM_PROPS = 'CHANGE_ITEM_PROPS'
 export const UPDATE_ITEMS = 'UPDATE_ITEMS'
 
 export const SET_AUTH = 'SET_AUTH'
