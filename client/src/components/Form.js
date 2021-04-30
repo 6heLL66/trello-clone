@@ -1,6 +1,7 @@
 import { Button, Form, Row } from 'react-bootstrap'
 import { useCallback, useMemo, useState } from 'react'
 import ReactLoading from 'react-loading'
+import { Redirect } from 'react-router-dom'
 
 export default function CustomForm({
   header,
@@ -12,6 +13,7 @@ export default function CustomForm({
   link
 }) {
   const [fields, setFields] = useState({ ...labels })
+  const [redirect, setRedirect] = useState('')
 
   const handleInputs = useCallback(
     (e, key) => {
@@ -41,6 +43,8 @@ export default function CustomForm({
     return items
   }, [fields, handleInputs])
 
+  if (redirect) return <Redirect to={redirect} />
+
   return (
     <Form className={'form mt-3'}>
       <Row className="justify-content-center mb-1">
@@ -65,9 +69,15 @@ export default function CustomForm({
         </Button>
       )}
       <Row>
-        <a className={'mt-3'} href={link.href}>
+        <button
+          className={'mt-3'}
+          onClick={(e) => {
+            e.preventDefault()
+            setRedirect(link.href)
+          }}
+        >
           {link.label}
-        </a>
+        </button>
       </Row>
     </Form>
   )
