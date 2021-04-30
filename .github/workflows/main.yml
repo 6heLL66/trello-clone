@@ -34,7 +34,6 @@ jobs:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
           heroku_app_name: "mytrellomy" #Must be unique in Heroku
           heroku_email: "sseniknik@gmail.com"
-          env_file: ".env"
         env:
           HD_DB_HOST: ${{secrets.DB_HOST}}
           HD_DB_USERNAME: ${{secrets.DB_USERNAME}}
