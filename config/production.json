@@ -11,7 +11,7 @@
       "jwt_secret": "aisfhqiuwhfkjasf124iojlkq1124qsd456ysgsg33fw32"
     },
     "server": {
-      "host": "localhost",
+      "host": "https://mytrellomy.herokuapp.com",
       "port": 5000
     }
   }
