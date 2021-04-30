@@ -8,3 +8,5 @@ DB_USERNAME=<your db username>
 DB_PASSWORD=<your db password>
 JWT_SECRET=<yout jwt secret key>
 `
+Than run:
+`npm install && npm build && npm run dev`
