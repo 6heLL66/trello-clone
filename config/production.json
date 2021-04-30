@@ -1,14 +1,8 @@
 {
   "Customer": {
     "db": {
-      "host": "eu-cdbr-west-01.cleardb.com",
       "dialect": "mysql",
-      "name": "heroku_2bb6104038c8225",
-      "username": "b67850be7cd210",
-      "password": "339eab11"
-    },
-    "tokens": {
-      "jwt_secret": "aisfhqiuwhfkjasf124iojlkq1124qsd456ysgsg33fw32"
+      "name": "heroku_2bb6104038c8225"
     },
     "server": {
       "host": "0.0.0.0",

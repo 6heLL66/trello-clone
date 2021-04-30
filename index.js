@@ -4,6 +4,9 @@ const config = require('config')
 const Path = require('path')
 
 
+
+
+
 const server = Hapi.server({
   port: process.env.PORT || config.get('Customer.server.port'),
   host: config.get('Customer.server.host'),
