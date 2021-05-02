@@ -9,7 +9,7 @@ module.exports = function isAuth(req) {
         ? req.payload.token
         : req.query.token
     console.log(token)
-    let decoded = jwt.verify(token, config.get('Customer.tokens.jwt_secret'))
+    let decoded = jwt.verify(token, process.env.JWT_SECRET)
     return { ...req.payload, senderName: decoded.username, userId: decoded.id }
   } catch (e) {
     return Boom.badRequest('invalid token')
