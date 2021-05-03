@@ -4,12 +4,12 @@
   "description": "edu project",
   "main": "index.js",
   "scripts": {
-    "start": "set NODE_ENV=production&& node index.js",
+    "start": "set NODE_ENV=production&& node index.js --prefix server",
     "client": "npm start --prefix client",
     "client:build": "npm run build --prefix client",
     "client:install": "npm install --prefix client",
     "build": "npm run client:install && npm run client:build",
-    "server": "nodemon index.js",
+    "server": "nodemon index.js --prefix server",
     "dev": "concurrently \"npm run client\" \"npm run server\"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

@@ -1,6 +1,6 @@
 const Hapi = require('@hapi/hapi')
 require('dotenv').config()
-const db = require('./dbConfig/index.js')
+const db = require('./server/dbConfig')
 const config = require('config')
 const Path = require('path')
 
@@ -16,10 +16,10 @@ const server = Hapi.server({
   }
 })
 
-server.route(require('./routes/auth.routes'))
-server.route(require('./routes/board.routes'))
-server.route(require('./routes/list.routes'))
-server.route(require('./routes/item.routes'))
+server.route(require('./server/routes/auth.routes'))
+server.route(require('./server/routes/board.routes'))
+server.route(require('./server/routes/list.routes'))
+server.route(require('./server/routes/item.routes'))
 
 const init = async () => {
   try {

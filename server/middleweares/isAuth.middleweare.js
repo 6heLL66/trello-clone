@@ -1,5 +1,4 @@
 const jwt = require('jsonwebtoken')
-const config = require('config')
 const Boom = require('@hapi/boom')
 
 module.exports = function isAuth(req) {

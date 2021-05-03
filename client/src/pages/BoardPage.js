@@ -51,12 +51,13 @@ function BoardPage() {
     return (
       <Container fluid>
         <Row className="board-name ml-5">
-          <Icon.ArrowLeft className='back' onClick={() => window.location = '/'} />
+          <Icon.ArrowLeft
+            className="back"
+            onClick={() => (window.location = '/')}
+          />
           <div>
             <strong>Board </strong>
-            <span style={{ color: colors[board.color] }}>
-              {board.name}
-            </span>
+            <span style={{ color: colors[board.color] }}>{board.name}</span>
           </div>
         </Row>
         <ListsContainer

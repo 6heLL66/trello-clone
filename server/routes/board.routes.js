@@ -2,7 +2,7 @@ const getUniqueId = require('../helpers/getUniqueId')
 
 const isAuth = require('../middleweares/isAuth.middleweare')
 const Boom = require('@hapi/boom')
-const sequelize = require('../dbConfig/index').sequelize
+const sequelize = require('../dbConfig').sequelize
 
 const createBoard = {
   method: 'PUT',

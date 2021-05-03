@@ -1,5 +1,5 @@
 const Boom = require('@hapi/boom')
-const sequelize = require('../dbConfig/index').sequelize
+const sequelize = require('../dbConfig').sequelize
 const isAuth = require('../middleweares/isAuth.middleweare')
 const getUniqueId = require('../helpers/getUniqueId')
 

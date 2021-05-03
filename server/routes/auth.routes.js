@@ -1,8 +1,7 @@
-const sequelize = require('../dbConfig/index').sequelize
+const sequelize = require('../dbConfig').sequelize
 const Joi = require('joi')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
-const config = require('config')
 const Boom = require('@hapi/boom')
 const isAuth = require('../middleweares/isAuth.middleweare')
 
