@@ -3,6 +3,7 @@ import { Container, Row } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import { colors } from '../constants/colors'
 import { useParams } from 'react-router-dom'
+import * as Icon from 'react-bootstrap-icons'
 import {
   delete_list,
   get_board,
@@ -15,12 +16,15 @@ import ReactLoading from 'react-loading'
 
 function BoardPage() {
   const { id } = useParams()
+
   const board = useSelector((state) => state.boards.currentBoard)
   const token = useSelector((state) => state.auth.token)
   const loading = useSelector((state) => state.loading)
+
   const lists = useSelector((state) => state.lists.lists).filter((e) => {
     return e.parentId === Number(id)
   })
+
   const items = useSelector((state) => state.items.items)
   const dispatch = useDispatch()
 
@@ -46,9 +50,13 @@ function BoardPage() {
   if (board) {
     return (
       <Container fluid>
-        <Row className="w-50 ml-5">
-          <div className="border-name" style={{ color: colors[board.color] }}>
-            <strong>Board</strong> {board.name}
+        <Row className="board-name ml-5">
+          <Icon.ArrowLeft className='back' onClick={() => window.location = '/'} />
+          <div>
+            <strong>Board </strong>
+            <span style={{ color: colors[board.color] }}>
+              {board.name}
+            </span>
           </div>
         </Row>
         <ListsContainer

@@ -113,3 +113,17 @@
   margin-top: 10px;
   padding-left: 17px;
 }
+
+@media screen and (max-width: 1000px) {
+  .board-button {
+    width: 47%;
+    margin: 10px 1%;
+  }
+}
+
+@media screen and (max-width: 440px) {
+  .board-button {
+    width: 100%;
+    margin: 10px;
+  }
+}
