@@ -1,9 +1,11 @@
-import '../styles/BoardPage.css'
 import { Container, Row } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
-import { colors } from '../constants/colors'
+import { useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import * as Icon from 'react-bootstrap-icons'
+import ReactLoading from 'react-loading'
+
+import '../styles/BoardPage.css'
 import {
   delete_list,
   get_board,
@@ -11,8 +13,8 @@ import {
 } from '../redux/actions/actionCreators'
 import createListTemplate from '../helpers/createListTemplate'
 import ListsContainer from '../components/ListsContainer'
-import { useEffect } from 'react'
-import ReactLoading from 'react-loading'
+import { colors } from '../constants/colors'
+
 
 function BoardPage() {
   const { id } = useParams()

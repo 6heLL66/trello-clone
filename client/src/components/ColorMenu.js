@@ -1,4 +1,5 @@
 import { Row } from 'react-bootstrap'
+import { colorNames } from '../constants/colors'
 
 function ColorMenu({ changeColor, blocked }) {
   const click = (e, color) => {
@@ -11,21 +12,21 @@ function ColorMenu({ changeColor, blocked }) {
     <Row className="colors">
       <div
         className={`color-box col-1 ${blocked && 'disabled'}`}
-        onClick={(e) => click(e, 'pink')}
+        onClick={(e) => click(e, colorNames.pink)}
       >
-        <div className="color pink" />
+        <div className={`color ${colorNames.pink}`} />
       </div>
       <div
         className={`color-box col-1 ${blocked && 'disabled'}`}
-        onClick={(e) => click(e, 'blue')}
+        onClick={(e) => click(e, colorNames.blue)}
       >
-        <div className="color blue" />
+        <div className={`color ${colorNames.blue}`} />
       </div>
       <div
         className={`color-box col-1 ${blocked && 'disabled'}`}
-        onClick={(e) => click(e, 'yellow')}
+        onClick={(e) => click(e, colorNames.yellow)}
       >
-        <div className="color yellow" />
+        <div className={`color ${colorNames.yellow}`} />
       </div>
     </Row>
   )

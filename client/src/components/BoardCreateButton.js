@@ -1,8 +1,9 @@
 import { useState } from 'react'
 import * as Icon from 'react-bootstrap-icons'
 import { Button, Row } from 'react-bootstrap'
-import createBoardTemplate from '../helpers/createBoardTemplate'
 import ReactLoading from 'react-loading'
+
+import createBoardTemplate from '../helpers/createBoardTemplate'
 
 function BoardCreateButton({ onClick, isOpen, setIsOpen, loading }) {
   const [name, setName] = useState('')

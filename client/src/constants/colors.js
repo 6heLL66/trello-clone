@@ -3,3 +3,9 @@ export const colors = {
   blue: '#5050c0',
   yellow: '#c5c553'
 }
+
+export const colorNames = {
+  pink: 'pink',
+  blue: 'blue',
+  yellow: 'yellow'
+}

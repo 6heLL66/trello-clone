@@ -1,6 +1,9 @@
 import { Container, Row } from 'react-bootstrap'
-import BoardCreateButton from '../components/BoardCreateButton'
 import { useDispatch, useSelector } from 'react-redux'
+import { useEffect, useState } from 'react'
+import { Redirect } from 'react-router-dom'
+import ReactLoading from 'react-loading'
+
 import {
   delete_board,
   fetch_boards,
@@ -10,9 +13,8 @@ import {
 } from '../redux/actions/actionCreators'
 import BoardButton from '../components/BoardButton'
 import validateName from '../helpers/validateName'
-import { useEffect, useState } from 'react'
-import { Redirect } from 'react-router-dom'
-import ReactLoading from 'react-loading'
+import BoardCreateButton from '../components/BoardCreateButton'
+
 
 function BoardsList() {
   const boards = useSelector((state) => state.boards.boards)

@@ -1,7 +1,8 @@
 import { Container, Row } from 'react-bootstrap'
-import CustomForm from '../components/Form'
 import { login } from '../redux/actions/actionCreators'
 import { useDispatch, useSelector } from 'react-redux'
+
+import CustomForm from '../components/Form'
 
 const formProps = {
   header: 'Sign In',

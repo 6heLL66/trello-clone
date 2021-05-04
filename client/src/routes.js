@@ -1,4 +1,5 @@
 import { Redirect, Route, Switch } from 'react-router-dom'
+
 import BoardsPage from './pages/BoardsPage'
 import BoardPage from './pages/BoardPage'
 import LoginPage from './pages/LoginPage'

@@ -1,10 +1,11 @@
 import { Row } from 'react-bootstrap'
-import List from './List'
-import ListCreateButton from './ListCreateButton'
 import { DragDropContext, Droppable } from 'react-beautiful-dnd'
 import { useDispatch, useSelector } from 'react-redux'
-import { put_items, put_lists } from '../redux/actions/actionCreators'
+
+import List from './List'
+import ListCreateButton from './ListCreateButton'
 import getLayoutAfterDrag from '../helpers/getLayoutAfterDrag'
+import { put_items, put_lists } from '../redux/actions/actionCreators'
 
 function ListsContainer({
   closeClick,

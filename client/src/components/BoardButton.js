@@ -1,9 +1,10 @@
 import * as Icon from 'react-bootstrap-icons'
 import { Row } from 'react-bootstrap'
-import ColorMenu from './ColorMenu'
 import { useState } from 'react'
-import { colors } from '../constants/colors'
 import ReactLoading from 'react-loading'
+
+import ColorMenu from './ColorMenu'
+import { colors } from '../constants/colors'
 
 function BoardButton({
   board,

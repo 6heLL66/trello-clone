@@ -1,12 +1,13 @@
 import { BrowserRouter } from 'react-router-dom'
 import { Button, Row } from 'react-bootstrap'
-import logo from '../images/logo.png'
 import { useDispatch, useSelector } from 'react-redux'
-import Alert from '../components/Alert'
-import '../styles/App.css'
-import { auth, setAuth, unsetAlert } from '../redux/actions/actionCreators'
 import { useEffect } from 'react'
 import { useRoutes } from '../routes'
+
+import '../styles/App.css'
+import logo from '../images/logo.png'
+import { auth, setAuth, unsetAlert } from '../redux/actions/actionCreators'
+import Alert from '../components/Alert'
 
 function App() {
   const alert = useSelector((state) => state.alerts.alert)

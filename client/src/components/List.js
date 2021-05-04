@@ -1,18 +1,20 @@
 import { Card, ListGroup, Row } from 'react-bootstrap'
-import ListItem from './ListItem'
 import { useMemo, useState } from 'react'
 import * as Icon from 'react-bootstrap-icons'
+import { useDispatch, useSelector } from 'react-redux'
+import { Draggable, Droppable } from 'react-beautiful-dnd'
+import ReactLoading from 'react-loading'
+
 import {
   delete_item,
   put_items,
   put_lists,
   setAlert
 } from '../redux/actions/actionCreators'
-import { useDispatch, useSelector } from 'react-redux'
-import createItemTemplate from '../helpers/createItemTemplate'
+import ListItem from './ListItem'
 import validateName from '../helpers/validateName'
-import { Draggable, Droppable } from 'react-beautiful-dnd'
-import ReactLoading from 'react-loading'
+import createItemTemplate from '../helpers/createItemTemplate'
+
 
 function List({ list, closeClick, items }) {
   const [listName, setListName] = useState('')

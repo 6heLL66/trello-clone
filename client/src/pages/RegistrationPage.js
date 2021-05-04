@@ -1,10 +1,11 @@
 import { Container, Row } from 'react-bootstrap'
 import CustomForm from '../components/Form'
 import { useDispatch, useSelector } from 'react-redux'
+import { Redirect } from 'react-router-dom'
+
+import { registerSuccess } from '../constants/alerts'
 import { register, setAlert, setError } from '../redux/actions/actionCreators'
 import registerValidation from '../helpers/registerValidation'
-import { Redirect } from 'react-router-dom'
-import { registerSuccess } from '../constants/alerts'
 
 const formProps = {
   header: 'Sign Up',
