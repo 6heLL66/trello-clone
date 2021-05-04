@@ -15,6 +15,7 @@ import {
   UPDATE_LISTS
 } from './actionTypes'
 import makeRequest from '../../helpers/makeRequest'
+import { boardCreatedAlert, boardDeletedAlert, customAlert, registerSuccess } from '../../constants/alerts'
 
 export function putBoard(board) {
   return {
@@ -149,9 +150,10 @@ export function register(username, password) {
         username,
         password
       },
-      (data) => {
+      () => {
         dispatch(setRegStatus('success'))
         dispatch(setError(null))
+        dispatch(setAlert(registerSuccess))
       },
       (data) => {
         dispatch(setRegStatus('failed'))
@@ -193,7 +195,7 @@ export function fetch_boards(id) {
         dispatch(setBoards(data))
       },
       (data) => {
-        console.log(data.error)
+        dispatch(customAlert(data.error, 'Error'))
       }
     )
     dispatch(setLoading(false, 'loadData', 0))
@@ -215,9 +217,10 @@ export function put_board(board, token) {
       },
       (data) => {
         dispatch(putBoard(data))
+        if (!board.id) dispatch(setAlert(boardCreatedAlert))
       },
       (data) => {
-        console.log(data.error)
+        dispatch(customAlert(data.error, 'Error'))
       }
     )
     dispatch(setLoading(false, 'create', 0))
@@ -233,10 +236,11 @@ export function delete_board(id, token) {
       'DELETE',
       null,
       (data) => {
+        dispatch(setAlert(boardDeletedAlert))
         dispatch(deleteBoard(id))
       },
       (data) => {
-        console.log(data.error)
+        dispatch(customAlert(data.error, 'Error'))
       }
     )
     dispatch(setLoading('', 'delete', 0))
@@ -256,7 +260,7 @@ export function get_board(id) {
         dispatch(updateItems(data.items))
       },
       (data) => {
-        console.log(data.error)
+        dispatch(customAlert(data.error, 'Error'))
       }
     )
     dispatch(setLoading(false, 'loadData', 1))
@@ -280,7 +284,7 @@ export function put_lists(data, token, ownerId, id, noupdate) {
         if (!noupdate) dispatch(updateLists(data))
       },
       (data) => {
-        console.log(data.error)
+        dispatch(customAlert(data.error, 'Error'))
       }
     )
     dispatch(setLoading(false, 'create', 1))
@@ -298,7 +302,7 @@ export function delete_list(id, token) {
         dispatch(deleteList(id))
       },
       (data) => {
-        console.log(data.error)
+        dispatch(customAlert(data.error, 'Error'))
       }
     )
     dispatch(setLoading('', 'delete', 1))
@@ -321,7 +325,7 @@ export function put_items(data, token, ownerId, noupdate) {
         if (!noupdate) dispatch(updateItems(data))
       },
       (data) => {
-        console.log(data.error)
+        dispatch(customAlert(data.error, 'Error'))
       }
     )
     dispatch(setLoading(false, 'create', 2))
@@ -339,7 +343,7 @@ export function delete_item(id, token) {
         dispatch(deleteItem(id))
       },
       (data) => {
-        console.log(data.error)
+        dispatch(customAlert(data.error, 'Error'))
       }
     )
     dispatch(setLoading('', 'delete', 2))

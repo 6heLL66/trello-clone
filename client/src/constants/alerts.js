@@ -8,29 +8,21 @@ export const uniqueNameAlert = {
   type: 'Error'
 }
 
-export const boardPropsChangedAlert = {
-  message: 'Board props had been changed',
-  type: 'Success'
-}
-
 export const boardCreatedAlert = {
   message: 'Board was successfully created',
   type: 'Success'
 }
 
-export const listCreatedAlert = {
-  message: 'List was successfully created',
+export const boardDeletedAlert = {
+  message: 'Board was successfully deleted',
   type: 'Success'
 }
 
-export const listChangedAlert = {
-  message: 'List was successfully changed',
-  type: 'Success'
-}
-
-export const listDeletedAlert = {
-  message: 'List was successfully deleted',
-  type: 'Success'
+export const customAlert = (message, type) => {
+  return {
+    message,
+    type
+  }
 }
 
 export const registerSuccess = {
