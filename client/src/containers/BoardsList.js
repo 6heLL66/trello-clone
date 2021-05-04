@@ -67,7 +67,7 @@ function BoardsList() {
           setIsOpen={setIsOpen}
           loading={loading.create[0]}
         />
-        {!loading.boards ? (
+        {!loading.loadData[0] ? (
           boards.map((e, i) => {
             return (
               <BoardButton
