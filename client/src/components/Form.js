@@ -43,7 +43,7 @@ export default function CustomForm({
     return items
   }, [fields, handleInputs])
 
-  if (redirect) return <Redirect to={redirect} />
+  if (redirect) return <Redirect push to={redirect} />
 
   return (
     <Form className={'form mt-3'}>
