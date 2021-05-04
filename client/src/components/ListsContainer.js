@@ -50,8 +50,6 @@ function ListsContainer({
     }
   }
 
-  console.log(lists)
-
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       <Droppable droppableId="container" direction="horizontal" type="LIST">
