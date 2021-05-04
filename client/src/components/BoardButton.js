@@ -1,6 +1,6 @@
 import * as Icon from 'react-bootstrap-icons'
 import { Row } from 'react-bootstrap'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import ReactLoading from 'react-loading'
 
 import ColorMenu from './ColorMenu'
@@ -16,6 +16,12 @@ function BoardButton({
 }) {
   const [opacity, setOpacity] = useState(0)
   const [timeIndex, setTimeIndex] = useState(null)
+
+  useEffect(() => {
+      return () => {
+        if (timeIndex) clearTimeout(timeIndex)
+      }
+  }, [timeIndex])
 
   const crossHandler = (e) => {
     e.stopPropagation()

@@ -1,7 +1,7 @@
 import { Container, Row } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
-import { useEffect } from 'react'
-import { useParams } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import { Redirect, useParams } from 'react-router-dom'
 import * as Icon from 'react-bootstrap-icons'
 import ReactLoading from 'react-loading'
 
@@ -30,9 +30,11 @@ function BoardPage() {
   const items = useSelector((state) => state.items.items)
   const dispatch = useDispatch()
 
+  const [redirect, setRedirect] = useState('')
+
   useEffect(() => {
-    dispatch(get_board(id))
-  }, [dispatch, id])
+    if (!board || board.id !== Number(id)) dispatch(get_board(id))
+  }, [dispatch, id, board])
 
   const createList = () => {
     dispatch(
@@ -49,13 +51,17 @@ function BoardPage() {
     dispatch(delete_list(id, token))
   }
 
-  if (board) {
+  if (redirect) return <Redirect push to="/" />
+
+  if (board && board.id === Number(id)) {
     return (
       <Container fluid>
         <Row className="board-name ml-5">
           <Icon.ArrowLeft
             className="back"
-            onClick={() => (window.location = '/')}
+            onClick={() => {
+              setRedirect('/')
+            }}
           />
           <div>
             <strong>Board </strong>
@@ -75,7 +81,7 @@ function BoardPage() {
   } else if (!loading.loadData[1]) {
     return (
       <Row className="justify-content-center w-100">
-        <div className="border-error">Border did not chosen</div>
+        <div className="border-error">Board did not found</div>
       </Row>
     )
   } else {

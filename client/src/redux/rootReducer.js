@@ -17,7 +17,7 @@ import {
 import { combineReducers } from 'redux'
 
 const boardState = {
-  boards: [],
+  boards: null,
   currentBoard: null
 }
 

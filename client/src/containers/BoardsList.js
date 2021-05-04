@@ -29,8 +29,8 @@ function BoardsList() {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    if (userId !== undefined) dispatch(fetch_boards(userId))
-  }, [userId, dispatch])
+    if (userId !== undefined && !boards) dispatch(fetch_boards(userId))
+  }, [userId, dispatch, boards])
 
   useEffect(() => {
     setIsOpen(false)
@@ -56,7 +56,7 @@ function BoardsList() {
     dispatch(put_board({ ...board }, token))
   }
 
-  if (redirect) return <Redirect to={redirect} />
+  if (redirect) return <Redirect push to={redirect} />
 
   return (
     <Container className={'mt-5'}>
@@ -67,7 +67,7 @@ function BoardsList() {
           setIsOpen={setIsOpen}
           loading={loading.create[0]}
         />
-        {!loading.loadData[0] ? (
+        {!loading.loadData[0] && boards ? (
           boards.map((e, i) => {
             return (
               <BoardButton
