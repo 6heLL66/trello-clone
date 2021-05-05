@@ -15,7 +15,12 @@ import {
   UPDATE_LISTS
 } from './actionTypes'
 import makeRequest from '../../helpers/makeRequest'
-import { boardCreatedAlert, boardDeletedAlert, customAlert, registerSuccess } from '../../constants/alerts'
+import {
+  boardCreatedAlert,
+  boardDeletedAlert,
+  customAlert,
+  registerSuccess
+} from '../../constants/alerts'
 
 export function putBoard(board) {
   return {

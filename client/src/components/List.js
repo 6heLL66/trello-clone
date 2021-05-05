@@ -15,7 +15,6 @@ import ListItem from './ListItem'
 import validateName from '../helpers/validateName'
 import createItemTemplate from '../helpers/createItemTemplate'
 
-
 function List({ list, closeClick, items }) {
   const [listName, setListName] = useState('')
   const [taskName, setTaskName] = useState('')

@@ -27,8 +27,8 @@ function App() {
   }
 
   const logout = () => {
-    dispatch(setAuth({}))
     localStorage.setItem('auth', JSON.stringify({}))
+    window.location = '/login'
   }
 
   return (

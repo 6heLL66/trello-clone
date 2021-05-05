@@ -18,9 +18,9 @@ function BoardButton({
   const [timeIndex, setTimeIndex] = useState(null)
 
   useEffect(() => {
-      return () => {
-        if (timeIndex) clearTimeout(timeIndex)
-      }
+    return () => {
+      if (timeIndex) clearTimeout(timeIndex)
+    }
   }, [timeIndex])
 
   const crossHandler = (e) => {

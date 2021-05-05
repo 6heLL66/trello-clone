@@ -15,7 +15,6 @@ import BoardButton from '../components/BoardButton'
 import validateName from '../helpers/validateName'
 import BoardCreateButton from '../components/BoardCreateButton'
 
-
 function BoardsList() {
   const boards = useSelector((state) => state.boards.boards)
   const userId = useSelector((state) => state.auth.userId)

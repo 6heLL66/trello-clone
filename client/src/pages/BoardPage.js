@@ -15,7 +15,6 @@ import createListTemplate from '../helpers/createListTemplate'
 import ListsContainer from '../components/ListsContainer'
 import { colors } from '../constants/colors'
 
-
 function BoardPage() {
   const { id } = useParams()
 
