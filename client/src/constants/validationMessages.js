@@ -4,7 +4,7 @@ export const shortUsername = 'Username is too short.'
 
 export const longUsername = 'Username is too long.'
 
-export const shortPassword =  'Password is too short.'
+export const shortPassword = 'Password is too short.'
 
 export const longPassword = 'Password is too long.'
 

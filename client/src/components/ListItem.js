@@ -3,7 +3,11 @@ import * as Icon from 'react-bootstrap-icons'
 import { Draggable } from 'react-beautiful-dnd'
 import ReactLoading from 'react-loading'
 
-import { dragAndDropTypes, loadingColor, loadingSizes } from '../constants/values'
+import {
+  dragAndDropTypes,
+  loadingColor,
+  loadingSizes
+} from '../constants/values'
 
 function ListItem({ item, closeItem, change, index, loading }) {
   const handleCheckbox = () => {
@@ -11,11 +15,15 @@ function ListItem({ item, closeItem, change, index, loading }) {
   }
 
   return (
-    <Draggable index={Number(index)} draggableId={String(item.id)} type={dragAndDropTypes.task}>
+    <Draggable
+      index={Number(index)}
+      draggableId={String(item.id)}
+      type={dragAndDropTypes.task}
+    >
       {(provided) => (
         <Row
           className={`list-item p-2 my-2 justify-content-between ${
-            item.isDone ? 'done' : ''
+            item.isDone && 'done'
           }`}
           ref={provided.innerRef}
           {...provided.draggableProps}

@@ -33,7 +33,7 @@ export const loadingTypes = {
   auth: 'auth',
   create: 'create',
   delete: 'delete',
-  colors: "colors"
+  colors: 'colors'
 }
 
 export const dragAndDropTypes = {
@@ -42,3 +42,5 @@ export const dragAndDropTypes = {
 }
 
 export const dragType = 'DROP'
+
+export const listIdPrefix = 'dragList'
