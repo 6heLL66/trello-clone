@@ -11,7 +11,9 @@ export default async function makeRequest(
       'Content-Type': 'application/json'
     }
   }
-  if (body) request.body = JSON.stringify(body)
+  if (body) {
+    request.body = JSON.stringify(body)
+  }
   const response = await fetch(url, request)
   if (response.ok) {
     onsuccess(await response.json())

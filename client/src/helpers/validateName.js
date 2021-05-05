@@ -7,10 +7,14 @@ function validateName(name, boards, min = 4, max = 16) {
 
   let isUnique = true
   boards.forEach((e) => {
-    if (e.name === name) isUnique = false
+    if (e.name === name) {
+      isUnique = false
+    }
   })
 
-  if (!isUnique) return uniqueNameAlert
+  if (!isUnique) {
+    return uniqueNameAlert
+  }
 }
 
 export default validateName

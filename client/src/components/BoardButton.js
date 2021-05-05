@@ -50,7 +50,9 @@ function BoardButton({
   }
 
   const startAnimation = (type) => {
-    if (timeIndex) clearTimeout(timeIndex)
+    if (timeIndex) {
+      clearTimeout(timeIndex)
+    }
     setTimeIndex(
       setTimeout(
         animate,

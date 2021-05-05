@@ -222,7 +222,9 @@ export function put_board(board, token) {
       },
       (data) => {
         dispatch(putBoard(data))
-        if (!board.id) dispatch(setAlert(boardCreatedAlert))
+        if (!board.id) {
+          dispatch(setAlert(boardCreatedAlert))
+        }
       },
       (data) => {
         dispatch(customAlert(data.error, 'Error'))
@@ -274,8 +276,12 @@ export function get_board(id) {
 
 export function put_lists(data, token, ownerId, id, noupdate) {
   return async (dispatch) => {
-    if (noupdate) dispatch(updateLists(data))
-    else dispatch(setLoading(true, 'create', 1))
+    if (noupdate) {
+      dispatch(updateLists(data))
+    }
+    else {
+      dispatch(setLoading(true, 'create', 1))
+    }
     await makeRequest(
       `/api/lists/put`,
       'PUT',
@@ -286,7 +292,9 @@ export function put_lists(data, token, ownerId, id, noupdate) {
         token
       },
       (data) => {
-        if (!noupdate) dispatch(updateLists(data))
+        if (!noupdate) {
+          dispatch(updateLists(data))
+        }
       },
       (data) => {
         dispatch(customAlert(data.error, 'Error'))
@@ -316,8 +324,12 @@ export function delete_list(id, token) {
 
 export function put_items(data, token, ownerId, noupdate) {
   return async (dispatch) => {
-    if (noupdate) dispatch(updateItems(data))
-    else dispatch(setLoading(data[0].parentId, 'create', 2))
+    if (noupdate) {
+      dispatch(updateItems(data))
+    }
+    else {
+      dispatch(setLoading(data[0].parentId, 'create', 2))
+    }
     await makeRequest(
       `/api/items/put`,
       'PUT',
@@ -327,7 +339,9 @@ export function put_items(data, token, ownerId, noupdate) {
         token
       },
       (data) => {
-        if (!noupdate) dispatch(updateItems(data))
+        if (!noupdate) {
+          dispatch(updateItems(data))
+        }
       },
       (data) => {
         dispatch(customAlert(data.error, 'Error'))

@@ -1,18 +1,22 @@
 function setIndexesSimple(subjects, sourceIndex, destinationIndex, id) {
   return subjects.map((e) => {
-    if (String(e.id) === id) return { ...e, ind: destinationIndex }
+    if (String(e.id) === id) {
+      return { ...e, ind: destinationIndex }
+    }
     if (
       sourceIndex < destinationIndex &&
       e.ind >= sourceIndex &&
       e.ind <= destinationIndex
-    )
+    ) {
       return { ...e, ind: e.ind - 1 }
+    }
     if (
       sourceIndex > destinationIndex &&
       e.ind <= sourceIndex &&
       e.ind >= destinationIndex
-    )
+    ) {
       return { ...e, ind: e.ind + 1 }
+    }
     return e
   })
 }
@@ -26,12 +30,15 @@ function setIndexesHard(
   srsDropId
 ) {
   return subjects.map((e) => {
-    if (String(e.id) === dragId)
+    if (String(e.id) === dragId) {
       return { ...e, parentId: Number(dstDropId), ind: destinationIndex }
-    if (String(e.parentId) === dstDropId && e.ind >= destinationIndex)
+    }
+    if (String(e.parentId) === dstDropId && e.ind >= destinationIndex) {
       return { ...e, ind: e.ind + 1 }
-    if (String(e.parentId) === srsDropId && e.ind >= sourceIndex)
+    }
+    if (String(e.parentId) === srsDropId && e.ind >= sourceIndex) {
       return { ...e, ind: e.ind - 1 }
+    }
     return e
   })
 }

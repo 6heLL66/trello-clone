@@ -21,7 +21,9 @@ function ListsContainer({
 
   const onDragEnd = (info) => {
     const { reason, destination, draggableId, source } = info
-    if (reason !== 'DROP' || !destination) return
+    if (reason !== 'DROP' || !destination) {
+      return
+    }
     if (draggableId.split('-')[0] === 'dragList') {
       dispatch(
         put_lists(
