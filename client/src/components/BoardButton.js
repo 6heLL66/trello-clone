@@ -5,6 +5,7 @@ import ReactLoading from 'react-loading'
 
 import ColorMenu from './ColorMenu'
 import { colors } from '../constants/colors'
+import { animBorder, animInterval, loadingColor } from '../constants/values'
 
 function BoardButton({
   board,
@@ -19,7 +20,9 @@ function BoardButton({
 
   useEffect(() => {
     return () => {
-      if (timeIndex) clearTimeout(timeIndex)
+      if (timeIndex) {
+        clearTimeout(timeIndex)
+      }
     }
   }, [timeIndex])
 
@@ -43,12 +46,19 @@ function BoardButton({
       return
     }
     setOpacity(value)
-    setTimeIndex(setTimeout(animate, 20, value, diff))
+    setTimeIndex(setTimeout(animate, animInterval, value, diff))
   }
 
   const startAnimation = (type) => {
     if (timeIndex) clearTimeout(timeIndex)
-    setTimeIndex(setTimeout(animate, 20, opacity, type === 'show' ? 0.1 : -0.1))
+    setTimeIndex(
+      setTimeout(
+        animate,
+        animInterval,
+        opacity,
+        type === 'show' ? animBorder : -animBorder
+      )
+    )
   }
 
   return (
@@ -73,7 +83,7 @@ function BoardButton({
           <ReactLoading
             type="spin"
             className="mr-2 mb-2"
-            color={'rgba(0, 0, 0, 0.4)'}
+            color={loadingColor}
             height={20}
             width={20}
           />

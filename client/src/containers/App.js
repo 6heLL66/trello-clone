@@ -19,7 +19,10 @@ function App() {
     const token =
       !!JSON.parse(localStorage.getItem('auth')) &&
       JSON.parse(localStorage.getItem('auth')).token
-    if (token) dispatch(auth(token))
+
+    if (token) {
+      dispatch(auth(token))
+    }
   }, [dispatch])
 
   const clearAlert = () => {

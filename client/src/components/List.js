@@ -14,6 +14,7 @@ import {
 import ListItem from './ListItem'
 import validateName from '../helpers/validateName'
 import createItemTemplate from '../helpers/createItemTemplate'
+import { loadingColor } from '../constants/values'
 
 function List({ list, closeClick, items }) {
   const [listName, setListName] = useState('')
@@ -92,7 +93,7 @@ function List({ list, closeClick, items }) {
                 ) : (
                   <ReactLoading
                     type="spin"
-                    color={'rgba(0, 0, 0, 0.4)'}
+                    color={loadingColor}
                     height={20}
                     width={20}
                   />
@@ -109,7 +110,7 @@ function List({ list, closeClick, items }) {
                 ) : (
                   <ReactLoading
                     type="spin"
-                    color={'rgba(0, 0, 0, 0.4)'}
+                    color={loadingColor}
                     height={20}
                     width={20}
                   />
@@ -132,7 +133,7 @@ function List({ list, closeClick, items }) {
                 <ReactLoading
                   type="spin"
                   className="ml-1"
-                  color={'rgba(0, 0, 0, 0.4)'}
+                  color={loadingColor}
                   height={25}
                   width={25}
                 />

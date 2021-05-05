@@ -1,11 +1,14 @@
 import { Row } from 'react-bootstrap'
+
 import { colorNames } from '../constants/colors'
 
 function ColorMenu({ changeColor, blocked }) {
   const click = (e, color) => {
     if (!blocked) {
       changeColor(e, color)
-    } else e.stopPropagation()
+    } else {
+      e.stopPropagation()
+    }
   }
 
   return (

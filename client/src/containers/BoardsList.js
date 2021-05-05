@@ -14,6 +14,7 @@ import {
 import BoardButton from '../components/BoardButton'
 import validateName from '../helpers/validateName'
 import BoardCreateButton from '../components/BoardCreateButton'
+import { loadingColor } from '../constants/values'
 
 function BoardsList() {
   const boards = useSelector((state) => state.boards.boards)
@@ -28,7 +29,9 @@ function BoardsList() {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    if (userId !== undefined && !boards) dispatch(fetch_boards(userId))
+    if (userId !== undefined && !boards) {
+      dispatch(fetch_boards(userId))
+    }
   }, [userId, dispatch, boards])
 
   useEffect(() => {
@@ -37,7 +40,9 @@ function BoardsList() {
 
   const handleCreateClick = (board) => {
     let alert = validateName(board.name, boards)
-    if (alert) return dispatch(setAlert(alert))
+    if (alert) {
+      return dispatch(setAlert(alert))
+    }
 
     dispatch(put_board(board, token))
   }
@@ -55,7 +60,9 @@ function BoardsList() {
     dispatch(put_board({ ...board }, token))
   }
 
-  if (redirect) return <Redirect push to={redirect} />
+  if (redirect) {
+    return <Redirect push to={redirect} />
+  }
 
   return (
     <Container className={'mt-5'}>
@@ -85,7 +92,7 @@ function BoardsList() {
             <ReactLoading
               type="spin"
               className="ml-5 my-auto"
-              color={'rgba(0, 0, 0, 0.5)'}
+              color={loadingColor}
               height={100}
               width={100}
             />

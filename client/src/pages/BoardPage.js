@@ -14,6 +14,7 @@ import {
 import createListTemplate from '../helpers/createListTemplate'
 import ListsContainer from '../components/ListsContainer'
 import { colors } from '../constants/colors'
+import { loadingColor } from '../constants/values'
 
 function BoardPage() {
   const { id } = useParams()
@@ -32,7 +33,9 @@ function BoardPage() {
   const [redirect, setRedirect] = useState('')
 
   useEffect(() => {
-    if (!board || board.id !== Number(id)) dispatch(get_board(id))
+    if (!board || board.id !== Number(id)) {
+      dispatch(get_board(id))
+    }
   }, [dispatch, id, board])
 
   const createList = () => {
@@ -50,7 +53,9 @@ function BoardPage() {
     dispatch(delete_list(id, token))
   }
 
-  if (redirect) return <Redirect push to="/" />
+  if (redirect) {
+    return <Redirect push to="/" />
+  }
 
   if (board && board.id === Number(id)) {
     return (
@@ -89,7 +94,7 @@ function BoardPage() {
         <ReactLoading
           type="spin"
           className="my-auto"
-          color={'rgba(0, 0, 0, 0.5)'}
+          color={loadingColor}
           height={100}
           width={100}
         />

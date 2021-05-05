@@ -1,5 +1,7 @@
 import { Toast } from 'react-bootstrap'
+
 import { colors } from '../constants/alerts'
+import { alertDelay } from '../constants/values'
 
 function Alert({ message, type, clearAlert }) {
   return (
@@ -7,8 +9,8 @@ function Alert({ message, type, clearAlert }) {
       style={{ background: colors[type] }}
       className="alert"
       onClose={clearAlert}
-      show={true}
-      delay={4000}
+      show
+      delay={alertDelay}
       autohide
     >
       <Toast.Header>

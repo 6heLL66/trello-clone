@@ -45,9 +45,9 @@ export default function RegistrationPage() {
   const handleSubmit = (e, fields) => {
     e.preventDefault()
     let validation = registerValidation(fields)
-    if (!validation)
+    if (!validation) {
       dispatch(register(fields.username.value, fields.password.value))
-    else {
+    } else {
       dispatch(setError(validation))
     }
   }
@@ -55,6 +55,7 @@ export default function RegistrationPage() {
     dispatch(setAlert(registerSuccess))
     return <Redirect to="/login" />
   }
+
   return (
     <Container>
       <Row className="justify-content-center">
