@@ -1,6 +1,8 @@
+import { colorNames } from '../constants/colors'
+
 export default function createBoardTemplate(name) {
   return {
     name,
-    color: 'pink'
+    color: colorNames.pink
   }
 }

@@ -8,6 +8,7 @@ import '../styles/App.css'
 import logo from '../images/logo.png'
 import { auth, unsetAlert } from '../redux/actions/actionCreators'
 import Alert from '../components/Alert'
+import { logoSize } from '../constants/values'
 
 function App() {
   const alert = useSelector((state) => state.alerts.alert)
@@ -42,8 +43,8 @@ function App() {
             className="logo"
             src={logo}
             alt="My logo"
-            width={40}
-            height={40}
+            width={logoSize.w}
+            height={logoSize.h}
           />
         </a>
         {isAuth && (

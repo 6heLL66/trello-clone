@@ -1,21 +1,30 @@
+import {
+  longPassword,
+  longUsername,
+  mismatchPassword,
+  notFilled,
+  shortPassword,
+  shortUsername
+} from '../constants/validationMessages'
+
 export default function registerValidation(fields) {
   if (Object.values(fields).find((e) => !e.value)) {
-    return 'Not all fields are filled in.'
+    return notFilled
   }
   if (fields.username.value.length < 3) {
-    return 'Username is too short.'
+    return shortUsername
   }
   if (fields.username.value.length > 16) {
-    return 'Username is too long.'
+    return longUsername
   }
   if (fields.password.value.length > 16) {
-    return 'Password is too long.'
+    return longPassword
   }
   if (fields.password.value.length < 6) {
-    return 'Password is too short.'
+    return shortPassword
   }
   if (fields.password.value !== fields.rpassword.value) {
-    return 'Password mismatch.'
+    return mismatchPassword
   }
   return false
 }

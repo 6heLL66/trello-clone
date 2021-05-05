@@ -17,3 +17,8 @@ export const loadingSizes = {
   medium: 50,
   big: 100
 }
+
+export const logoSize = {
+  w: 40,
+  h: 40
+}
