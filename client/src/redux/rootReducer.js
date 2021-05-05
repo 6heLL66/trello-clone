@@ -15,6 +15,7 @@ import {
   UPDATE_LISTS
 } from './actions/actionTypes'
 import { combineReducers } from 'redux'
+import { loadingTypes } from '../constants/values'
 
 const boardState = {
   boards: null,
@@ -40,8 +41,8 @@ const itemsState = {
 
 const authState = {
   isAuth:
-    !!JSON.parse(localStorage.getItem('auth')) &&
-    !!JSON.parse(localStorage.getItem('auth')).token,
+    !!JSON.parse(localStorage.getItem(loadingTypes.auth)) &&
+    !!JSON.parse(localStorage.getItem(loadingTypes.auth)).token,
   error: null
 }
 
