@@ -14,7 +14,7 @@ import {
 import createListTemplate from '../helpers/createListTemplate'
 import ListsContainer from '../components/ListsContainer'
 import { colors } from '../constants/colors'
-import { loadingColor } from '../constants/values'
+import { loadingColor, loadingSizes } from '../constants/values'
 
 function BoardPage() {
   const { id } = useParams()
@@ -95,8 +95,8 @@ function BoardPage() {
           type="spin"
           className="my-auto"
           color={loadingColor}
-          height={100}
-          width={100}
+          height={loadingSizes.big}
+          width={loadingSizes.big}
         />
       </Row>
     )

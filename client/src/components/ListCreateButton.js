@@ -1,6 +1,6 @@
 import ReactLoading from 'react-loading'
 
-import { loadingColor } from '../constants/values'
+import { loadingColor, loadingSizes } from '../constants/values'
 
 function ListCreateButton({ onClick, color, loading }) {
   return (
@@ -12,8 +12,8 @@ function ListCreateButton({ onClick, color, loading }) {
           type="spin"
           className={'m-auto'}
           color={loadingColor}
-          height={40}
-          width={40}
+          height={loadingSizes.medium}
+          width={loadingSizes.medium}
         />
       )}
     </div>

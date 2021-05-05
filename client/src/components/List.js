@@ -14,7 +14,7 @@ import {
 import ListItem from './ListItem'
 import validateName from '../helpers/validateName'
 import createItemTemplate from '../helpers/createItemTemplate'
-import { loadingColor } from '../constants/values'
+import { loadingColor, loadingSizes, sendKey } from '../constants/values'
 
 function List({ list, closeClick, items }) {
   const [listName, setListName] = useState('')
@@ -32,7 +32,7 @@ function List({ list, closeClick, items }) {
   const dispatch = useDispatch()
 
   const keyInputHandler = (e) => {
-    if (e.key === 'Enter') {
+    if (e.key === sendKey) {
       let valid = validateName(e.target.value, [])
       if (valid) {
         return dispatch(setAlert(valid))
@@ -94,8 +94,8 @@ function List({ list, closeClick, items }) {
                   <ReactLoading
                     type="spin"
                     color={loadingColor}
-                    height={20}
-                    width={20}
+                    height={loadingSizes.small}
+                    width={loadingSizes.small}
                   />
                 )}
               </Row>
@@ -111,8 +111,8 @@ function List({ list, closeClick, items }) {
                   <ReactLoading
                     type="spin"
                     color={loadingColor}
-                    height={20}
-                    width={20}
+                    height={loadingSizes.small}
+                    width={loadingSizes.small}
                   />
                 )}
               </Row>
@@ -134,8 +134,8 @@ function List({ list, closeClick, items }) {
                   type="spin"
                   className="ml-1"
                   color={loadingColor}
-                  height={25}
-                  width={25}
+                  height={loadingSizes.small}
+                  width={loadingSizes.small}
                 />
               )}
             </Row>

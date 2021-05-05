@@ -14,7 +14,7 @@ import {
 import BoardButton from '../components/BoardButton'
 import validateName from '../helpers/validateName'
 import BoardCreateButton from '../components/BoardCreateButton'
-import { loadingColor } from '../constants/values'
+import { loadingColor, loadingSizes } from '../constants/values'
 
 function BoardsList() {
   const boards = useSelector((state) => state.boards.boards)
@@ -93,8 +93,8 @@ function BoardsList() {
               type="spin"
               className="ml-5 my-auto"
               color={loadingColor}
-              height={100}
-              width={100}
+              height={loadingSizes.big}
+              width={loadingSizes.big}
             />
           </Row>
         )}

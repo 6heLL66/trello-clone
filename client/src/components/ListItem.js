@@ -3,7 +3,7 @@ import * as Icon from 'react-bootstrap-icons'
 import { Draggable } from 'react-beautiful-dnd'
 import ReactLoading from 'react-loading'
 
-import { loadingColor } from '../constants/values'
+import { loadingColor, loadingSizes } from '../constants/values'
 
 function ListItem({ item, closeItem, change, index, loading }) {
   const handleCheckbox = () => {
@@ -36,8 +36,8 @@ function ListItem({ item, closeItem, change, index, loading }) {
             <ReactLoading
               type="spin"
               color={loadingColor}
-              height={20}
-              width={20}
+              height={loadingSizes.small}
+              width={loadingSizes.small}
             />
           )}
         </Row>

@@ -4,7 +4,7 @@ import { Button, Row } from 'react-bootstrap'
 import ReactLoading from 'react-loading'
 
 import createBoardTemplate from '../helpers/createBoardTemplate'
-import { loadingColor } from '../constants/values'
+import { loadingColor, loadingSizes, sendKey } from '../constants/values'
 
 function BoardCreateButton({ onClick, isOpen, setIsOpen, loading }) {
   const [name, setName] = useState('')
@@ -28,7 +28,7 @@ function BoardCreateButton({ onClick, isOpen, setIsOpen, loading }) {
             placeholder="Best Board"
             value={name}
             onKeyDown={(e) => {
-              if (e.key === 'Enter') {
+              if (e.key === sendKey) {
                 createBoard()
               }
             }}
@@ -37,7 +37,7 @@ function BoardCreateButton({ onClick, isOpen, setIsOpen, loading }) {
         </Row>
         <Row>
           {!loading ? (
-            <Button variant={'success'} onClick={createBoard}>
+            <Button variant="success" onClick={createBoard}>
               Create
             </Button>
           ) : (
@@ -46,8 +46,8 @@ function BoardCreateButton({ onClick, isOpen, setIsOpen, loading }) {
                 type="spin"
                 className="ml-5"
                 color={loadingColor}
-                height={30}
-                width={30}
+                height={loadingSizes.small}
+                width={loadingSizes.small}
               />
             </Row>
           )}

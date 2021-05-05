@@ -278,8 +278,7 @@ export function put_lists(data, token, ownerId, id, noupdate) {
   return async (dispatch) => {
     if (noupdate) {
       dispatch(updateLists(data))
-    }
-    else {
+    } else {
       dispatch(setLoading(true, 'create', 1))
     }
     await makeRequest(
@@ -326,8 +325,7 @@ export function put_items(data, token, ownerId, noupdate) {
   return async (dispatch) => {
     if (noupdate) {
       dispatch(updateItems(data))
-    }
-    else {
+    } else {
       dispatch(setLoading(data[0].parentId, 'create', 2))
     }
     await makeRequest(

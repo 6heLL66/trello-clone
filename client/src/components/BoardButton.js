@@ -5,7 +5,13 @@ import ReactLoading from 'react-loading'
 
 import ColorMenu from './ColorMenu'
 import { colors } from '../constants/colors'
-import { animBorder, animInterval, loadingColor } from '../constants/values'
+import {
+  animBorder,
+  animInterval,
+  animTypes,
+  loadingColor,
+  loadingSizes
+} from '../constants/values'
 
 function BoardButton({
   board,
@@ -58,7 +64,7 @@ function BoardButton({
         animate,
         animInterval,
         opacity,
-        type === 'show' ? animBorder : -animBorder
+        type === animTypes.show ? animBorder : -animBorder
       )
     )
   }
@@ -68,8 +74,8 @@ function BoardButton({
       className="board-button"
       style={{ background: colors[board.color] }}
       onClick={boardClickHandler}
-      onMouseOver={() => startAnimation('show')}
-      onMouseOut={() => startAnimation('hide')}
+      onMouseOver={() => startAnimation(animTypes.show)}
+      onMouseOut={() => startAnimation(animTypes.hide)}
     >
       <Row
         className="w-100 justify-content-between"
@@ -86,8 +92,8 @@ function BoardButton({
             type="spin"
             className="mr-2 mb-2"
             color={loadingColor}
-            height={20}
-            width={20}
+            height={loadingSizes.small}
+            width={loadingSizes.small}
           />
         )}
       </Row>

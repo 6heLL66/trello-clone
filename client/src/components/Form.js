@@ -2,7 +2,7 @@ import { Button, Form, Row } from 'react-bootstrap'
 import { useCallback, useMemo, useState } from 'react'
 import ReactLoading from 'react-loading'
 import { Redirect } from 'react-router-dom'
-import { loadingColor } from '../constants/values'
+import { loadingColor, loadingSizes } from '../constants/values'
 
 export default function CustomForm({
   header,
@@ -56,7 +56,12 @@ export default function CustomForm({
       {items}
       {error && <Row className="error mb-3">{error}</Row>}
       {loading.auth[0] ? (
-        <ReactLoading type="spin" color={loadingColor} height={30} width={30} />
+        <ReactLoading
+          type="spin"
+          color={loadingColor}
+          height={loadingSizes.small}
+          width={loadingSizes.small}
+        />
       ) : (
         <Button
           variant="primary"
