@@ -22,3 +22,23 @@ export const logoSize = {
   w: 40,
   h: 40
 }
+
+export const regStatuses = {
+  success: 'success',
+  failed: 'failed'
+}
+
+export const loadingTypes = {
+  loadData: 'loadData',
+  auth: 'auth',
+  create: 'create',
+  delete: 'delete',
+  colors: "colors"
+}
+
+export const dragAndDropTypes = {
+  list: 'LIST',
+  task: 'TASK'
+}
+
+export const dragType = 'DROP'

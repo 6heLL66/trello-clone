@@ -14,7 +14,7 @@ import {
 import ListItem from './ListItem'
 import validateName from '../helpers/validateName'
 import createItemTemplate from '../helpers/createItemTemplate'
-import { loadingColor, loadingSizes, sendKey } from '../constants/values'
+import { dragAndDropTypes, loadingColor, loadingSizes, sendKey } from '../constants/values'
 
 function List({ list, closeClick, items }) {
   const [listName, setListName] = useState('')
@@ -67,7 +67,7 @@ function List({ list, closeClick, items }) {
   }
 
   return (
-    <Draggable draggableId={`dragList-${list.id}`} index={list.ind} type="LIST">
+    <Draggable draggableId={`dragList-${list.id}`} index={list.ind} type={dragAndDropTypes.list}>
       {(provided1) => (
         <Card
           className="list-card"
@@ -139,7 +139,7 @@ function List({ list, closeClick, items }) {
                 />
               )}
             </Row>
-            <Droppable droppableId={String(list.id)} type="TASK">
+            <Droppable droppableId={String(list.id)} type={dragAndDropTypes.task}>
               {(provided2) => (
                 <ListGroup
                   className="list-group-flush"

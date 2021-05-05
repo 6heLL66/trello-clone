@@ -1,21 +1,26 @@
+export const alertTypes = {
+  error: 'Error',
+  success: 'Success'
+}
+
 export const lengthErrorAlert = {
   message: 'Name length must be more than 3 symbols and less then 16 symbols',
-  type: 'Error'
+  type: alertTypes.error
 }
 
 export const uniqueNameAlert = {
   message: 'Board must have a unique name',
-  type: 'Error'
+  type: alertTypes.error
 }
 
 export const boardCreatedAlert = {
   message: 'Board was successfully created',
-  type: 'Success'
+  type: alertTypes.success
 }
 
 export const boardDeletedAlert = {
   message: 'Board was successfully deleted',
-  type: 'Success'
+  type: alertTypes.success
 }
 
 export const customAlert = (message, type) => {
@@ -27,7 +32,7 @@ export const customAlert = (message, type) => {
 
 export const registerSuccess = {
   message: 'You successfully registered',
-  type: 'Success'
+  type: alertTypes.success
 }
 
 export const colors = {

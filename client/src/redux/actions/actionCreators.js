@@ -16,11 +16,13 @@ import {
 } from './actionTypes'
 import makeRequest from '../../helpers/makeRequest'
 import {
+  alertTypes,
   boardCreatedAlert,
   boardDeletedAlert,
   customAlert,
   registerSuccess
 } from '../../constants/alerts'
+import { loadingTypes, regStatuses } from '../../constants/values'
 
 export function putBoard(board) {
   return {
@@ -123,7 +125,7 @@ export function setBoards(boards) {
 
 export function login(username, password) {
   return async (dispatch) => {
-    dispatch(setLoading(true, 'auth', 0))
+    dispatch(setLoading(true, loadingTypes.auth, 0))
     await makeRequest(
       '/api/auth/auth',
       'POST',
@@ -133,13 +135,13 @@ export function login(username, password) {
       },
       (data) => {
         dispatch(setAuth({ ...data, auth: true }))
-        localStorage.setItem('auth', JSON.stringify(data))
+        localStorage.setItem(loadingTypes.auth, JSON.stringify(data))
         dispatch(setError(null))
-        dispatch(setLoading(false, 'auth', 0))
+        dispatch(setLoading(false, loadingTypes.auth, 0))
       },
       (data) => {
         dispatch(setError(data.message || data.error))
-        dispatch(setLoading(false, 'auth', 0))
+        dispatch(setLoading(false, loadingTypes.auth, 0))
       }
     )
   }
@@ -147,7 +149,7 @@ export function login(username, password) {
 
 export function register(username, password) {
   return async (dispatch) => {
-    dispatch(setLoading(true, 'auth', 0))
+    dispatch(setLoading(true, loadingTypes.auth, 0))
     await makeRequest(
       '/api/auth/add',
       'PUT',
@@ -156,16 +158,16 @@ export function register(username, password) {
         password
       },
       () => {
-        dispatch(setRegStatus('success'))
+        dispatch(setRegStatus(regStatuses.success))
         dispatch(setError(null))
         dispatch(setAlert(registerSuccess))
       },
       (data) => {
-        dispatch(setRegStatus('failed'))
+        dispatch(setRegStatus(regStatuses.failed))
         dispatch(setError(data.message || data.error))
       }
     )
-    dispatch(setLoading(false, 'auth', 0))
+    dispatch(setLoading(false, loadingTypes.auth, 0))
   }
 }
 
@@ -179,11 +181,11 @@ export function auth(token) {
       },
       (data) => {
         dispatch(setAuth({ ...data, auth: true }))
-        localStorage.setItem('auth', JSON.stringify(data))
+        localStorage.setItem(loadingTypes.auth, JSON.stringify(data))
       },
       () => {
         dispatch(setAuth({}))
-        localStorage.setItem('auth', JSON.stringify({}))
+        localStorage.setItem(loadingTypes.auth, JSON.stringify({}))
       }
     )
   }
@@ -191,7 +193,7 @@ export function auth(token) {
 
 export function fetch_boards(id) {
   return async (dispatch) => {
-    dispatch(setLoading(true, 'loadData', 0))
+    dispatch(setLoading(true, loadingTypes.loadData, 0))
     await makeRequest(
       `/api/boards/get?id=${id}`,
       'GET',
@@ -200,18 +202,18 @@ export function fetch_boards(id) {
         dispatch(setBoards(data))
       },
       (data) => {
-        dispatch(customAlert(data.error, 'Error'))
+        dispatch(customAlert(data.error, alertTypes.error))
       }
     )
-    dispatch(setLoading(false, 'loadData', 0))
+    dispatch(setLoading(false, loadingTypes.loadData, 0))
   }
 }
 
 export function put_board(board, token) {
   return async (dispatch) => {
-    dispatch(setLoading(true, 'create', 0))
+    dispatch(setLoading(true, loadingTypes.create, 0))
     if (board.id) {
-      dispatch(setLoading(board.id, 'colors', 0))
+      dispatch(setLoading(board.id, loadingTypes.colors, 0))
     }
     await makeRequest(
       `/api/board/createOrChange`,
@@ -227,17 +229,17 @@ export function put_board(board, token) {
         }
       },
       (data) => {
-        dispatch(customAlert(data.error, 'Error'))
+        dispatch(customAlert(data.error, alertTypes.error))
       }
     )
-    dispatch(setLoading(false, 'create', 0))
-    dispatch(setLoading('', 'colors', 0))
+    dispatch(setLoading(false, loadingTypes.create, 0))
+    dispatch(setLoading('', loadingTypes.colors, 0))
   }
 }
 
 export function delete_board(id, token) {
   return async (dispatch) => {
-    dispatch(setLoading(id, 'delete', 0))
+    dispatch(setLoading(id, loadingTypes.delete, 0))
     await makeRequest(
       `/api/board/delete?id=${id}&token=${token}`,
       'DELETE',
@@ -247,16 +249,16 @@ export function delete_board(id, token) {
         dispatch(deleteBoard(id))
       },
       (data) => {
-        dispatch(customAlert(data.error, 'Error'))
+        dispatch(customAlert(data.error, alertTypes.error))
       }
     )
-    dispatch(setLoading('', 'delete', 0))
+    dispatch(setLoading('', loadingTypes.delete, 0))
   }
 }
 
 export function get_board(id) {
   return async (dispatch) => {
-    dispatch(setLoading(true, 'loadData', 1))
+    dispatch(setLoading(true, loadingTypes.loadData, 1))
     await makeRequest(
       `/api/board/get?id=${id}`,
       'GET',
@@ -267,10 +269,10 @@ export function get_board(id) {
         dispatch(updateItems(data.items))
       },
       (data) => {
-        dispatch(customAlert(data.error, 'Error'))
+        dispatch(customAlert(data.error, alertTypes.error))
       }
     )
-    dispatch(setLoading(false, 'loadData', 1))
+    dispatch(setLoading(false, loadingTypes.loadData, 1))
   }
 }
 
@@ -279,7 +281,7 @@ export function put_lists(data, token, ownerId, id, noupdate) {
     if (noupdate) {
       dispatch(updateLists(data))
     } else {
-      dispatch(setLoading(true, 'create', 1))
+      dispatch(setLoading(true, loadingTypes.create, 1))
     }
     await makeRequest(
       `/api/lists/put`,
@@ -296,16 +298,16 @@ export function put_lists(data, token, ownerId, id, noupdate) {
         }
       },
       (data) => {
-        dispatch(customAlert(data.error, 'Error'))
+        dispatch(customAlert(data.error, alertTypes.error))
       }
     )
-    dispatch(setLoading(false, 'create', 1))
+    dispatch(setLoading(false, loadingTypes.create, 1))
   }
 }
 
 export function delete_list(id, token) {
   return async (dispatch) => {
-    dispatch(setLoading(id, 'delete', 1))
+    dispatch(setLoading(id, loadingTypes.delete, 1))
     await makeRequest(
       `/api/list/delete?id=${id}&token=${token}`,
       'DELETE',
@@ -314,10 +316,10 @@ export function delete_list(id, token) {
         dispatch(deleteList(id))
       },
       (data) => {
-        dispatch(customAlert(data.error, 'Error'))
+        dispatch(customAlert(data.error, alertTypes.error))
       }
     )
-    dispatch(setLoading('', 'delete', 1))
+    dispatch(setLoading('', loadingTypes.delete, 1))
   }
 }
 
@@ -326,7 +328,7 @@ export function put_items(data, token, ownerId, noupdate) {
     if (noupdate) {
       dispatch(updateItems(data))
     } else {
-      dispatch(setLoading(data[0].parentId, 'create', 2))
+      dispatch(setLoading(data[0].parentId, loadingTypes.create, 2))
     }
     await makeRequest(
       `/api/items/put`,
@@ -342,16 +344,16 @@ export function put_items(data, token, ownerId, noupdate) {
         }
       },
       (data) => {
-        dispatch(customAlert(data.error, 'Error'))
+        dispatch(customAlert(data.error, alertTypes.error))
       }
     )
-    dispatch(setLoading(false, 'create', 2))
+    dispatch(setLoading(false, loadingTypes.create, 2))
   }
 }
 
 export function delete_item(id, token) {
   return async (dispatch) => {
-    dispatch(setLoading(id, 'delete', 2))
+    dispatch(setLoading(id, loadingTypes.delete, 2))
     await makeRequest(
       `/api/item/delete?id=${id}&token=${token}`,
       'DELETE',
@@ -360,9 +362,9 @@ export function delete_item(id, token) {
         dispatch(deleteItem(id))
       },
       (data) => {
-        dispatch(customAlert(data.error, 'Error'))
+        dispatch(customAlert(data.error, alertTypes.error))
       }
     )
-    dispatch(setLoading('', 'delete', 2))
+    dispatch(setLoading('', loadingTypes.delete, 2))
   }
 }

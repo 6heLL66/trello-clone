@@ -6,6 +6,7 @@ import List from './List'
 import ListCreateButton from './ListCreateButton'
 import getLayoutAfterDrag from '../helpers/getLayoutAfterDrag'
 import { put_items, put_lists } from '../redux/actions/actionCreators'
+import { dragAndDropTypes, dragType } from '../constants/values'
 
 function ListsContainer({
   closeClick,
@@ -21,7 +22,7 @@ function ListsContainer({
 
   const onDragEnd = (info) => {
     const { reason, destination, draggableId, source } = info
-    if (reason !== 'DROP' || !destination) {
+    if (reason !== dragType || !destination) {
       return
     }
     if (draggableId.split('-')[0] === 'dragList') {
@@ -54,7 +55,7 @@ function ListsContainer({
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>
-      <Droppable droppableId="container" direction="horizontal" type="LIST">
+      <Droppable droppableId="container" direction="horizontal" type={dragAndDropTypes.list}>
         {(provided) => (
           <Row
             className="ml-5 mt-5 d-inline-flex flex-nowrap"

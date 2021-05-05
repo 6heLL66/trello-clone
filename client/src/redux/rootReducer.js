@@ -71,7 +71,9 @@ function boardReducer(state = boardState, action) {
         ...state,
         boards: state.boards.find((e) => e.id === action.board.id)
           ? state.boards.map((e) => {
-              if (e.id === action.board.id) return action.board
+              if (e.id === action.board.id) {
+                return action.board
+              }
               return e
             })
           : [...state.boards, action.board]

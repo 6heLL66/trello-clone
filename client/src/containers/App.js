@@ -8,7 +8,7 @@ import '../styles/App.css'
 import logo from '../images/logo.png'
 import { auth, unsetAlert } from '../redux/actions/actionCreators'
 import Alert from '../components/Alert'
-import { logoSize } from '../constants/values'
+import { loadingTypes, logoSize } from '../constants/values'
 
 function App() {
   const alert = useSelector((state) => state.alerts.alert)
@@ -18,8 +18,8 @@ function App() {
 
   useEffect(() => {
     const token =
-      !!JSON.parse(localStorage.getItem('auth')) &&
-      JSON.parse(localStorage.getItem('auth')).token
+      !!JSON.parse(localStorage.getItem(loadingTypes.auth)) &&
+      JSON.parse(localStorage.getItem(loadingTypes.auth)).token
 
     if (token) {
       dispatch(auth(token))
@@ -31,7 +31,7 @@ function App() {
   }
 
   const logout = () => {
-    localStorage.setItem('auth', JSON.stringify({}))
+    localStorage.setItem(loadingTypes.auth, JSON.stringify({}))
     window.location = '/login'
   }
 

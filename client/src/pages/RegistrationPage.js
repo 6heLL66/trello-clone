@@ -6,6 +6,7 @@ import { Redirect } from 'react-router-dom'
 import { registerSuccess } from '../constants/alerts'
 import { register, setAlert, setError } from '../redux/actions/actionCreators'
 import registerValidation from '../helpers/registerValidation'
+import { regStatuses } from '../constants/values'
 
 const formProps = {
   header: 'Sign Up',
@@ -51,7 +52,7 @@ export default function RegistrationPage() {
       dispatch(setError(validation))
     }
   }
-  if (status === 'success') {
+  if (status === regStatuses.success) {
     dispatch(setAlert(registerSuccess))
     return <Redirect to="/login" />
   }
