@@ -6,7 +6,7 @@ import { useRoutes } from '../routes'
 
 import '../styles/App.css'
 import logo from '../images/logo.png'
-import { auth, setAuth, unsetAlert } from '../redux/actions/actionCreators'
+import { auth, unsetAlert } from '../redux/actions/actionCreators'
 import Alert from '../components/Alert'
 
 function App() {
