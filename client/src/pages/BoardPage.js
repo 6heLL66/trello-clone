@@ -33,9 +33,7 @@ function BoardPage() {
   const [redirect, setRedirect] = useState('')
 
   useEffect(() => {
-    if (!board || board.id !== Number(id)) {
-      dispatch(get_board(id))
-    }
+    dispatch(get_board(id))
   }, [dispatch, id, board])
 
   const createList = () => {
