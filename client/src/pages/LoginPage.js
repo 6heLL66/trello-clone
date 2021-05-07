@@ -3,29 +3,7 @@ import { login } from '../redux/actions/actionCreators'
 import { useDispatch, useSelector } from 'react-redux'
 
 import CustomForm from '../components/Form'
-
-const formProps = {
-  header: 'Sign In',
-  buttonText: 'Sign In',
-  link: {
-    href: '/registration',
-    label: 'Sign Up'
-  },
-  labels: {
-    username: {
-      type: 'text',
-      label: 'Username',
-      placeholder: '',
-      value: ''
-    },
-    password: {
-      type: 'password',
-      label: 'Password',
-      placeholder: '',
-      value: ''
-    }
-  }
-}
+import { loginProps } from '../constants/forms'
 
 export default function LoginPage() {
   const dispatch = useDispatch()
@@ -44,13 +22,13 @@ export default function LoginPage() {
       </Row>
       <Row className="justify-content-center">
         <CustomForm
-          header={formProps.header}
-          buttonText={formProps.buttonText}
-          labels={formProps.labels}
+          header={loginProps.header}
+          buttonText={loginProps.buttonText}
+          labels={loginProps.labels}
           onClick={handleSubmit}
           loading={loading}
           error={error}
-          link={formProps.link}
+          link={loginProps.link}
         />
       </Row>
     </Container>

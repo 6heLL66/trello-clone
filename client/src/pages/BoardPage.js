@@ -12,7 +12,7 @@ import {
   put_lists
 } from '../redux/actions/actionCreators'
 import createListTemplate from '../helpers/createListTemplate'
-import ListsContainer from '../components/ListsContainer'
+import ListsContainer from '../containers/ListsContainer'
 import { colors } from '../constants/colors'
 import { loadingColor, loadingSizes } from '../constants/values'
 

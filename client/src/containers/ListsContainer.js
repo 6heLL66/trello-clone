@@ -2,8 +2,8 @@ import { Row } from 'react-bootstrap'
 import { DragDropContext, Droppable } from 'react-beautiful-dnd'
 import { useDispatch, useSelector } from 'react-redux'
 
-import List from './List'
-import ListCreateButton from './ListCreateButton'
+import List from '../components/List'
+import ListCreateButton from '../components/ListCreateButton'
 import getLayoutAfterDrag from '../helpers/getLayoutAfterDrag'
 import {
   delete_item,

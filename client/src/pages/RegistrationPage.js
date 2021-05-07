@@ -7,35 +7,7 @@ import { registerSuccess } from '../constants/alerts'
 import { register, setAlert, setError } from '../redux/actions/actionCreators'
 import registerValidation from '../helpers/registerValidation'
 import { regStatuses } from '../constants/values'
-
-const formProps = {
-  header: 'Sign Up',
-  buttonText: 'Sign Up',
-  link: {
-    href: '/login',
-    label: 'Sign In'
-  },
-  labels: {
-    username: {
-      type: 'text',
-      label: 'Username',
-      placeholder: '',
-      value: ''
-    },
-    password: {
-      type: 'password',
-      label: 'Password',
-      placeholder: '',
-      value: ''
-    },
-    rpassword: {
-      type: 'password',
-      label: 'Repeat Password',
-      placeholder: '',
-      value: ''
-    }
-  }
-}
+import { regProps } from '../constants/forms'
 
 export default function RegistrationPage() {
   const dispatch = useDispatch()
@@ -64,13 +36,13 @@ export default function RegistrationPage() {
       </Row>
       <Row className="justify-content-center">
         <CustomForm
-          header={formProps.header}
-          buttonText={formProps.buttonText}
-          labels={formProps.labels}
+          header={regProps.header}
+          buttonText={regProps.buttonText}
+          labels={regProps.labels}
           onClick={handleSubmit}
           loading={loading}
           error={error}
-          link={formProps.link}
+          link={regProps.link}
         />
       </Row>
     </Container>
