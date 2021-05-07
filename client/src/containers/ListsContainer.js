@@ -77,7 +77,7 @@ function ListsContainer({
   }
 
   const putList = (list, parentId, ownerId) => {
-    dispatch(put_lists([list], token, parentId, ownerId))
+    dispatch(put_lists([list], token, ownerId, parentId))
   }
 
   return (
