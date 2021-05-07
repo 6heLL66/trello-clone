@@ -1,5 +1,5 @@
 import { Container, Row } from 'react-bootstrap'
-import CustomForm from '../components/Form'
+import CustomForm from '../components/CustomForm'
 import { useDispatch, useSelector } from 'react-redux'
 import { Redirect } from 'react-router-dom'
 

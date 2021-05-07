@@ -2,7 +2,7 @@ import { Container, Row } from 'react-bootstrap'
 import { login } from '../redux/actions/actionCreators'
 import { useDispatch, useSelector } from 'react-redux'
 
-import CustomForm from '../components/Form'
+import CustomForm from '../components/CustomForm'
 import { loginProps } from '../constants/forms'
 
 export default function LoginPage() {

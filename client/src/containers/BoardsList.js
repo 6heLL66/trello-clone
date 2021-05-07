@@ -15,6 +15,7 @@ import BoardButton from '../components/BoardButton'
 import validateName from '../helpers/validateName'
 import BoardCreateButton from '../components/BoardCreateButton'
 import { loadingColor, loadingSizes } from '../constants/values'
+import { boardPage } from '../constants/routes'
 
 function BoardsList() {
   const boards = useSelector((state) => state.boards.boards)
@@ -48,7 +49,7 @@ function BoardsList() {
   }
 
   const handleBoardClick = (board) => {
-    setRedirect(`/board/${board.id}`)
+    setRedirect(`${boardPage}/${board.id}`)
   }
 
   const handleCrossClick = (id) => {

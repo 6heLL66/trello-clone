@@ -15,6 +15,7 @@ import createListTemplate from '../helpers/createListTemplate'
 import ListsContainer from '../containers/ListsContainer'
 import { colors } from '../constants/colors'
 import { loadingColor, loadingSizes } from '../constants/values'
+import { boardsPage } from '../constants/routes'
 
 function BoardPage() {
   const { id } = useParams()
@@ -52,7 +53,7 @@ function BoardPage() {
   }
 
   if (redirect) {
-    return <Redirect push to="/" />
+    return <Redirect push to={redirect} />
   }
 
   if (board && board.id === Number(id)) {
@@ -62,7 +63,7 @@ function BoardPage() {
           <Icon.ArrowLeft
             className="back"
             onClick={() => {
-              setRedirect('/')
+              setRedirect(boardsPage)
             }}
           />
           <div>

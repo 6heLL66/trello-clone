@@ -9,6 +9,7 @@ import logo from '../images/logo.png'
 import { auth, unsetAlert } from '../redux/actions/actionCreators'
 import Alert from '../components/Alert'
 import { loadingTypes, logoSize } from '../constants/values'
+import { loginPage } from '../constants/routes'
 
 function App() {
   const alert = useSelector((state) => state.alerts.alert)
@@ -32,7 +33,7 @@ function App() {
 
   const logout = () => {
     localStorage.setItem(loadingTypes.auth, JSON.stringify({}))
-    window.location = '/login'
+    window.location = loginPage
   }
 
   return (

@@ -23,7 +23,6 @@ function ListsContainer({
   token
 }) {
   const dispatch = useDispatch()
-
   const loading = useSelector((state) => state.loading)
 
   const onDragEnd = (info) => {

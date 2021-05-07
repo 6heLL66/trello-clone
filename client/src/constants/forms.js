@@ -1,8 +1,10 @@
+import { loginPage, registrationPage } from './routes'
+
 export const regProps = {
   header: 'Sign Up',
   buttonText: 'Sign Up',
   link: {
-    href: '/login',
+    href: loginPage,
     label: 'Sign In'
   },
   labels: {
@@ -31,7 +33,7 @@ export const loginProps = {
   header: 'Sign In',
   buttonText: 'Sign In',
   link: {
-    href: '/registration',
+    href: registrationPage,
     label: 'Sign Up'
   },
   labels: {
