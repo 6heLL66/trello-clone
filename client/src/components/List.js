@@ -1,19 +1,11 @@
 import { Card, ListGroup, Row } from 'react-bootstrap'
 import { useMemo, useState } from 'react'
 import * as Icon from 'react-bootstrap-icons'
-import { useDispatch, useSelector } from 'react-redux'
 import { Draggable, Droppable } from 'react-beautiful-dnd'
 import ReactLoading from 'react-loading'
 
-import {
-  delete_item,
-  put_items,
-  put_lists,
-  setAlert
-} from '../redux/actions/actionCreators'
 import ListItem from './ListItem'
 import validateName from '../helpers/validateName'
-import createItemTemplate from '../helpers/createItemTemplate'
 import {
   dragAndDropTypes,
   listIdPrefix,
@@ -22,12 +14,19 @@ import {
   sendKey
 } from '../constants/values'
 
-function List({ list, closeClick, items }) {
+function List({
+  list,
+  closeClick,
+  items,
+  loading,
+  changeItem,
+  closeItem,
+  putItem,
+  putList,
+  alert
+}) {
   const [listName, setListName] = useState('')
   const [taskName, setTaskName] = useState('')
-
-  const token = useSelector((state) => state.auth.token)
-  const loading = useSelector((state) => state.loading)
 
   const childItems = useMemo(() => {
     return items
@@ -35,41 +34,18 @@ function List({ list, closeClick, items }) {
       .sort((a, b) => a.ind - b.ind)
   }, [items, list.id])
 
-  const dispatch = useDispatch()
-
   const keyInputHandler = (e) => {
     if (e.key === sendKey) {
       let valid = validateName(e.target.value, [])
       if (valid) {
-        return dispatch(setAlert(valid))
+        return alert(valid)
       } else if (e.target.name === 'list') {
-        dispatch(
-          put_lists(
-            [{ ...list, name: listName }],
-            token,
-            list.ownerId,
-            list.parentId
-          )
-        )
+        putList({ ...list, name: listName }, list.parentId, list.ownerId)
       } else if (e.target.name === 'item') {
-        dispatch(
-          put_items(
-            [createItemTemplate(taskName, childItems.length, list.id)],
-            token,
-            list.ownerId
-          )
-        )
+        putItem(taskName, childItems.length, list.ownerId, list.id)
         setTaskName('')
       }
     }
-  }
-
-  const closeItem = (id) => {
-    dispatch(delete_item(id, token))
-  }
-
-  const changeItem = (item) => {
-    dispatch(put_items([item], token, list.ownerId))
   }
 
   return (
@@ -166,7 +142,7 @@ function List({ list, closeClick, items }) {
                           item={e}
                           closeItem={closeItem}
                           index={e.ind}
-                          change={changeItem}
+                          change={(item) => changeItem(item, list.ownerId)}
                           loading={loading}
                         />
                       )

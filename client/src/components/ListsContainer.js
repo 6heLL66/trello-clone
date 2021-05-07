@@ -5,8 +5,14 @@ import { useDispatch, useSelector } from 'react-redux'
 import List from './List'
 import ListCreateButton from './ListCreateButton'
 import getLayoutAfterDrag from '../helpers/getLayoutAfterDrag'
-import { put_items, put_lists } from '../redux/actions/actionCreators'
+import {
+  delete_item,
+  put_items,
+  put_lists,
+  setAlert
+} from '../redux/actions/actionCreators'
 import { dragAndDropTypes, dragType, listIdPrefix } from '../constants/values'
+import createItemTemplate from '../helpers/createItemTemplate'
 
 function ListsContainer({
   closeClick,
@@ -53,6 +59,28 @@ function ListsContainer({
     }
   }
 
+  const closeItem = (id) => {
+    dispatch(delete_item(id, token))
+  }
+
+  const changeItem = (item, ownerId) => {
+    dispatch(put_items([item], token, ownerId))
+  }
+
+  const putItem = (name, index, ownerId, parentId) => {
+    dispatch(
+      put_items([createItemTemplate(name, index, parentId)], token, ownerId)
+    )
+  }
+
+  const alert = (alert) => {
+    dispatch(setAlert(alert))
+  }
+
+  const putList = (list, parentId, ownerId) => {
+    dispatch(put_lists([list], token, parentId, ownerId))
+  }
+
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       <Droppable
@@ -75,6 +103,12 @@ function ListsContainer({
                     index={i}
                     closeClick={closeClick}
                     items={items}
+                    loading={loading}
+                    closeItem={closeItem}
+                    changeItem={changeItem}
+                    putItem={putItem}
+                    putList={putList}
+                    alert={alert}
                   />
                 )
               })}
