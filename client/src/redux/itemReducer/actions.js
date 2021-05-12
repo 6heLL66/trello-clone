@@ -1,4 +1,4 @@
-import { loadingTypes } from '../../constants/values'
+import { loadingElements, loadingTypes } from '../../constants/values'
 import makeRequest from '../../helpers/makeRequest'
 import { alertTypes, customAlert } from '../../constants/alerts'
 import { DELETE_ITEM, UPDATE_ITEMS } from './actionTypes'
@@ -23,7 +23,9 @@ export function put_items(data, token, ownerId, noupdate) {
     if (noupdate) {
       dispatch(updateItems(data))
     } else {
-      dispatch(setLoading(data[0].parentId, loadingTypes.create, 2))
+      dispatch(
+        setLoading(data[0].parentId, loadingTypes.create, loadingElements.item)
+      )
     }
     await makeRequest(
       `/api/items/put`,
@@ -42,13 +44,13 @@ export function put_items(data, token, ownerId, noupdate) {
         dispatch(customAlert(data.error, alertTypes.error))
       }
     )
-    dispatch(setLoading(false, loadingTypes.create, 2))
+    dispatch(setLoading(false, loadingTypes.create, loadingElements.item))
   }
 }
 
 export function delete_item(id, token) {
   return async (dispatch) => {
-    dispatch(setLoading(id, loadingTypes.delete, 2))
+    dispatch(setLoading(id, loadingTypes.delete, loadingElements.item))
     await makeRequest(
       `/api/item/delete?id=${id}&token=${token}`,
       'DELETE',
@@ -60,6 +62,6 @@ export function delete_item(id, token) {
         dispatch(customAlert(data.error, alertTypes.error))
       }
     )
-    dispatch(setLoading('', loadingTypes.delete, 2))
+    dispatch(setLoading('', loadingTypes.delete, loadingElements.item))
   }
 }

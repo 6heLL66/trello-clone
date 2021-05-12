@@ -10,7 +10,9 @@ import {
   dragAndDropTypes,
   listIdPrefix,
   loadingColor,
+  loadingElements,
   loadingSizes,
+  loadingTypes,
   sendKey
 } from '../constants/values'
 
@@ -61,8 +63,10 @@ function List({
           {...provided1.draggableProps}
         >
           <Card.Header className="head py-1" {...provided1.dragHandleProps}>
-            {!list.name ? (
-              <Row className="justify-content-between">
+            <Row className="justify-content-between px-1">
+              {list.name ? (
+                <span className="list-name">{list.name}</span>
+              ) : (
                 <input
                   type="text"
                   onKeyDown={keyInputHandler}
@@ -71,38 +75,22 @@ function List({
                   value={listName}
                   onChange={(e) => setListName(e.target.value)}
                 />
-                {loading.delete[1] !== list.id ? (
-                  <Icon.X
-                    className="list-close"
-                    onClick={() => closeClick(list.id)}
-                  />
-                ) : (
-                  <ReactLoading
-                    type="spin"
-                    color={loadingColor}
-                    height={loadingSizes.small}
-                    width={loadingSizes.small}
-                  />
-                )}
-              </Row>
-            ) : (
-              <Row className="list-name justify-content-between px-2">
-                {list.name}
-                {loading.delete[1] !== list.id ? (
-                  <Icon.X
-                    className="list-close"
-                    onClick={() => closeClick(list.id)}
-                  />
-                ) : (
-                  <ReactLoading
-                    type="spin"
-                    color={loadingColor}
-                    height={loadingSizes.small}
-                    width={loadingSizes.small}
-                  />
-                )}
-              </Row>
-            )}
+              )}
+              {loading[loadingTypes.delete][loadingElements.list] !==
+              list.id ? (
+                <Icon.X
+                  className="list-close"
+                  onClick={() => closeClick(list.id)}
+                />
+              ) : (
+                <ReactLoading
+                  type="spin"
+                  color={loadingColor}
+                  height={loadingSizes.small}
+                  width={loadingSizes.small}
+                />
+              )}
+            </Row>
           </Card.Header>
           <Card.Body className="pt-0">
             <Row className="justify-content-center task-panel">
@@ -111,11 +99,15 @@ function List({
                 placeholder="task name"
                 onKeyDown={keyInputHandler}
                 name="item"
-                disabled={!list.name || loading.create[2] === list.id}
+                disabled={
+                  !list.name ||
+                  loading[loadingTypes.create][loadingElements.item] === list.id
+                }
                 value={taskName}
                 onChange={(e) => setTaskName(e.target.value)}
               />
-              {loading.create[2] === list.id && (
+              {loading[loadingTypes.create][loadingElements.item] ===
+                list.id && (
                 <ReactLoading
                   type="spin"
                   className="ml-1"

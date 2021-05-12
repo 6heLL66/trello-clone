@@ -6,7 +6,9 @@ import ReactLoading from 'react-loading'
 import {
   dragAndDropTypes,
   loadingColor,
-  loadingSizes
+  loadingElements,
+  loadingSizes,
+  loadingTypes
 } from '../constants/values'
 
 function ListItem({ item, closeItem, change, index, loading }) {
@@ -38,7 +40,7 @@ function ListItem({ item, closeItem, change, index, loading }) {
             />
             <span className={item.isDone && 'line-through'}>{item.name}</span>
           </span>
-          {loading.delete[2] !== item.id ? (
+          {loading[loadingTypes.delete][loadingElements.item] !== item.id ? (
             <Icon.X className="list-close" onClick={() => closeItem(item.id)} />
           ) : (
             <ReactLoading

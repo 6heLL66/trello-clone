@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import CustomForm from '../components/CustomForm'
 import { loginProps } from '../constants/forms'
 import { login } from '../redux/authReducer/actions'
+import { loadingElements, loadingTypes } from '../constants/values'
 
 export default function LoginPage() {
   const dispatch = useDispatch()
@@ -26,7 +27,7 @@ export default function LoginPage() {
           buttonText={loginProps.buttonText}
           labels={loginProps.labels}
           onClick={handleSubmit}
-          loading={loading}
+          loading={loading[loadingTypes.auth][loadingElements.form]}
           error={error}
           link={loginProps.link}
         />

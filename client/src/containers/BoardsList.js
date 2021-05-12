@@ -7,7 +7,12 @@ import ReactLoading from 'react-loading'
 import BoardButton from '../components/BoardButton'
 import validateName from '../helpers/validateName'
 import BoardCreateButton from '../components/BoardCreateButton'
-import { loadingColor, loadingSizes } from '../constants/values'
+import {
+  loadingColor,
+  loadingElements,
+  loadingSizes,
+  loadingTypes
+} from '../constants/values'
 import { boardPage } from '../constants/routes'
 import {
   delete_board,
@@ -71,18 +76,18 @@ function BoardsList() {
           onClick={handleCreateClick}
           isOpen={isOpen}
           setIsOpen={setIsOpen}
-          loading={loading.create[0]}
+          loading={loading[loadingTypes.create][loadingElements.board]}
         />
-        {!loading.loadData[0] && boards ? (
+        {!loading[loadingTypes.loadData][loadingElements.boards] && boards ? (
           boards.map((e, i) => {
             return (
               <BoardButton
                 crossClick={handleCrossClick}
                 colorClick={handleColorClick}
-                blocked={loading.colors[0]}
+                blocked={loading[loadingTypes.colors][loadingElements.board]}
+                loading={loading[loadingTypes.delete][loadingElements.board]}
                 board={e}
                 key={i}
-                loading={loading.delete[0]}
                 onClick={handleBoardClick}
               />
             )

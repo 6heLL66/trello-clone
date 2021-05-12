@@ -5,7 +5,7 @@ import { loadingColor, loadingSizes } from '../constants/values'
 function ListCreateButton({ onClick, color, loading }) {
   return (
     <div className={`list-create-button ${color}`} onClick={onClick}>
-      {!loading.create[1] ? (
+      {!loading ? (
         'add new list'
       ) : (
         <ReactLoading

@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Redirect } from 'react-router-dom'
 
 import registerValidation from '../helpers/registerValidation'
-import { regStatuses } from '../constants/values'
+import { loadingElements, loadingTypes, regStatuses } from '../constants/values'
 import { regProps } from '../constants/forms'
 import { setError } from '../redux/loadingReducer/actions'
 import { register } from '../redux/authReducer/actions'
@@ -41,7 +41,7 @@ export default function RegistrationPage() {
           buttonText={regProps.buttonText}
           labels={regProps.labels}
           onClick={handleSubmit}
-          loading={loading}
+          loading={loading[loadingTypes.auth][loadingElements.form]}
           error={error}
           link={regProps.link}
         />

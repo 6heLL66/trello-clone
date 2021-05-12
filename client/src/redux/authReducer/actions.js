@@ -1,6 +1,10 @@
 import { SET_AUTH, SET_REGISTER_STATUS } from './actionTypes'
 
-import { loadingTypes, regStatuses } from '../../constants/values'
+import {
+  loadingElements,
+  loadingTypes,
+  regStatuses
+} from '../../constants/values'
 import { registerSuccess } from '../../constants/alerts'
 
 import makeRequest from '../../helpers/makeRequest'
@@ -24,7 +28,7 @@ export function setRegStatus(status) {
 
 export function login(username, password) {
   return async (dispatch) => {
-    dispatch(setLoading(true, loadingTypes.auth, 0))
+    dispatch(setLoading(true, loadingTypes.auth, loadingElements.form))
     await makeRequest(
       '/api/auth/auth',
       'POST',
@@ -36,19 +40,24 @@ export function login(username, password) {
         dispatch(setAuth({ ...data, auth: true }))
         localStorage.setItem(loadingTypes.auth, JSON.stringify(data))
         dispatch(setError(null))
-        dispatch(setLoading(false, loadingTypes.auth, 0))
       },
       (data) => {
         dispatch(setError(data.message || data.error))
-        dispatch(setLoading(false, loadingTypes.auth, 0))
       }
     )
+    dispatch(setLoading(false, loadingTypes.auth, loadingElements.form))
   }
 }
 
 export function register(username, password) {
   return async (dispatch) => {
-    dispatch(setLoading(true, loadingTypes.auth, 0))
+    dispatch(
+      setLoading(
+        true,
+        loadingTypes.auth,
+        dispatch(setLoading(false, loadingTypes.auth, loadingElements.form))
+      )
+    )
     await makeRequest(
       '/api/auth/add',
       'PUT',
@@ -66,7 +75,13 @@ export function register(username, password) {
         dispatch(setError(data.message || data.error))
       }
     )
-    dispatch(setLoading(false, loadingTypes.auth, 0))
+    dispatch(
+      setLoading(
+        false,
+        loadingTypes.auth,
+        dispatch(setLoading(false, loadingTypes.auth, loadingElements.form))
+      )
+    )
   }
 }
 

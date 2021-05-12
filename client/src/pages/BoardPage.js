@@ -9,7 +9,12 @@ import '../styles/BoardPage.css'
 import createListTemplate from '../helpers/createListTemplate'
 import ListsContainer from '../containers/ListsContainer'
 import { colors } from '../constants/colors'
-import { loadingColor, loadingSizes } from '../constants/values'
+import {
+  loadingColor,
+  loadingElements,
+  loadingSizes,
+  loadingTypes
+} from '../constants/values'
 import { boardsPage } from '../constants/routes'
 import { get_board } from '../redux/boardReducer/actions'
 import { delete_list, put_lists } from '../redux/listReducer/actions'
@@ -78,7 +83,7 @@ function BoardPage() {
         />
       </Container>
     )
-  } else if (!loading.loadData[1]) {
+  } else if (!loading[loadingTypes.loadData][loadingElements.lists]) {
     return (
       <Row className="justify-content-center w-100">
         <div className="border-error">Board did not found</div>

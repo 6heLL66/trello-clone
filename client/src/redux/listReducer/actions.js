@@ -1,5 +1,5 @@
 import { DELETE_LIST, UPDATE_LISTS } from './actionTypes'
-import { loadingTypes } from '../../constants/values'
+import { loadingElements, loadingTypes } from '../../constants/values'
 import makeRequest from '../../helpers/makeRequest'
 import { alertTypes, customAlert } from '../../constants/alerts'
 import { setLoading } from '../loadingReducer/actions'
@@ -23,7 +23,7 @@ export function put_lists(data, token, ownerId, id, noupdate) {
     if (noupdate) {
       dispatch(updateLists(data))
     } else {
-      dispatch(setLoading(true, loadingTypes.create, 1))
+      dispatch(setLoading(true, loadingTypes.create, loadingElements.list))
     }
     await makeRequest(
       `/api/lists/put`,
@@ -43,13 +43,13 @@ export function put_lists(data, token, ownerId, id, noupdate) {
         dispatch(customAlert(data.error, alertTypes.error))
       }
     )
-    dispatch(setLoading(false, loadingTypes.create, 1))
+    dispatch(setLoading(false, loadingTypes.create, loadingElements.list))
   }
 }
 
 export function delete_list(id, token) {
   return async (dispatch) => {
-    dispatch(setLoading(id, loadingTypes.delete, 1))
+    dispatch(setLoading(id, loadingTypes.delete, loadingElements.list))
     await makeRequest(
       `/api/list/delete?id=${id}&token=${token}`,
       'DELETE',
@@ -61,6 +61,6 @@ export function delete_list(id, token) {
         dispatch(customAlert(data.error, alertTypes.error))
       }
     )
-    dispatch(setLoading('', loadingTypes.delete, 1))
+    dispatch(setLoading('', loadingTypes.delete, loadingElements.list))
   }
 }

@@ -5,7 +5,13 @@ import { useDispatch, useSelector } from 'react-redux'
 import List from '../components/List'
 import ListCreateButton from '../components/ListCreateButton'
 import getLayoutAfterDrag from '../helpers/getLayoutAfterDrag'
-import { dragAndDropTypes, dragType, listIdPrefix } from '../constants/values'
+import {
+  dragAndDropTypes,
+  dragType,
+  listIdPrefix,
+  loadingElements,
+  loadingTypes
+} from '../constants/values'
 import createItemTemplate from '../helpers/createItemTemplate'
 import { put_lists } from '../redux/listReducer/actions'
 import { delete_item, put_items } from '../redux/itemReducer/actions'
@@ -112,7 +118,7 @@ function ListsContainer({
             <ListCreateButton
               onClick={createList}
               color={board.color}
-              loading={loading}
+              loading={loading[loadingTypes.create][loadingElements.list]}
             />
           </Row>
         )}

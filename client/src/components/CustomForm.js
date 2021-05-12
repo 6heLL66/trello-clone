@@ -57,7 +57,7 @@ export default function CustomForm({
       </Row>
       {items}
       {error && <Row className="error mb-3">{error}</Row>}
-      {loading.auth[0] ? (
+      {loading ? (
         <ReactLoading
           type="spin"
           color={loadingColor}

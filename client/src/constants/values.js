@@ -36,6 +36,15 @@ export const loadingTypes = {
   colors: 'colors'
 }
 
+export const loadingElements = {
+  list: 'list',
+  board: 'board',
+  boards: 'boards',
+  lists: 'lists',
+  item: 'item',
+  form: 'form'
+}
+
 export const dragAndDropTypes = {
   list: 'LIST',
   task: 'TASK'
