@@ -26,18 +26,18 @@ export default function CustomForm({
   const items = useMemo(() => {
     let items = []
     for (let key in fields) {
-      let e = fields[key]
+      let field = fields[key]
       items.push(
         <Form.Group key={key}>
-          <Form.Label>{e.label}</Form.Label>
+          <Form.Label>{field.label}</Form.Label>
           <Form.Control
-            type={e.type}
-            placeholder={e.placeholder}
+            type={field.type}
+            placeholder={field.placeholder}
             name={key}
-            value={e.value}
+            value={field.value}
             onChange={(evt) => handleInputs(evt, key)}
           />
-          {e.muted && <Form.Text className="text-muted">{e.muted}</Form.Text>}
+          {field.muted && <Form.Text className="text-muted">{field.muted}</Form.Text>}
         </Form.Group>
       )
     }

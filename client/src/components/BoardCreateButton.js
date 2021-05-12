@@ -37,7 +37,7 @@ function BoardCreateButton({ onClick, isOpen, setIsOpen, loading }) {
         </Row>
         <Row>
           {!loading ? (
-            <Button variant="success" onClick={createBoard}>
+            <Button variant='success' onClick={createBoard}>
               Create
             </Button>
           ) : (

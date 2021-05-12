@@ -44,7 +44,6 @@ function BoardsList() {
     if (alert) {
       return dispatch(setAlert(alert))
     }
-
     dispatch(put_board(board, token))
   }
 
