@@ -4,18 +4,18 @@ import { useEffect, useState } from 'react'
 import { Redirect } from 'react-router-dom'
 import ReactLoading from 'react-loading'
 
-import {
-  delete_board,
-  fetch_boards,
-  put_board,
-  putBoard,
-  setAlert
-} from '../redux/actions/actionCreators'
 import BoardButton from '../components/BoardButton'
 import validateName from '../helpers/validateName'
 import BoardCreateButton from '../components/BoardCreateButton'
 import { loadingColor, loadingSizes } from '../constants/values'
 import { boardPage } from '../constants/routes'
+import {
+  delete_board,
+  fetch_boards,
+  put_board,
+  putBoard
+} from '../redux/boardReducer/actions'
+import { setAlert } from '../redux/alertReducer/actions'
 
 function BoardsList() {
   const boards = useSelector((state) => state.boards.boards)

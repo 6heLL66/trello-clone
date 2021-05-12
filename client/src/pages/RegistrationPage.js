@@ -3,11 +3,12 @@ import CustomForm from '../components/CustomForm'
 import { useDispatch, useSelector } from 'react-redux'
 import { Redirect } from 'react-router-dom'
 
-import { registerSuccess } from '../constants/alerts'
-import { register, setAlert, setError } from '../redux/actions/actionCreators'
 import registerValidation from '../helpers/registerValidation'
 import { regStatuses } from '../constants/values'
 import { regProps } from '../constants/forms'
+import { setError } from '../redux/loadingReducer/actions'
+import { register } from '../redux/authReducer/actions'
+import { loginPage } from '../constants/routes'
 
 export default function RegistrationPage() {
   const dispatch = useDispatch()
@@ -24,9 +25,9 @@ export default function RegistrationPage() {
       dispatch(setError(validation))
     }
   }
+
   if (status === regStatuses.success) {
-    dispatch(setAlert(registerSuccess))
-    return <Redirect to="/login" />
+    return <Redirect push to={loginPage} />
   }
 
   return (

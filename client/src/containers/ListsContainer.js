@@ -5,14 +5,11 @@ import { useDispatch, useSelector } from 'react-redux'
 import List from '../components/List'
 import ListCreateButton from '../components/ListCreateButton'
 import getLayoutAfterDrag from '../helpers/getLayoutAfterDrag'
-import {
-  delete_item,
-  put_items,
-  put_lists,
-  setAlert
-} from '../redux/actions/actionCreators'
 import { dragAndDropTypes, dragType, listIdPrefix } from '../constants/values'
 import createItemTemplate from '../helpers/createItemTemplate'
+import { put_lists } from '../redux/listReducer/actions'
+import { delete_item, put_items } from '../redux/itemReducer/actions'
+import { setAlert } from '../redux/alertReducer/actions'
 
 function ListsContainer({
   closeClick,

@@ -1,9 +1,9 @@
 import { Container, Row } from 'react-bootstrap'
-import { login } from '../redux/actions/actionCreators'
 import { useDispatch, useSelector } from 'react-redux'
 
 import CustomForm from '../components/CustomForm'
 import { loginProps } from '../constants/forms'
+import { login } from '../redux/authReducer/actions'
 
 export default function LoginPage() {
   const dispatch = useDispatch()

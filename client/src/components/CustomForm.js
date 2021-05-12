@@ -37,7 +37,9 @@ export default function CustomForm({
             value={field.value}
             onChange={(evt) => handleInputs(evt, key)}
           />
-          {field.muted && <Form.Text className="text-muted">{field.muted}</Form.Text>}
+          {field.muted && (
+            <Form.Text className="text-muted">{field.muted}</Form.Text>
+          )}
         </Form.Group>
       )
     }

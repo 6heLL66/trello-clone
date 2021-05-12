@@ -6,16 +6,13 @@ import * as Icon from 'react-bootstrap-icons'
 import ReactLoading from 'react-loading'
 
 import '../styles/BoardPage.css'
-import {
-  delete_list,
-  get_board,
-  put_lists
-} from '../redux/actions/actionCreators'
 import createListTemplate from '../helpers/createListTemplate'
 import ListsContainer from '../containers/ListsContainer'
 import { colors } from '../constants/colors'
 import { loadingColor, loadingSizes } from '../constants/values'
 import { boardsPage } from '../constants/routes'
+import { get_board } from '../redux/boardReducer/actions'
+import { delete_list, put_lists } from '../redux/listReducer/actions'
 
 function BoardPage() {
   const { id } = useParams()

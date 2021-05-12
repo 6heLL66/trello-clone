@@ -4,4 +4,4 @@ export const boardPage = '/board'
 
 export const loginPage = '/login'
 
-export const registrationPage = 'registration'
+export const registrationPage = '/registration'

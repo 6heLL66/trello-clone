@@ -6,10 +6,11 @@ import { useRoutes } from '../routes'
 
 import '../styles/App.css'
 import logo from '../images/logo.png'
-import { auth, unsetAlert } from '../redux/actions/actionCreators'
 import Alert from '../components/Alert'
 import { loadingTypes, logoSize } from '../constants/values'
 import { loginPage } from '../constants/routes'
+import { unsetAlert } from '../redux/alertReducer/actions'
+import { auth } from '../redux/authReducer/actions'
 
 function App() {
   const alert = useSelector((state) => state.alerts.alert)
