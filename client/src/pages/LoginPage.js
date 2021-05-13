@@ -5,16 +5,20 @@ import CustomForm from '../components/CustomForm'
 import { loginProps } from '../constants/forms'
 import { login } from '../redux/authReducer/actions'
 import { loadingElements, loadingTypes } from '../constants/values'
+import { useCallback } from 'react'
 
 export default function LoginPage() {
   const dispatch = useDispatch()
   const loading = useSelector((state) => state.loading)
   const error = useSelector((state) => state.auth.error)
 
-  const handleSubmit = (e, fields) => {
-    e.preventDefault()
-    dispatch(login(fields.username.value, fields.password.value))
-  }
+  const handleSubmit = useCallback(
+    (e, fields) => {
+      e.preventDefault()
+      dispatch(login(fields.username.value, fields.password.value))
+    },
+    [dispatch]
+  )
 
   return (
     <Container>

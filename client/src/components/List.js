@@ -1,5 +1,5 @@
 import { Card, ListGroup, Row } from 'react-bootstrap'
-import { useMemo, useState } from 'react'
+import { useCallback, useMemo, useState } from 'react'
 import * as Icon from 'react-bootstrap-icons'
 import { Draggable, Droppable } from 'react-beautiful-dnd'
 import ReactLoading from 'react-loading'
@@ -36,19 +36,23 @@ function List({
       .sort((a, b) => a.ind - b.ind)
   }, [items, list.id])
 
-  const keyInputHandler = (e) => {
-    if (e.key === sendKey) {
-      let valid = validateName(e.target.value, [])
-      if (valid) {
-        return alert(valid)
-      } else if (e.target.name === 'list') {
-        putList({ ...list, name: listName }, list.parentId, list.ownerId)
-      } else if (e.target.name === 'item') {
-        putItem(taskName, childItems.length, list.ownerId, list.id)
-        setTaskName('')
+  const keyInputHandler = useCallback(
+    (e) => {
+      if (e.key === sendKey) {
+        let valid = validateName(e.target.value, [])
+        if (valid) {
+          return alert(valid)
+        }
+        if (e.target.name === 'list') {
+          putList({ ...list, name: listName }, list.parentId, list.ownerId)
+        } else {
+          putItem(taskName, childItems.length, list.ownerId, list.id)
+          setTaskName('')
+        }
       }
-    }
-  }
+    },
+    [list, taskName, childItems, listName, alert, putList, putItem, setTaskName]
+  )
 
   return (
     <Draggable

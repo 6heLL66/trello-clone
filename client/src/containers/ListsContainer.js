@@ -16,6 +16,7 @@ import createItemTemplate from '../helpers/createItemTemplate'
 import { put_lists } from '../redux/listReducer/actions'
 import { delete_item, put_items } from '../redux/itemReducer/actions'
 import { setAlert } from '../redux/alertReducer/actions'
+import { useCallback } from 'react'
 
 function ListsContainer({
   closeClick,
@@ -28,60 +29,78 @@ function ListsContainer({
   const dispatch = useDispatch()
   const loading = useSelector((state) => state.loading)
 
-  const onDragEnd = (info) => {
-    const { reason, destination, draggableId, source } = info
-    if (reason !== dragType || !destination) {
-      return
-    }
-    if (draggableId.split('-')[0] === listIdPrefix) {
-      dispatch(
-        put_lists(
-          getLayoutAfterDrag(
-            lists,
-            source,
-            destination,
-            draggableId.split('-')[1],
-            false
-          ),
-          token,
-          board.parentId,
-          board.id,
-          true
+  const onDragEnd = useCallback(
+    (info) => {
+      const { reason, destination, draggableId, source } = info
+      if (reason !== dragType || !destination) {
+        return
+      }
+      if (draggableId.split('-')[0] === listIdPrefix) {
+        dispatch(
+          put_lists(
+            getLayoutAfterDrag(
+              lists,
+              source,
+              destination,
+              draggableId.split('-')[1],
+              false
+            ),
+            token,
+            board.parentId,
+            board.id,
+            true
+          )
         )
-      )
-    } else {
-      dispatch(
-        put_items(
-          getLayoutAfterDrag(items, source, destination, draggableId, true),
-          token,
-          board.parentId,
-          true
+      } else {
+        dispatch(
+          put_items(
+            getLayoutAfterDrag(items, source, destination, draggableId, true),
+            token,
+            board.parentId,
+            true
+          )
         )
+      }
+    },
+    [lists, board, dispatch, items, token]
+  )
+
+  const closeItem = useCallback(
+    (id) => {
+      dispatch(delete_item(id, token))
+    },
+    [dispatch, token]
+  )
+
+  const changeItem = useCallback(
+    (item, ownerId) => {
+      dispatch(put_items([item], token, ownerId))
+    },
+    [dispatch, token]
+  )
+
+  const putItem = useCallback(
+    (name, index, ownerId, parentId) => {
+      dispatch(
+        put_items([createItemTemplate(name, index, parentId)], token, ownerId)
       )
-    }
-  }
+    },
+    [dispatch, token]
+  )
 
-  const closeItem = (id) => {
-    dispatch(delete_item(id, token))
-  }
+  const alert = useCallback(
+    (alert) => {
+      dispatch(setAlert(alert))
+    },
+    [dispatch]
+  )
 
-  const changeItem = (item, ownerId) => {
-    dispatch(put_items([item], token, ownerId))
-  }
-
-  const putItem = (name, index, ownerId, parentId) => {
-    dispatch(
-      put_items([createItemTemplate(name, index, parentId)], token, ownerId)
-    )
-  }
-
-  const alert = (alert) => {
-    dispatch(setAlert(alert))
-  }
-
-  const putList = (list, parentId, ownerId) => {
-    dispatch(put_lists([list], token, ownerId, parentId))
-  }
+  const putList = useCallback(
+    (list, parentId, ownerId) => {
+      dispatch(put_lists([list], token, ownerId, parentId))
+    },
+    [dispatch, token]
+  )
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>

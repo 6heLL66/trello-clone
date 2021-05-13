@@ -1,6 +1,6 @@
 import { Container, Row } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { Redirect, useParams } from 'react-router-dom'
 import * as Icon from 'react-bootstrap-icons'
 import ReactLoading from 'react-loading'
@@ -39,7 +39,7 @@ function BoardPage() {
     dispatch(get_board(id))
   }, [dispatch, id])
 
-  const createList = () => {
+  const createList = useCallback(() => {
     dispatch(
       put_lists(
         [createListTemplate(lists.length, board.id)],
@@ -48,11 +48,14 @@ function BoardPage() {
         board.id
       )
     )
-  }
+  }, [dispatch, token, lists, board])
 
-  const closeClick = (id) => {
-    dispatch(delete_list(id, token))
-  }
+  const closeClick = useCallback(
+    (id) => {
+      dispatch(delete_list(id, token))
+    },
+    [dispatch, token]
+  )
 
   if (redirect) {
     return <Redirect push to={redirect} />

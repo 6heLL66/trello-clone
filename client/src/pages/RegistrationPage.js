@@ -9,6 +9,7 @@ import { regProps } from '../constants/forms'
 import { setError } from '../redux/loadingReducer/actions'
 import { register } from '../redux/authReducer/actions'
 import { loginPage } from '../constants/routes'
+import { useCallback } from 'react'
 
 export default function RegistrationPage() {
   const dispatch = useDispatch()
@@ -16,15 +17,18 @@ export default function RegistrationPage() {
   const error = useSelector((state) => state.auth.error)
   const status = useSelector((state) => state.auth.regStatus)
 
-  const handleSubmit = (e, fields) => {
-    e.preventDefault()
-    let validation = registerValidation(fields)
-    if (!validation) {
-      dispatch(register(fields.username.value, fields.password.value))
-    } else {
-      dispatch(setError(validation))
-    }
-  }
+  const handleSubmit = useCallback(
+    (e, fields) => {
+      e.preventDefault()
+      let validation = registerValidation(fields)
+      if (!validation) {
+        dispatch(register(fields.username.value, fields.password.value))
+      } else {
+        dispatch(setError(validation))
+      }
+    },
+    [dispatch]
+  )
 
   if (status === regStatuses.success) {
     return <Redirect push to={loginPage} />

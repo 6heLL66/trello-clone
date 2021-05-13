@@ -1,6 +1,6 @@
 import { Container, Row } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { Redirect } from 'react-router-dom'
 import ReactLoading from 'react-loading'
 
@@ -44,26 +44,38 @@ function BoardsList() {
     setIsOpen(false)
   }, [boards])
 
-  const handleCreateClick = (board) => {
-    let alert = validateName(board.name, boards)
-    if (alert) {
-      return dispatch(setAlert(alert))
-    }
-    dispatch(put_board(board, token))
-  }
+  const handleCreateClick = useCallback(
+    (board) => {
+      let alert = validateName(board.name, boards)
+      if (alert) {
+        return dispatch(setAlert(alert))
+      }
+      dispatch(put_board(board, token))
+    },
+    [boards, token, dispatch]
+  )
 
-  const handleBoardClick = (board) => {
-    setRedirect(`${boardPage}/${board.id}`)
-  }
+  const handleBoardClick = useCallback(
+    (board) => {
+      setRedirect(`${boardPage}/${board.id}`)
+    },
+    [setRedirect]
+  )
 
-  const handleCrossClick = (id) => {
-    dispatch(delete_board(id, token))
-  }
+  const handleCrossClick = useCallback(
+    (id) => {
+      dispatch(delete_board(id, token))
+    },
+    [token, dispatch]
+  )
 
-  const handleColorClick = (board) => {
-    dispatch(putBoard(board))
-    dispatch(put_board({ ...board }, token))
-  }
+  const handleColorClick = useCallback(
+    (board) => {
+      dispatch(putBoard(board))
+      dispatch(put_board({ ...board }, token))
+    },
+    [dispatch, token]
+  )
 
   if (redirect) {
     return <Redirect push to={redirect} />

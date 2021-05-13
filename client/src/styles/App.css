@@ -39,16 +39,6 @@ strong::-moz-selection {
   background: transparent;
 }
 
-.pink {
-  background: #e15764;
-}
-.blue {
-  background: #5050c0;
-}
-.yellow {
-  background: #c5c553;
-}
-
 @keyframes up {
   from {
     transform: translate(0px, 0px);

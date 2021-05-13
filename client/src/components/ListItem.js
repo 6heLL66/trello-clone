@@ -10,11 +10,12 @@ import {
   loadingSizes,
   loadingTypes
 } from '../constants/values'
+import { useCallback } from 'react'
 
 function ListItem({ item, closeItem, change, index, loading }) {
-  const handleCheckbox = () => {
+  const handleCheckbox = useCallback(() => {
     change({ ...item, isDone: item.isDone === 1 ? 0 : 1 })
-  }
+  }, [item, change])
 
   return (
     <Draggable

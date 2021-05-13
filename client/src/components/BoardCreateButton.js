@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
 import * as Icon from 'react-bootstrap-icons'
 import { Button, Row } from 'react-bootstrap'
 import ReactLoading from 'react-loading'
@@ -9,10 +9,10 @@ import { loadingColor, loadingSizes, sendKey } from '../constants/values'
 function BoardCreateButton({ onClick, isOpen, setIsOpen, loading }) {
   const [name, setName] = useState('')
 
-  const createBoard = () => {
+  const createBoard = useCallback(() => {
     onClick(createBoardTemplate(name))
     setName('')
-  }
+  }, [setName, name, onClick])
 
   if (isOpen) {
     return (
@@ -54,12 +54,11 @@ function BoardCreateButton({ onClick, isOpen, setIsOpen, loading }) {
         </Row>
       </div>
     )
-  } else {
-    return (
-      <div className="board-button" onClick={() => setIsOpen(true)}>
-        <span className="m-auto">Create New Board</span>
-      </div>
-    )
   }
+  return (
+    <div className="board-button" onClick={() => setIsOpen(true)}>
+      <span className="m-auto">Create New Board</span>
+    </div>
+  )
 }
 export default BoardCreateButton

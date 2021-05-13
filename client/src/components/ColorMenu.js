@@ -1,36 +1,37 @@
 import { Row } from 'react-bootstrap'
+import { useCallback } from 'react'
 
-import { colorNames } from '../constants/colors'
+import * as colorValues from '../constants/colors'
 
-function ColorMenu({ changeColor, blocked }) {
-  const click = (e, color) => {
-    if (!blocked) {
-      changeColor(e, color)
-    } else {
-      e.stopPropagation()
-    }
-  }
+function ColorMenu({ changeColor, blocked, colors }) {
+  const click = useCallback(
+    (e, color) => {
+      if (!blocked) {
+        changeColor(e, color)
+      } else {
+        e.stopPropagation()
+      }
+    },
+    [changeColor, blocked]
+  )
 
   return (
     <Row className="colors">
-      <div
-        className={`color-box col-1 ${blocked && 'disabled'}`}
-        onClick={(e) => click(e, colorNames.pink)}
-      >
-        <div className={`color ${colorNames.pink}`} />
-      </div>
-      <div
-        className={`color-box col-1 ${blocked && 'disabled'}`}
-        onClick={(e) => click(e, colorNames.blue)}
-      >
-        <div className={`color ${colorNames.blue}`} />
-      </div>
-      <div
-        className={`color-box col-1 ${blocked && 'disabled'}`}
-        onClick={(e) => click(e, colorNames.yellow)}
-      >
-        <div className={`color ${colorNames.yellow}`} />
-      </div>
+      {colors &&
+        colors.map((color, i) => {
+          return (
+            <div
+              key={i}
+              className={`color-box col-1 ${blocked && 'disabled'}`}
+              onClick={(e) => click(e, color)}
+            >
+              <div
+                className={`color`}
+                style={{ background: colorValues.colors[color] }}
+              />
+            </div>
+          )
+        })}
     </Row>
   )
 }

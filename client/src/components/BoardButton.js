@@ -1,10 +1,10 @@
 import * as Icon from 'react-bootstrap-icons'
 import { Row } from 'react-bootstrap'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import ReactLoading from 'react-loading'
 
 import ColorMenu from './ColorMenu'
-import { colors } from '../constants/colors'
+import { colorNames, colors } from '../constants/colors'
 import {
   animBorder,
   animInterval,
@@ -32,42 +32,54 @@ function BoardButton({
     }
   }, [timeIndex])
 
-  const crossHandler = (e) => {
-    e.stopPropagation()
-    crossClick(board.id)
-  }
+  const crossHandler = useCallback(
+    (e) => {
+      e.stopPropagation()
+      crossClick(board.id)
+    },
+    [board, crossClick]
+  )
 
-  const colorChangeHandler = (e, color) => {
-    e.stopPropagation()
-    colorClick({ ...board, color })
-  }
+  const colorChangeHandler = useCallback(
+    (e, color) => {
+      e.stopPropagation()
+      colorClick({ ...board, color })
+    },
+    [board, colorClick]
+  )
 
-  const boardClickHandler = () => {
+  const boardClickHandler = useCallback(() => {
     onClick(board)
-  }
+  }, [board, onClick])
 
-  const animate = (value, diff) => {
-    value += diff
-    if (value < 0 || value > 1) {
-      return
-    }
-    setOpacity(value)
-    setTimeIndex(setTimeout(animate, animInterval, value, diff))
-  }
+  const animate = useCallback(
+    (value, diff) => {
+      value += diff
+      if (value < 0 || value > 1) {
+        return
+      }
+      setOpacity(value)
+      setTimeIndex(setTimeout(animate, animInterval, value, diff))
+    },
+    [setOpacity, setTimeIndex]
+  )
 
-  const startAnimation = (type) => {
-    if (timeIndex) {
-      clearTimeout(timeIndex)
-    }
-    setTimeIndex(
-      setTimeout(
-        animate,
-        animInterval,
-        opacity,
-        type === animTypes.show ? animBorder : -animBorder
+  const startAnimation = useCallback(
+    (type) => {
+      if (timeIndex) {
+        clearTimeout(timeIndex)
+      }
+      setTimeIndex(
+        setTimeout(
+          animate,
+          animInterval,
+          opacity,
+          type === animTypes.show ? animBorder : -animBorder
+        )
       )
-    )
-  }
+    },
+    [timeIndex, setTimeIndex, opacity, animate]
+  )
 
   return (
     <div
@@ -84,6 +96,7 @@ function BoardButton({
         <ColorMenu
           changeColor={colorChangeHandler}
           blocked={board.id === blocked}
+          colors={Object.keys(colorNames)}
         />
         {loading !== board.id ? (
           <Icon.X onClick={crossHandler} />
