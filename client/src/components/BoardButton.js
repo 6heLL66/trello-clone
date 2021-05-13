@@ -6,11 +6,11 @@ import ReactLoading from 'react-loading'
 import ColorMenu from './ColorMenu'
 import { colorNames, colors } from '../constants/colors'
 import {
-  animBorder,
+  animStep,
   animInterval,
   animTypes,
   loadingColor,
-  loadingSizes
+  loadingSizes, animBorder
 } from '../constants/values'
 
 function BoardButton({
@@ -55,11 +55,10 @@ function BoardButton({
   const animate = useCallback(
     (value, diff) => {
       value += diff
-      if (value < 0 || value > 1) {
-        return
+      if (value > animBorder.low && value < animBorder.high) {
+        setOpacity(value)
+        setTimeIndex(setTimeout(animate, animInterval, value, diff))
       }
-      setOpacity(value)
-      setTimeIndex(setTimeout(animate, animInterval, value, diff))
     },
     [setOpacity, setTimeIndex]
   )
@@ -74,7 +73,7 @@ function BoardButton({
           animate,
           animInterval,
           opacity,
-          type === animTypes.show ? animBorder : -animBorder
+          type === animTypes.show ? animStep : -animStep
         )
       )
     },
