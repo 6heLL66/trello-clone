@@ -1,6 +1,6 @@
 import * as Icon from 'react-bootstrap-icons'
 import { Row } from 'react-bootstrap'
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import ReactLoading from 'react-loading'
 
 import ColorMenu from './ColorMenu'
@@ -23,6 +23,10 @@ function BoardButton({
 }) {
   const [opacity, setOpacity] = useState(0)
   const [timeIndex, setTimeIndex] = useState(null)
+
+  const usableColors = useMemo(() => {
+    return Object.keys(colorNames)
+  }, [])
 
   useEffect(() => {
     return () => {
@@ -95,7 +99,7 @@ function BoardButton({
         <ColorMenu
           changeColor={colorChangeHandler}
           blocked={board.id === blocked}
-          colors={Object.keys(colorNames)}
+          colors={usableColors}
         />
         {loading !== board.id ? (
           <Icon.X onClick={crossHandler} />
