@@ -6,7 +6,7 @@ import * as Icon from 'react-bootstrap-icons'
 import ReactLoading from 'react-loading'
 
 import '../styles/BoardPage.css'
-import createListTemplate from '../helpers/createListTemplate'
+import List from '../helpers/ListTemplate'
 import ListsContainer from '../containers/ListsContainer'
 import { colors } from '../constants/colors'
 import {
@@ -42,7 +42,7 @@ function BoardPage() {
   const createList = useCallback(() => {
     dispatch(
       putLists(
-        [createListTemplate(lists.length, board.id)],
+        [new List(lists.length, board.id)],
         token,
         board.parentId,
         board.id

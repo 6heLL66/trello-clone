@@ -59,6 +59,7 @@ function getLayoutAfterDrag(...props) {
     draggableId,
     withChangingLocation
   ] = props
+  console.log(props)
   if (withChangingLocation) {
     if (source.droppableId === destination.droppableId) {
       console.log(source)

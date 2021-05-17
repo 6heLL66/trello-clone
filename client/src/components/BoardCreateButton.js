@@ -3,14 +3,14 @@ import * as Icon from 'react-bootstrap-icons'
 import { Button, Row } from 'react-bootstrap'
 import ReactLoading from 'react-loading'
 
-import createBoardTemplate from '../helpers/createBoardTemplate'
+import Board from '../helpers/BoardTemplate'
 import { loadingColor, loadingSizes, sendKey } from '../constants/values'
 
 function BoardCreateButton({ onClick, isOpen, setIsOpen, loading }) {
   const [name, setName] = useState('')
 
   const createBoard = useCallback(() => {
-    onClick(createBoardTemplate(name))
+    onClick(new Board(name))
     setName('')
   }, [setName, name, onClick])
 

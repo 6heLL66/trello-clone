@@ -12,7 +12,7 @@ import {
   loadingElements,
   loadingTypes
 } from '../constants/values'
-import createItemTemplate from '../helpers/createItemTemplate'
+import Item from '../helpers/ItemTemplate'
 import { putLists } from '../redux/listReducer/actions'
 import { deleteItem, putItems } from '../redux/itemReducer/actions'
 import { setAlert } from '../redux/alertReducer/actions'
@@ -85,7 +85,7 @@ function ListsContainer({
   const putItem = useCallback(
     (name, index, ownerId, parentId) => {
       dispatch(
-        putItems([createItemTemplate(name, index, parentId)], token, ownerId)
+        putItems([new Item(name, index, parentId)], token, ownerId)
       )
     },
     [dispatch, token]
@@ -108,7 +108,7 @@ function ListsContainer({
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       <Droppable
-        droppableId="container"
+        droppableId={String(board.id)}
         direction="horizontal"
         type={dragAndDropTypes.list}
       >
