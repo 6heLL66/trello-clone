@@ -16,8 +16,8 @@ import {
   loadingTypes
 } from '../constants/values'
 import { boardsPage } from '../constants/routes'
-import { get_board } from '../redux/boardReducer/actions'
-import { delete_list, put_lists } from '../redux/listReducer/actions'
+import { getBoard } from '../redux/boardReducer/actions'
+import { deleteList, putLists } from '../redux/listReducer/actions'
 
 function BoardPage() {
   const { id } = useParams()
@@ -36,12 +36,12 @@ function BoardPage() {
   const [redirect, setRedirect] = useState('')
 
   useEffect(() => {
-    dispatch(get_board(id))
+    dispatch(getBoard(id))
   }, [dispatch, id])
 
   const createList = useCallback(() => {
     dispatch(
-      put_lists(
+      putLists(
         [createListTemplate(lists.length, board.id)],
         token,
         board.parentId,
@@ -52,7 +52,7 @@ function BoardPage() {
 
   const closeClick = useCallback(
     (id) => {
-      dispatch(delete_list(id, token))
+      dispatch(deleteList(id, token))
     },
     [dispatch, token]
   )
@@ -86,24 +86,24 @@ function BoardPage() {
         />
       </Container>
     )
-  } else if (!loading[loadingTypes.loadData][loadingElements.lists]) {
+  }
+  if (!loading[loadingTypes.loadData][loadingElements.lists]) {
     return (
       <Row className="justify-content-center w-100">
         <div className="border-error">Board did not found</div>
       </Row>
     )
-  } else {
-    return (
-      <Row className="justify-content-center">
-        <ReactLoading
-          type="spin"
-          className="my-auto"
-          color={loadingColor}
-          height={loadingSizes.big}
-          width={loadingSizes.big}
-        />
-      </Row>
-    )
   }
+  return (
+    <Row className="justify-content-center">
+      <ReactLoading
+        type="spin"
+        className="my-auto"
+        color={loadingColor}
+        height={loadingSizes.big}
+        width={loadingSizes.big}
+      />
+    </Row>
+  )
 }
 export default BoardPage

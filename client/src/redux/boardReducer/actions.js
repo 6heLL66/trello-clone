@@ -16,17 +16,17 @@ import makeRequest from '../../helpers/makeRequest'
 
 import { setLoading } from '../loadingReducer/actions'
 import { setAlert } from '../alertReducer/actions'
-import { updateLists } from '../listReducer/actions'
-import { updateItems } from '../itemReducer/actions'
+import { updateListsLocal } from '../listReducer/actions'
+import { updateItemsLocal } from '../itemReducer/actions'
 
-export function putBoard(board) {
+export function putBoardLocal(board) {
   return {
     type: PUT_BOARD,
     board
   }
 }
 
-export function setBoards(boards) {
+export function setBoardsLocal(boards) {
   return {
     type: SET_BOARDS,
     boards
@@ -40,14 +40,14 @@ export function setCurrentBoard(board) {
   }
 }
 
-export function deleteBoard(id) {
+export function deleteBoardLocal(id) {
   return {
     type: DELETE_BOARD,
     id
   }
 }
 
-export function fetch_boards(id) {
+export function fetchBoards(id) {
   return async (dispatch) => {
     dispatch(setLoading(true, loadingTypes.loadData, loadingElements.boards))
     await makeRequest(
@@ -55,7 +55,7 @@ export function fetch_boards(id) {
       'GET',
       null,
       (data) => {
-        dispatch(setBoards(data))
+        dispatch(setBoardsLocal(data))
       },
       (data) => {
         dispatch(customAlert(data.error, alertTypes.error))
@@ -65,7 +65,7 @@ export function fetch_boards(id) {
   }
 }
 
-export function put_board(board, token) {
+export function putBoard(board, token) {
   return async (dispatch) => {
     dispatch(setLoading(true, loadingTypes.create, loadingElements.board))
     if (board.id) {
@@ -79,7 +79,7 @@ export function put_board(board, token) {
         token
       },
       (data) => {
-        dispatch(putBoard(data))
+        dispatch(putBoardLocal(data))
         if (!board.id) {
           dispatch(setAlert(boardCreatedAlert))
         }
@@ -93,16 +93,16 @@ export function put_board(board, token) {
   }
 }
 
-export function delete_board(id, token) {
+export function deleteBoard(id, token) {
   return async (dispatch) => {
     dispatch(setLoading(id, loadingTypes.delete, loadingElements.board))
     await makeRequest(
       `/api/board/delete?id=${id}&token=${token}`,
       'DELETE',
       null,
-      (data) => {
+      () => {
         dispatch(setAlert(boardDeletedAlert))
-        dispatch(deleteBoard(id))
+        dispatch(deleteBoardLocal(id))
       },
       (data) => {
         dispatch(customAlert(data.error, alertTypes.error))
@@ -112,7 +112,7 @@ export function delete_board(id, token) {
   }
 }
 
-export function get_board(id) {
+export function getBoard(id) {
   return async (dispatch) => {
     dispatch(setLoading(true, loadingTypes.loadData, loadingElements.lists))
     await makeRequest(
@@ -121,8 +121,8 @@ export function get_board(id) {
       null,
       (data) => {
         dispatch(setCurrentBoard(data.board))
-        dispatch(updateLists(data.lists))
-        dispatch(updateItems(data.items))
+        dispatch(updateListsLocal(data.lists))
+        dispatch(updateItemsLocal(data.items))
       },
       (data) => {
         dispatch(customAlert(data.error, alertTypes.error))

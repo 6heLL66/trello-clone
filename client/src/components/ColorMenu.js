@@ -7,10 +7,9 @@ function ColorMenu({ changeColor, blocked, colors }) {
   const click = useCallback(
     (e, color) => {
       if (!blocked) {
-        changeColor(e, color)
-      } else {
-        e.stopPropagation()
+        return changeColor(e, color)
       }
+      e.stopPropagation()
     },
     [changeColor, blocked]
   )

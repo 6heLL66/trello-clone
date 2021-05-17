@@ -51,13 +51,7 @@ export function login(username, password) {
 
 export function register(username, password) {
   return async (dispatch) => {
-    dispatch(
-      setLoading(
-        true,
-        loadingTypes.auth,
-        dispatch(setLoading(false, loadingTypes.auth, loadingElements.form))
-      )
-    )
+    dispatch(setLoading(true, loadingTypes.auth, loadingElements.form))
     await makeRequest(
       '/api/auth/add',
       'PUT',
@@ -75,13 +69,7 @@ export function register(username, password) {
         dispatch(setError(data.message || data.error))
       }
     )
-    dispatch(
-      setLoading(
-        false,
-        loadingTypes.auth,
-        dispatch(setLoading(false, loadingTypes.auth, loadingElements.form))
-      )
-    )
+    dispatch(setLoading(false, loadingTypes.auth, loadingElements.form))
   }
 }
 

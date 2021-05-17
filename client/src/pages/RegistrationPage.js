@@ -22,10 +22,9 @@ export default function RegistrationPage() {
       e.preventDefault()
       let validation = registerValidation(fields)
       if (!validation) {
-        dispatch(register(fields.username.value, fields.password.value))
-      } else {
-        dispatch(setError(validation))
+        return dispatch(register(fields.username.value, fields.password.value))
       }
+      dispatch(setError(validation))
     },
     [dispatch]
   )

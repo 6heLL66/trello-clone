@@ -1,16 +1,17 @@
 import * as Icon from 'react-bootstrap-icons'
 import { Row } from 'react-bootstrap'
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import ReactLoading from 'react-loading'
 
 import ColorMenu from './ColorMenu'
-import { colorNames, colors } from '../constants/colors'
+import { usableColors, colors } from '../constants/colors'
 import {
   animStep,
   animInterval,
   animTypes,
   loadingColor,
-  loadingSizes, animBorder
+  loadingSizes,
+  animBorder
 } from '../constants/values'
 
 function BoardButton({
@@ -23,10 +24,6 @@ function BoardButton({
 }) {
   const [opacity, setOpacity] = useState(0)
   const [timeIndex, setTimeIndex] = useState(null)
-
-  const usableColors = useMemo(() => {
-    return Object.keys(colorNames)
-  }, [])
 
   useEffect(() => {
     return () => {

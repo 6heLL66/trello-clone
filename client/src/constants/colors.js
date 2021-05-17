@@ -9,3 +9,5 @@ export const colorNames = {
   blue: 'blue',
   yellow: 'yellow'
 }
+
+export const usableColors = Object.keys(colorNames)

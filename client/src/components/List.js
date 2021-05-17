@@ -44,11 +44,14 @@ function List({
           return alert(valid)
         }
         if (e.target.name === 'list') {
-          putList({ ...list, name: listName }, list.parentId, list.ownerId)
-        } else {
-          putItem(taskName, childItems.length, list.ownerId, list.id)
-          setTaskName('')
+          return putList(
+            { ...list, name: listName },
+            list.parentId,
+            list.ownerId
+          )
         }
+        putItem(taskName, childItems.length, list.ownerId, list.id)
+        setTaskName('')
       }
     },
     [list, taskName, childItems, listName, alert, putList, putItem, setTaskName]

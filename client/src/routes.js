@@ -24,17 +24,16 @@ export const useRoutes = (isAuth) => {
         <Redirect to={boardsPage} />
       </Switch>
     )
-  } else {
-    return (
-      <Switch>
-        <Route path={loginPage}>
-          <LoginPage />
-        </Route>
-        <Route path={registrationPage}>
-          <RegistrationPage />
-        </Route>
-        <Redirect to={loginPage} />
-      </Switch>
-    )
   }
+  return (
+    <Switch>
+      <Route path={loginPage}>
+        <LoginPage />
+      </Route>
+      <Route path={registrationPage}>
+        <RegistrationPage />
+      </Route>
+      <Redirect to={loginPage} />
+    </Switch>
+  )
 }

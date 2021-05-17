@@ -15,15 +15,17 @@ import {
 } from '../constants/values'
 import { boardPage } from '../constants/routes'
 import {
-  delete_board,
-  fetch_boards,
-  put_board,
-  putBoard
+  deleteBoard,
+  fetchBoards,
+  putBoard,
+  putBoardLocal,
+  setCurrentBoard
 } from '../redux/boardReducer/actions'
 import { setAlert } from '../redux/alertReducer/actions'
 
 function BoardsList() {
   const boards = useSelector((state) => state.boards.boards)
+  const currentBoard = useSelector((state) => state.boards.currentBoard)
   const userId = useSelector((state) => state.auth.userId)
   const loading = useSelector((state) => state.loading)
 
@@ -36,7 +38,7 @@ function BoardsList() {
 
   useEffect(() => {
     if (userId !== undefined && !boards) {
-      dispatch(fetch_boards(userId))
+      dispatch(fetchBoards(userId))
     }
   }, [userId, dispatch, boards])
 
@@ -50,7 +52,7 @@ function BoardsList() {
       if (alert) {
         return dispatch(setAlert(alert))
       }
-      dispatch(put_board(board, token))
+      dispatch(putBoard(board, token))
     },
     [boards, token, dispatch]
   )
@@ -64,17 +66,20 @@ function BoardsList() {
 
   const handleCrossClick = useCallback(
     (id) => {
-      dispatch(delete_board(id, token))
+      dispatch(deleteBoard(id, token))
     },
     [token, dispatch]
   )
 
   const handleColorClick = useCallback(
     (board) => {
-      dispatch(putBoard(board))
-      dispatch(put_board({ ...board }, token))
+      dispatch(putBoardLocal(board))
+      dispatch(putBoard({ ...board }, token))
+      if (currentBoard && currentBoard.id === board.id) {
+        dispatch(setCurrentBoard(board))
+      }
     },
-    [dispatch, token]
+    [dispatch, currentBoard, token]
   )
 
   if (redirect) {

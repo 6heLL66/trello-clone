@@ -13,10 +13,10 @@ import {
   loadingTypes
 } from '../constants/values'
 import createItemTemplate from '../helpers/createItemTemplate'
-import { put_lists } from '../redux/listReducer/actions'
-import { delete_item, put_items } from '../redux/itemReducer/actions'
+import { putLists } from '../redux/listReducer/actions'
+import { deleteItem, putItems } from '../redux/itemReducer/actions'
 import { setAlert } from '../redux/alertReducer/actions'
-import { useCallback } from 'react'
+import { useCallback, useMemo } from 'react'
 
 function ListsContainer({
   closeClick,
@@ -29,6 +29,10 @@ function ListsContainer({
   const dispatch = useDispatch()
   const loading = useSelector((state) => state.loading)
 
+  const sortedLists = useMemo(() => {
+    return [...lists].sort((a, b) => a.ind - b.ind)
+  }, [lists])
+
   const onDragEnd = useCallback(
     (info) => {
       const { reason, destination, draggableId, source } = info
@@ -36,8 +40,8 @@ function ListsContainer({
         return
       }
       if (draggableId.split('-')[0] === listIdPrefix) {
-        dispatch(
-          put_lists(
+        return dispatch(
+          putLists(
             getLayoutAfterDrag(
               lists,
               source,
@@ -51,30 +55,29 @@ function ListsContainer({
             true
           )
         )
-      } else {
-        dispatch(
-          put_items(
-            getLayoutAfterDrag(items, source, destination, draggableId, true),
-            token,
-            board.parentId,
-            true
-          )
-        )
       }
+      dispatch(
+        putItems(
+          getLayoutAfterDrag(items, source, destination, draggableId, true),
+          token,
+          board.parentId,
+          true
+        )
+      )
     },
     [lists, board, dispatch, items, token]
   )
 
   const closeItem = useCallback(
     (id) => {
-      dispatch(delete_item(id, token))
+      dispatch(deleteItem(id, token))
     },
     [dispatch, token]
   )
 
   const changeItem = useCallback(
     (item, ownerId) => {
-      dispatch(put_items([item], token, ownerId))
+      dispatch(putItems([item], token, ownerId))
     },
     [dispatch, token]
   )
@@ -82,7 +85,7 @@ function ListsContainer({
   const putItem = useCallback(
     (name, index, ownerId, parentId) => {
       dispatch(
-        put_items([createItemTemplate(name, index, parentId)], token, ownerId)
+        putItems([createItemTemplate(name, index, parentId)], token, ownerId)
       )
     },
     [dispatch, token]
@@ -97,7 +100,7 @@ function ListsContainer({
 
   const putList = useCallback(
     (list, parentId, ownerId) => {
-      dispatch(put_lists([list], token, ownerId, parentId))
+      dispatch(putLists([list], token, ownerId, parentId))
     },
     [dispatch, token]
   )
@@ -114,25 +117,23 @@ function ListsContainer({
             className="ml-5 mt-5 d-inline-flex flex-nowrap"
             ref={provided.innerRef}
           >
-            {lists
-              .sort((a, b) => a.ind - b.ind)
-              .map((e, i) => {
-                return (
-                  <List
-                    list={e}
-                    key={e.id}
-                    index={i}
-                    closeClick={closeClick}
-                    items={items}
-                    loading={loading}
-                    closeItem={closeItem}
-                    changeItem={changeItem}
-                    putItem={putItem}
-                    putList={putList}
-                    alert={alert}
-                  />
-                )
-              })}
+            {sortedLists.map((e, i) => {
+              return (
+                <List
+                  list={e}
+                  key={e.id}
+                  index={i}
+                  closeClick={closeClick}
+                  items={items}
+                  loading={loading}
+                  closeItem={closeItem}
+                  changeItem={changeItem}
+                  putItem={putItem}
+                  putList={putList}
+                  alert={alert}
+                />
+              )
+            })}
             {provided.placeholder}
             <ListCreateButton
               onClick={createList}

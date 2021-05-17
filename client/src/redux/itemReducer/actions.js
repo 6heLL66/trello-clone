@@ -4,24 +4,24 @@ import { alertTypes, customAlert } from '../../constants/alerts'
 import { DELETE_ITEM, UPDATE_ITEMS } from './actionTypes'
 import { setLoading } from '../loadingReducer/actions'
 
-export function deleteItem(id) {
+export function deleteItemLocal(id) {
   return {
     type: DELETE_ITEM,
     id
   }
 }
 
-export function updateItems(items) {
+export function updateItemsLocal(items) {
   return {
     type: UPDATE_ITEMS,
     items
   }
 }
 
-export function put_items(data, token, ownerId, noupdate) {
+export function putItems(data, token, ownerId, noupdate) {
   return async (dispatch) => {
     if (noupdate) {
-      dispatch(updateItems(data))
+      dispatch(updateItemsLocal(data))
     } else {
       dispatch(
         setLoading(data[0].parentId, loadingTypes.create, loadingElements.item)
@@ -37,7 +37,7 @@ export function put_items(data, token, ownerId, noupdate) {
       },
       (data) => {
         if (!noupdate) {
-          dispatch(updateItems(data))
+          dispatch(updateItemsLocal(data))
         }
       },
       (data) => {
@@ -48,7 +48,7 @@ export function put_items(data, token, ownerId, noupdate) {
   }
 }
 
-export function delete_item(id, token) {
+export function deleteItem(id, token) {
   return async (dispatch) => {
     dispatch(setLoading(id, loadingTypes.delete, loadingElements.item))
     await makeRequest(
@@ -56,7 +56,7 @@ export function delete_item(id, token) {
       'DELETE',
       null,
       () => {
-        dispatch(deleteItem(id))
+        dispatch(deleteItemLocal(id))
       },
       (data) => {
         dispatch(customAlert(data.error, alertTypes.error))
