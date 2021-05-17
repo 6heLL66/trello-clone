@@ -31,7 +31,7 @@ function List({
   const [taskName, setTaskName] = useState('')
 
   const childItems = useMemo(() => {
-    return items
+    return [...items]
       .filter((e) => e.parentId === list.id)
       .sort((a, b) => a.ind - b.ind)
   }, [items, list.id])

@@ -57,3 +57,8 @@ export const dragAndDropTypes = {
 export const dragType = 'DROP'
 
 export const listIdPrefix = 'dragList'
+
+export const doneStates = {
+  true: 1,
+  false: 0
+}

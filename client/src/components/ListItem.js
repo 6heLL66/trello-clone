@@ -4,6 +4,7 @@ import { Draggable } from 'react-beautiful-dnd'
 import ReactLoading from 'react-loading'
 
 import {
+  doneStates,
   dragAndDropTypes,
   loadingColor,
   loadingElements,
@@ -14,7 +15,11 @@ import { useCallback } from 'react'
 
 function ListItem({ item, closeItem, change, index, loading }) {
   const handleCheckbox = useCallback(() => {
-    change({ ...item, isDone: item.isDone === 1 ? 0 : 1 })
+    change({
+      ...item,
+      isDone:
+        item.isDone === doneStates.true ? doneStates.false : doneStates.true
+    })
   }, [item, change])
 
   return (

@@ -21,7 +21,7 @@ export function updateItemsLocal(items) {
 export function putItems(data, token, ownerId, noupdate) {
   return async (dispatch) => {
     if (noupdate) {
-      dispatch(updateItemsLocal(data))
+      return dispatch(updateItemsLocal(data))
     } else {
       dispatch(
         setLoading(data[0].parentId, loadingTypes.create, loadingElements.item)
