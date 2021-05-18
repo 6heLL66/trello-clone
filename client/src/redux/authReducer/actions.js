@@ -2,7 +2,7 @@ import { SET_AUTH, SET_REGISTER_STATUS } from './actionTypes'
 
 import {
   loadingElements,
-  loadingTypes,
+  loadingTypes, methods,
   regStatuses
 } from '../../constants/values'
 import { registerSuccess } from '../../constants/alerts'
@@ -31,7 +31,7 @@ export function login(username, password) {
     dispatch(setLoading(true, loadingTypes.auth, loadingElements.form))
     await makeRequest(
       '/api/auth/auth',
-      'POST',
+      methods.POST,
       {
         username,
         password
@@ -54,7 +54,7 @@ export function register(username, password) {
     dispatch(setLoading(true, loadingTypes.auth, loadingElements.form))
     await makeRequest(
       '/api/auth/add',
-      'PUT',
+      methods.PUT,
       {
         username,
         password

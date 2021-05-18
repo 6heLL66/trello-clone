@@ -1,4 +1,4 @@
-import { loadingElements, loadingTypes } from '../../constants/values'
+import { loadingElements, loadingTypes, methods } from '../../constants/values'
 import makeRequest from '../../helpers/makeRequest'
 import { alertTypes, customAlert } from '../../constants/alerts'
 import { DELETE_ITEM, UPDATE_ITEMS } from './actionTypes'
@@ -29,7 +29,7 @@ export function putItems(data, token, ownerId, prevItems) {
     }
     await makeRequest(
       `/api/items/put`,
-      'PUT',
+      methods.PUT,
       {
         data,
         ownerId,
@@ -56,7 +56,7 @@ export function deleteItem(id, token) {
     dispatch(setLoading(id, loadingTypes.delete, loadingElements.item))
     await makeRequest(
       `/api/item/delete?id=${id}&token=${token}`,
-      'DELETE',
+      methods.DELETE,
       null,
       () => {
         dispatch(deleteItemLocal(id))

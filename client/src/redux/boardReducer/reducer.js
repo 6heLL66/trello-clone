@@ -1,45 +1,17 @@
-import {
-  DELETE_BOARD,
-  PUT_BOARD,
-  SET_BOARDS,
-  SET_CURRENT_BOARD
-} from './actionTypes'
+import { deleteBoard, putBoard, setBoards, setCurrentBoard } from './functions'
+import { createReducer } from '../functions'
+import { DELETE_BOARD, PUT_BOARD, SET_BOARDS, SET_CURRENT_BOARD } from './actionTypes'
 
-const boardState = {
+const initialState = {
   boards: null,
   currentBoard: null
 }
 
-export default function boardReducer(state = boardState, action) {
-  switch (action.type) {
-    case SET_BOARDS:
-      return {
-        ...state,
-        boards: action.boards
-      }
-    case PUT_BOARD:
-      return {
-        ...state,
-        boards: state.boards.find((e) => e.id === action.board.id)
-          ? state.boards.map((e) => {
-              if (e.id === action.board.id) {
-                return action.board
-              }
-              return e
-            })
-          : [...state.boards, action.board]
-      }
-    case SET_CURRENT_BOARD:
-      return {
-        ...state,
-        currentBoard: action.board
-      }
-    case DELETE_BOARD:
-      return {
-        ...state,
-        boards: state.boards.filter((e) => e.id !== action.id)
-      }
-    default:
-      return state
-  }
-}
+const boardReducer = createReducer(initialState, {
+  [SET_BOARDS]: setBoards,
+  [PUT_BOARD]: putBoard,
+  [SET_CURRENT_BOARD]: setCurrentBoard,
+  [DELETE_BOARD]: deleteBoard
+})
+
+export default boardReducer

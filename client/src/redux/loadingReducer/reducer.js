@@ -1,6 +1,8 @@
+import { setLoading } from './function'
+import { createReducer } from '../functions'
 import { SET_LOADING } from './actionTypes'
 
-const loadingState = {
+const initialState = {
   loadData: {
     boards: false,
     lists: false
@@ -23,17 +25,8 @@ const loadingState = {
   }
 }
 
-export default function loadingReducer(state = loadingState, action) {
-  switch (action.type) {
-    case SET_LOADING:
-      return {
-        ...state,
-        [action.loadingType]: {
-          ...state[action.loadingType],
-          [action.loadingElement]: action.loading
-        }
-      }
-    default:
-      return state
-  }
-}
+const loadingReducer = createReducer(initialState, {
+  [SET_LOADING]: setLoading
+})
+
+export default loadingReducer

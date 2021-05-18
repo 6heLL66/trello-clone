@@ -1,5 +1,5 @@
 import { DELETE_LIST, UPDATE_LISTS } from './actionTypes'
-import { loadingElements, loadingTypes } from '../../constants/values'
+import { loadingElements, loadingTypes, methods } from '../../constants/values'
 import makeRequest from '../../helpers/makeRequest'
 import { alertTypes, customAlert } from '../../constants/alerts'
 import { setLoading } from '../loadingReducer/actions'
@@ -27,7 +27,7 @@ export function putLists(data, token, ownerId, id, prevLists) {
     }
     await makeRequest(
       `/api/lists/put`,
-      'PUT',
+      methods.PUT,
       {
         data,
         ownerId,
@@ -55,7 +55,7 @@ export function deleteList(id, token) {
     dispatch(setLoading(id, loadingTypes.delete, loadingElements.list))
     await makeRequest(
       `/api/list/delete?id=${id}&token=${token}`,
-      'DELETE',
+      methods.DELETE,
       null,
       () => {
         dispatch(deleteListLocal(id))

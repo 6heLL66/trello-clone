@@ -1,23 +1,14 @@
+import { deleteList, updateLists } from './functions'
+import { createReducer } from '../functions'
 import { DELETE_LIST, UPDATE_LISTS } from './actionTypes'
 
-const listsState = {
-  lists: [],
-  activeDropzone: 1
+const initialState = {
+  lists: []
 }
 
-export default function listReducer(state = listsState, action) {
-  switch (action.type) {
-    case DELETE_LIST:
-      return {
-        ...state,
-        lists: state.lists.filter((e) => e.id !== action.id)
-      }
-    case UPDATE_LISTS:
-      return {
-        ...state,
-        lists: action.lists
-      }
-    default:
-      return state
-  }
-}
+const listReducer = createReducer(initialState, {
+  [DELETE_LIST]: deleteList,
+  [UPDATE_LISTS]: updateLists
+})
+
+export default listReducer

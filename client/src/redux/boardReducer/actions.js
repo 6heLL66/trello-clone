@@ -11,7 +11,7 @@ import {
   customAlert
 } from '../../constants/alerts'
 
-import { loadingElements, loadingTypes } from '../../constants/values'
+import { loadingElements, loadingTypes, methods } from '../../constants/values'
 import makeRequest from '../../helpers/makeRequest'
 
 import { setLoading } from '../loadingReducer/actions'
@@ -52,7 +52,7 @@ export function fetchBoards(id) {
     dispatch(setLoading(true, loadingTypes.loadData, loadingElements.boards))
     await makeRequest(
       `/api/boards/get?id=${id}`,
-      'GET',
+      methods.GET,
       null,
       (data) => {
         dispatch(setBoardsLocal(data))
@@ -73,7 +73,7 @@ export function putBoard(board, token, prevBoard) {
     }
     await makeRequest(
       `/api/board/createOrChange`,
-      'PUT',
+      methods.PUT,
       {
         ...board,
         token
@@ -101,7 +101,7 @@ export function deleteBoard(id, token) {
     dispatch(setLoading(id, loadingTypes.delete, loadingElements.board))
     await makeRequest(
       `/api/board/delete?id=${id}&token=${token}`,
-      'DELETE',
+      methods.DELETE,
       null,
       () => {
         dispatch(setAlert(boardDeletedAlert))

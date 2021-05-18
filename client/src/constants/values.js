@@ -62,3 +62,11 @@ export const doneStates = {
   true: 1,
   false: 0
 }
+
+export const methods = {
+  GET: 'GET',
+  PUT: 'PUT',
+  POST: 'POST',
+  DELETE: 'DELETE'
+}
+
