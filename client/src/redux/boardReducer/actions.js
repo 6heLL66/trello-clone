@@ -65,7 +65,7 @@ export function fetchBoards(id) {
   }
 }
 
-export function putBoard(board, token) {
+export function putBoard(board, token, prevBoard) {
   return async (dispatch) => {
     dispatch(setLoading(true, loadingTypes.create, loadingElements.board))
     if (board.id) {
@@ -85,6 +85,9 @@ export function putBoard(board, token) {
         }
       },
       (data) => {
+        if (prevBoard) {
+          dispatch(putBoardLocal(prevBoard))
+        }
         dispatch(customAlert(data.error, alertTypes.error))
       }
     )

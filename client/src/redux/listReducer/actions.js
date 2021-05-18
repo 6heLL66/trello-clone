@@ -18,9 +18,9 @@ export function updateListsLocal(lists) {
   }
 }
 
-export function putLists(data, token, ownerId, id, noupdate) {
+export function putLists(data, token, ownerId, id, prevLists) {
   return async (dispatch) => {
-    if (noupdate) {
+    if (prevLists) {
       dispatch(updateListsLocal(data))
     } else {
       dispatch(setLoading(true, loadingTypes.create, loadingElements.list))
@@ -35,11 +35,14 @@ export function putLists(data, token, ownerId, id, noupdate) {
         token
       },
       (data) => {
-        if (!noupdate) {
+        if (!prevLists) {
           dispatch(updateListsLocal(data))
         }
       },
       (data) => {
+        if (prevLists) {
+          dispatch(updateListsLocal(prevLists))
+        }
         dispatch(customAlert(data.error, alertTypes.error))
       }
     )

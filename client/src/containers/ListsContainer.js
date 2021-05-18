@@ -52,7 +52,7 @@ function ListsContainer({
             token,
             board.parentId,
             board.id,
-            true
+            lists
           )
         )
       }
@@ -61,7 +61,7 @@ function ListsContainer({
           getLayoutAfterDrag(items, source, destination, draggableId, true),
           token,
           board.parentId,
-          true
+          items
         )
       )
     },

@@ -44,7 +44,7 @@ function BoardButton({
   const colorChangeHandler = useCallback(
     (e, color) => {
       e.stopPropagation()
-      colorClick({ ...board, color })
+      colorClick({ ...board, color }, {...board})
     },
     [board, colorClick]
   )

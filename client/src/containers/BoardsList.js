@@ -72,9 +72,9 @@ function BoardsList() {
   )
 
   const handleColorClick = useCallback(
-    (board) => {
+    (board, prevBoard) => {
       dispatch(putBoardLocal(board))
-      dispatch(putBoard({ ...board }, token))
+      dispatch(putBoard({ ...board }, token, prevBoard))
       if (currentBoard && currentBoard.id === board.id) {
         dispatch(setCurrentBoard(board))
       }

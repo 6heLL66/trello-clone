@@ -18,10 +18,10 @@ export function updateItemsLocal(items) {
   }
 }
 
-export function putItems(data, token, ownerId, noupdate) {
+export function putItems(data, token, ownerId, prevItems) {
   return async (dispatch) => {
-    if (noupdate) {
-      return dispatch(updateItemsLocal(data))
+    if (prevItems) {
+      dispatch(updateItemsLocal(data))
     } else {
       dispatch(
         setLoading(data[0].parentId, loadingTypes.create, loadingElements.item)
@@ -36,11 +36,14 @@ export function putItems(data, token, ownerId, noupdate) {
         token
       },
       (data) => {
-        if (!noupdate) {
+        if (!prevItems) {
           dispatch(updateItemsLocal(data))
         }
       },
       (data) => {
+        if (prevItems) {
+          dispatch(updateItemsLocal(prevItems))
+        }
         dispatch(customAlert(data.error, alertTypes.error))
       }
     )
