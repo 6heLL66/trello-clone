@@ -108,7 +108,7 @@ function ListsContainer({
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       <Droppable
-        droppableId={String(board.id)}
+        droppableId={board.id}
         direction="horizontal"
         type={dragAndDropTypes.list}
       >

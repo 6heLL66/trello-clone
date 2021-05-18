@@ -1,5 +1,4 @@
-const getUniqueId = require('../helpers/getUniqueId')
-
+const { nanoid } = require('nanoid')
 const isAuth = require('../middleweares/isAuth.middleweare')
 const Boom = require('@hapi/boom')
 const sequelize = require('../dbConfig').sequelize
@@ -13,7 +12,7 @@ const createBoard = {
       try {
         const { name, color } = req.payload
         const [boards] = await sequelize.query(`SELECT * FROM boards`)
-        let id = req.payload.id || getUniqueId(boards, 8)
+        let id = req.payload.id || nanoid(8)
 
         const find = boards.find((e) => e.id === id)
 
@@ -44,6 +43,7 @@ const getBoard = {
     handler: async (req, reply) => {
       try {
         const { id } = req.query
+        console.log(typeof id)
         const [boards] = await sequelize.query(
           `SELECT * FROM boards WHERE id='${id}'`
         )

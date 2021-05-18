@@ -7,7 +7,6 @@ module.exports = function isAuth(req) {
       req.method === 'post' || req.method === 'put'
         ? req.payload.token
         : req.query.token
-    console.log(token)
     let decoded = jwt.verify(token, process.env.JWT_SECRET)
     return { ...req.payload, senderName: decoded.username, userId: decoded.id }
   } catch (e) {

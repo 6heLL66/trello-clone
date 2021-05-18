@@ -6,12 +6,12 @@ function setIndexesSimple(
   droppableId
 ) {
   return subjects.map((e) => {
-    if (String(e.id) === draggableId) {
+    if (e.id === draggableId) {
       return { ...e, ind: destinationIndex }
     }
     if (
       sourceIndex < destinationIndex &&
-      String(e.parentId) === droppableId &&
+      e.parentId === droppableId &&
       e.ind >= sourceIndex &&
       e.ind <= destinationIndex
     ) {
@@ -19,7 +19,7 @@ function setIndexesSimple(
     }
     if (
       sourceIndex > destinationIndex &&
-      String(e.parentId) === droppableId &&
+      e.parentId === droppableId &&
       e.ind <= sourceIndex &&
       e.ind >= destinationIndex
     ) {
@@ -38,13 +38,13 @@ function setIndexesHard(
   srsDropId
 ) {
   return subjects.map((e) => {
-    if (String(e.id) === dragId) {
-      return { ...e, parentId: Number(dstDropId), ind: destinationIndex }
+    if (e.id === dragId) {
+      return { ...e, parentId: dstDropId, ind: destinationIndex }
     }
-    if (String(e.parentId) === dstDropId && e.ind >= destinationIndex) {
+    if (e.parentId === dstDropId && e.ind >= destinationIndex) {
       return { ...e, ind: e.ind + 1 }
     }
-    if (String(e.parentId) === srsDropId && e.ind >= sourceIndex) {
+    if (e.parentId === srsDropId && e.ind >= sourceIndex) {
       return { ...e, ind: e.ind - 1 }
     }
     return e
@@ -59,10 +59,8 @@ function getLayoutAfterDrag(...props) {
     draggableId,
     withChangingLocation
   ] = props
-  console.log(props)
   if (withChangingLocation) {
     if (source.droppableId === destination.droppableId) {
-      console.log(source)
       return setIndexesSimple(
         subjects,
         source.index,

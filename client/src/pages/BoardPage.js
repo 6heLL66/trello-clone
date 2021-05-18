@@ -27,7 +27,7 @@ function BoardPage() {
   const loading = useSelector((state) => state.loading)
 
   const lists = useSelector((state) => state.lists.lists).filter((e) => {
-    return e.parentId === Number(id)
+    return e.parentId === id
   })
 
   const items = useSelector((state) => state.items.items)
@@ -61,7 +61,7 @@ function BoardPage() {
     return <Redirect push to={redirect} />
   }
 
-  if (board && board.id === Number(id)) {
+  if (board && board.id === id) {
     return (
       <Container fluid>
         <Row className="board-name ml-5">

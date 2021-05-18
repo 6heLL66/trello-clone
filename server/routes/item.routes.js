@@ -1,7 +1,7 @@
 const Boom = require('@hapi/boom')
 const sequelize = require('../dbConfig').sequelize
 const isAuth = require('../middleweares/isAuth.middleweare')
-const getUniqueId = require('../helpers/getUniqueId')
+const { nanoid } = require('nanoid')
 
 const putItems = {
   method: 'PUT',
@@ -18,12 +18,12 @@ const putItems = {
         }
 
         for (let i = 0; i < data.length; i++) {
-          if (!data[i].id) data[i].id = getUniqueId(items, 8)
+          if (!data[i].id) data[i].id = nanoid(8)
           const find = items.find((e) => e.id === data[i].id)
 
           if (find) {
             await sequelize.query(
-              `UPDATE items SET name='${data[i].name}', isDone='${data[i].isDone}', ind='${data[i].ind}', parentId='${data[i].parentId}' WHERE id=${data[i].id}`
+              `UPDATE items SET name='${data[i].name}', isDone='${data[i].isDone}', ind='${data[i].ind}', parentId='${data[i].parentId}' WHERE id='${data[i].id}'`
             )
           } else {
             await sequelize.query(
@@ -32,7 +32,7 @@ const putItems = {
           }
         }
         const [newItems] = await sequelize.query(
-          `SELECT * FROM items WHERE ownerId=${ownerId}`
+          `SELECT * FROM items WHERE ownerId='${ownerId}'`
         )
         return h.response([...newItems]).code(200)
       } catch (e) {

@@ -1,7 +1,7 @@
 const Boom = require('@hapi/boom')
 const sequelize = require('../dbConfig').sequelize
 const isAuth = require('../middleweares/isAuth.middleweare')
-const getUniqueId = require('../helpers/getUniqueId')
+const { nanoid } = require('nanoid')
 
 const getLists = {
   method: 'GET',
@@ -37,12 +37,12 @@ const putList = {
         }
 
         for (let i = 0; i < data.length; i++) {
-          if (!data[i].id) data[i].id = getUniqueId(lists, 8)
+          if (!data[i].id) data[i].id = nanoid(8)
           const find = lists.find((e) => e.id === data[i].id)
 
           if (find) {
             await sequelize.query(
-              `UPDATE lists SET name='${data[i].name}', ind=${data[i].ind} WHERE id=${data[i].id}`
+              `UPDATE lists SET name='${data[i].name}', ind='${data[i].ind}' WHERE id='${data[i].id}'`
             )
           } else {
             await sequelize.query(
