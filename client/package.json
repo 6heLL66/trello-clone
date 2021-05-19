@@ -52,6 +52,7 @@
   },
   "devDependencies": {
     "cypress": "^7.3.0",
+    "cypress-localstorage-commands": "^1.4.4",
     "prettier": "^2.2.1"
   }
 }
