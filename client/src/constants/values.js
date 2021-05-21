@@ -69,4 +69,3 @@ export const methods = {
   POST: 'POST',
   DELETE: 'DELETE'
 }
-

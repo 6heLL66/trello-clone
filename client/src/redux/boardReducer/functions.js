@@ -1,4 +1,8 @@
-import { deleteItemInArray, updateObject, updateOrCreateItemInArray } from '../functions'
+import {
+  deleteItemInArray,
+  updateObject,
+  updateOrCreateItemInArray
+} from '../functions'
 
 export function setBoards(state, action) {
   return updateObject(state, {

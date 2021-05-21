@@ -1,6 +1,11 @@
 import { deleteBoard, putBoard, setBoards, setCurrentBoard } from './functions'
 import { createReducer } from '../functions'
-import { DELETE_BOARD, PUT_BOARD, SET_BOARDS, SET_CURRENT_BOARD } from './actionTypes'
+import {
+  DELETE_BOARD,
+  PUT_BOARD,
+  SET_BOARDS,
+  SET_CURRENT_BOARD
+} from './actionTypes'
 
 const initialState = {
   boards: null,

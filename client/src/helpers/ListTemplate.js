@@ -6,5 +6,3 @@ export default class List {
     this.ind = index
   }
 }
-
-

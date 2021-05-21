@@ -84,9 +84,7 @@ function ListsContainer({
 
   const putItem = useCallback(
     (name, index, ownerId, parentId) => {
-      dispatch(
-        putItems([new Item(name, index, parentId)], token, ownerId)
-      )
+      dispatch(putItems([new Item(name, index, parentId)], token, ownerId))
     },
     [dispatch, token]
   )
