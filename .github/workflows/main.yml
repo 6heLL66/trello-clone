@@ -30,4 +30,4 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Run tests on Chrome
-        run: npx cypress run --browser chrome --prefix client
+        run: cd client && npx cypress run --browser chrome
