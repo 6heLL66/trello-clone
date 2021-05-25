@@ -29,8 +29,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - name: Install packages
+        run: npm i && npm run client:install
       - name: Start Dev Server
-        run: npm run dev
+        run: npm run server && npm run client
       - name: Go to Client
         run: cd client
       - name: Run tests on Chrome
