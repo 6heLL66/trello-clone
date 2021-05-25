@@ -14,6 +14,7 @@
     "react-bootstrap": "^1.5.2",
     "react-bootstrap-icons": "^1.4.0",
     "react-dom": "^17.0.2",
+    "react-loading": "^2.0.3",
     "react-redux": "^7.2.3",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3",
@@ -22,13 +23,13 @@
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.3.0",
     "trello": "file:..",
-    "web-vitals": "^1.1.1",
-    "react-loading": "^2.0.3"
+    "web-vitals": "^1.1.1"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
+    "cypress:open": "cypress open",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -50,6 +51,8 @@
     ]
   },
   "devDependencies": {
+    "cypress": "^7.3.0",
+    "cypress-localstorage-commands": "^1.4.4",
     "prettier": "^2.2.1"
   }
 }

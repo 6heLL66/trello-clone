@@ -1,7 +1,7 @@
 export const colors = {
-  pink: '#e15764',
-  blue: '#5050c0',
-  yellow: '#c5c553'
+  pink: 'rgb(225, 87, 100)',
+  blue: 'rgb(80, 80, 192)',
+  yellow: 'rgb(197, 197, 83)'
 }
 
 export const colorNames = {

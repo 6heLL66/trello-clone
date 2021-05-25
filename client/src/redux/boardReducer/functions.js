@@ -1,4 +1,8 @@
-import { deleteItemInArray, updateObject, updateOrCreateItemInArray } from '../functions'
+import {
+  deleteItemInArray,
+  updateObject,
+  updateOrCreateItemInArray
+} from '../functions'
 
 export function setBoards(state, action) {
   return updateObject(state, {
@@ -23,6 +27,7 @@ export function setCurrentBoard(state, action) {
 }
 
 export function deleteBoard(state, action) {
+  console.log('STATE DELETE', state)
   return updateObject(state, {
     boards: deleteItemInArray(state.boards, action.id)
   })

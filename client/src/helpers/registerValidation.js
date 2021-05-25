@@ -11,7 +11,7 @@ export default function registerValidation(fields) {
   if (Object.values(fields).find((e) => !e.value)) {
     return notFilled
   }
-  if (fields.username.value.length < 3) {
+  if (fields.username.value.length < 4) {
     return shortUsername
   }
   if (fields.username.value.length > 16) {

@@ -7,5 +7,3 @@ export default class Item {
     this.id = null
   }
 }
-
-

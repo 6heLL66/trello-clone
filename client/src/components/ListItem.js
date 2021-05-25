@@ -25,7 +25,7 @@ function ListItem({ item, closeItem, change, index, loading }) {
   return (
     <Draggable
       index={Number(index)}
-      draggableId={String(item.id)}
+      draggableId={item.id}
       type={dragAndDropTypes.task}
     >
       {(provided) => (

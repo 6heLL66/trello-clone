@@ -2,7 +2,8 @@ import { SET_AUTH, SET_REGISTER_STATUS } from './actionTypes'
 
 import {
   loadingElements,
-  loadingTypes, methods,
+  loadingTypes,
+  methods,
   regStatuses
 } from '../../constants/values'
 import { registerSuccess } from '../../constants/alerts'

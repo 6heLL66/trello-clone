@@ -84,9 +84,7 @@ function ListsContainer({
 
   const putItem = useCallback(
     (name, index, ownerId, parentId) => {
-      dispatch(
-        putItems([new Item(name, index, parentId)], token, ownerId)
-      )
+      dispatch(putItems([new Item(name, index, parentId)], token, ownerId))
     },
     [dispatch, token]
   )
@@ -116,6 +114,7 @@ function ListsContainer({
           <Row
             className="ml-5 mt-5 d-inline-flex flex-nowrap"
             ref={provided.innerRef}
+            id={board.id}
           >
             {sortedLists.map((e, i) => {
               return (
