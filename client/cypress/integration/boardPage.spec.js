@@ -23,8 +23,8 @@ const dndLists = []
 const dndListsCount = 3
 for (let i = 0; i < dndListsCount; i++) {
   dndLists.push({
-    name: `list${i+1}`,
-    id: `list${i+1}`,
+    name: `list${i + 1}`,
+    id: `list${i + 1}`,
     parentId: testBoard.id,
     ind: i
   })
@@ -111,13 +111,11 @@ describe('Board Check', () => {
     cy.get('.list-item > span > input').click()
     cy.wait('@putItem')
 
-    cy.get('.list-item')
-      .should('have.class', 'done')
+    cy.get('.list-item').should('have.class', 'done')
     cy.get('.list-item > span > input').click()
     cy.wait('@putItem')
 
-    cy.get('.list-item')
-      .should('not.have.class', 'done')
+    cy.get('.list-item').should('not.have.class', 'done')
     cy.get('.list-item > svg').click()
     cy.wait('@delItem')
 
@@ -162,24 +160,28 @@ describe('Board Check', () => {
       .trigger('keydown', { keyCode: keys.arrowDown, force: true })
       .trigger('keydown', { keyCode: keys.space, force: true })
 
-    cy.get('.list-card:first > .card-body > .list-group > .list-item:nth(0)')
-      .should('have.attr', dndId, 'item1')
+    cy.get(
+      '.list-card:first > .card-body > .list-group > .list-item:nth(0)'
+    ).should('have.attr', dndId, 'item1')
 
-    cy.get('.list-card:first > .card-body > .list-group > .list-item:nth(1)')
-      .should('have.attr', dndId, 'item0')
+    cy.get(
+      '.list-card:first > .card-body > .list-group > .list-item:nth(1)'
+    ).should('have.attr', dndId, 'item0')
 
     cy.get(`.list-item[${dndId}='${dndItems[0].id}']`)
       .trigger('keydown', { keyCode: keys.space })
       .trigger('keydown', { keyCode: keys.arrowDown, force: true })
       .trigger('keydown', { keyCode: keys.space, force: true })
 
-    cy.get('.list-card:first > .card-body > .list-group > .list-item:nth(1)')
-      .should('have.attr', dndId, 'item2')
+    cy.get(
+      '.list-card:first > .card-body > .list-group > .list-item:nth(1)'
+    ).should('have.attr', dndId, 'item2')
 
-    cy.get('.list-card:first > .card-body > .list-group > .list-item:nth(2)')
-      .should('have.attr', dndId, 'item0')
+    cy.get(
+      '.list-card:first > .card-body > .list-group > .list-item:nth(2)'
+    ).should('have.attr', dndId, 'item0')
   })
-  it("Delete Test Board", () => {
+  it('Delete Test Board', () => {
     cy.intercept('/api/board/delete*').as('delBoard')
     cy.visit(boardsPage)
     cy.getLocalStorage('auth').then((auth) => {
