@@ -29,5 +29,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - name: Start Dev Server
+        run: npm run dev
+      - name: Go to Client
+        run: cd client
       - name: Run tests on Chrome
-        run: cd client && npx cypress run --browser chrome
+        run: npx cypress run --browser chrome
