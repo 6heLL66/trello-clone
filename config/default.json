@@ -1,0 +1,12 @@
+{
+  "Customer": {
+    "db": {
+      "dialect": "mysql",
+      "name": "mytrello"
+    },
+    "server": {
+      "host": "localhost",
+      "port": 5000
+    }
+  }
+}
