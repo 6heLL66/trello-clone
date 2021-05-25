@@ -25,3 +25,9 @@ jobs:
         run: npm install & npm run client:install
       - name: Run build script
         run: npm run build | npm run client:build
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Run tests on Chrome
+        run: npx cypress run --browser chrome --prefix client
